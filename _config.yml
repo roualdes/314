@@ -16,14 +16,14 @@
 
 #######################################################################################
 # Jekyll site settings
-title: Jupyter Book
-author: Samuel Lau and Deborah Nolan and Chris Holdgraf
-email: samlau95@berkeley.edu
+title: MATH 314 Lecture Notes
+author: Edward A. Roualdes
+email: eroualdes@csuchico.edu
 description: >- # this means to ignore newlines until "baseurl:"
-  This is an example book built with Jupyter Books.
+  Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology
 
 baseurl: "/314" # the subpath of your site, e.g. /blog. If there is no subpath for your site, use an empty string ""
-url: "https://predictablynoisy.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://roualdes.us" # the base hostname & protocol for your site, e.g. http://example.com
 
 
 #######################################################################################
