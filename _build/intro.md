@@ -25,10 +25,11 @@ thing.  These lecture notes are an experiment to find out.
 ## Getting started
 
 To do well in this course, without becoming too stressed out, one
-should know some calculus, namely derivatives and integration, and
-at least have had an introduction to computer programming.  The course
-will heavily use [R](https://cran.r-project.org/), but [RStudio](https://www.rstudio.com/) is
-the suggested interface to the language R.
+should know some calculus, namely derivatives and integration, and at
+least have had an introduction to computer programming.  The course
+will heavily use [R](https://cran.r-project.org/), but
+[RStudio](https://www.rstudio.com/) is the suggested interface to the
+language R.
 
 
 ## Acknowledgements
