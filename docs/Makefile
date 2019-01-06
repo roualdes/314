@@ -13,7 +13,7 @@ help:
 install:
 	gem install bundler
 	bundle install
-	
+
 book:
 	python scripts/license.py --path ./content
 	python scripts/generate_book.py
@@ -28,8 +28,9 @@ serve:
 	bundle exec guard
 
 build:
+	rm -rf docs _site
 	bundle exec jekyll build
-	rm -rf docs; cp -r _site docs
+	 cp -r _site docs
 	echo "Deployed to the docs/ folder"
 
 test:

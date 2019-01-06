@@ -311,4 +311,3 @@ if __name__ == '__main__':
     print("\nDemo your Jupyter book with `make serve` or push to GitHub!")
 
     print('===========\n')
-

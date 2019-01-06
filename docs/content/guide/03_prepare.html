@@ -27,9 +27,9 @@
   "headline":
     "Add content to your book",
   "datePublished":
-    "2019-01-03T13:28:00-08:00",
+    "2019-01-03T19:40:56-08:00",
   "dateModified":
-    "2019-01-03T13:28:00-08:00",
+    "2019-01-03T19:40:56-08:00",
   "description":
     "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
   "author": {
@@ -126,72 +126,6 @@ initFunction = function(myfunc) {
 
   <!-- Load Thebelab for interactive widgets -->
   <!-- Include Thebelab for interactive code if it's enabled -->
-
-<script type="text/x-thebe-config">
-    {
-      requestKernel: true,
-      binderOptions: {
-        repo: 'roualdes/314',
-        ref: 'master',
-      }
-    }
-</script>
-<script src="https://unpkg.com/thebelab@0.3.3/lib/index.js"></script>
-<script>
-    /**
-     * Add attributes to Thebelab blocks
-     */
-    
-    const initThebelab = () => {
-        const addThebelabToCodeCells = () => {
-            console.log("Adding thebelab to code cells...");
-            // If Thebelab hasn't loaded, wait a bit and try again. This
-            // happens because we load ClipboardJS asynchronously.
-            if (window.thebelab === undefined) {
-                setTimeout(addThebelabToCodeCells, 250)
-            return
-            }
-    
-            // If we already detect a Thebelab cell, don't re-run
-            if (document.querySelectorAll('div.thebelab-cell').length > 0) {
-                return;
-            }
-            
-            // Find all code cells, replace with Thebelab interactive code cells
-            const codeCells = document.querySelectorAll('.input_area pre')
-            codeCells.forEach((codeCell, index) => {
-                const id = codeCellId(index)
-                codeCell.setAttribute('data-executable', '')
-            });
-    
-            // Init thebelab
-            thebelab.bootstrap();
-    
-            // Remove copy buttons since they won't work anymore
-            const copyButtons = document.querySelectorAll('.copybtn')
-            copyButtons.forEach((copyButton, index) => {
-                copyButton.remove();
-            });
-
-            // Remove outputs since they'll be stale
-            const outputs = document.querySelectorAll('.output *, .output')
-            outputs.forEach((output, index) => {
-                output.remove();
-            });
-        }
-    
-        // Add event listener for the function to modify code cells
-        const thebelabButton = document.getElementById('interact-button-thebelab');
-        if (thebelabButton === null) {
-            setTimeout(initThebelab, 250)
-        return
-        };
-        thebelabButton.addEventListener('click', addThebelabToCodeCells);
-    }
-    
-    // Initialize Thebelab
-    initFunction(initThebelab);
-</script>
 
 
   <!-- Google analytics -->
@@ -435,235 +369,12 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/features/features"
-        >
-          
-          Features
-        </a>
-
-        
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/features/markdown"
-                >
-                  
-                  Markdown files
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/features/notebooks"
-                >
-                  
-                  Jupyter notebooks
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/features/citations"
-                >
-                  
-                  Citations and bibliographies
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
-      </li>
-
-      
-    
-      
-      
-
-      
-      
-
-      <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
-          href="/314/guide/01_overview"
-        >
-          
-          Guide
-        </a>
-
-        
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections ">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/guide/02_setup"
-                >
-                  
-                  Setup and Install
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry c-sidebar__entry--active"
-                  href="/314/guide/03_prepare"
-                >
-                  
-                  Prepare your book
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/guide/04_build"
-                >
-                  
-                  Build your book
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/guide/05_publish"
-                >
-                  
-                  Publish your book
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/guide/06_faq"
-                >
-                  
-                  FAQ
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/guide/07_advanced"
-                >
-                  
-                  How-to and advanced topics
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
-      </li>
-
-      
-    
-      
-      
-        <li class="c-sidebar__divider"></li>
-        
-      
-      
-        <li><h2 class="c-sidebar__title">Demo textbook</li>
-        
-      
-      
-
-      
-      
-
-      <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
-          href="/314/01/what-is-data-science"
+          href="/314/bernoulli/bernoulli"
         >
           
             1.
           
-          Data Science
+          Bernoulli Data
         </a>
 
         
@@ -682,7 +393,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/01/1/intro"
+                  href="/314/bernoulli/introduction"
                 >
                   
                     1.1
@@ -701,62 +412,15 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/01/2/why-data-science"
+                  href="/314/bernoulli/data"
                 >
                   
                     1.2
                   
-                  Why Data Science?
+                  Data
                 </a>
 
                 
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/01/3/Plotting_the_Classics"
-                >
-                  
-                    1.3
-                  
-                  Plotting the Classics
-                </a>
-
-                
-                
-                  
-                  
-    
-                  <li class="c-sidebar__subsection">
-                    <a class="c-sidebar__entry "
-                      href="/314/01/3/subsection/subsections"
-                    >
-                      
-                        1.3.1
-                        
-                      
-                      Subsection Demo 1
-                    </a>
-                
-                  
-                  
-    
-                  <li class="c-sidebar__subsection">
-                    <a class="c-sidebar__entry "
-                      href="/314/01/3/subsection/subsectiontwo"
-                    >
-                      
-                        1.3.2
-                        
-                      
-                      Subsection Demo 2
-                    </a>
                 
 
               </li>
@@ -776,121 +440,14 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/02/causality-and-experiments"
+          href="/314/normal/normal"
         >
           
             2.
           
-          Causality and Experiments
+          Normal Data
         </a>
 
-        
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/02/1/observation-and-visualization-john-snow-and-the-broad-street-pump"
-                >
-                  
-                    2.1
-                  
-                  John Snow and the Broad Street Pump
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/02/2/snow-s-grand-experiment"
-                >
-                  
-                    2.2
-                  
-                  Snow’s “Grand Experiment”
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/02/3/establishing-causality"
-                >
-                  
-                    2.3
-                  
-                  Establishing Causality
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/02/4/randomization"
-                >
-                  
-                    2.4
-                  
-                  Randomization
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/02/5/endnote"
-                >
-                  
-                    2.5
-                  
-                  Endnote
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
         
       </li>
 
@@ -991,96 +548,6 @@ document.addEventListener('turbolinks:load', updateInteractLink)
                     3.4
                   
                   Introduction to Tables
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
-      </li>
-
-      
-    
-      
-      
-
-      
-      
-
-      <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
-          href="/314/04/Types"
-        >
-          
-            4.
-          
-          Data Types
-        </a>
-
-        
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/04/1/Numbers"
-                >
-                  
-                    4.1
-                  
-                  Numbers
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/04/2/Strings"
-                >
-                  
-                    4.2
-                  
-                  Strings
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/314/04/3/Comparison"
-                >
-                  
-                    4.3
-                  
-                  Comparisons
                 </a>
 
                 

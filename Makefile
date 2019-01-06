@@ -1,4 +1,4 @@
-.PHONY: help book clean serve
+.PHONY: help book clean serve ready
 
 help:
 	@echo "Please use 'make <target>' where <target> is one of:"
@@ -13,7 +13,7 @@ help:
 install:
 	gem install bundler
 	bundle install
-	
+
 book:
 	python scripts/license.py --path ./content
 	python scripts/generate_book.py
@@ -29,8 +29,13 @@ serve:
 
 build:
 	bundle exec jekyll build
-	rm -rf docs; cp -r _site docs
+	 cp -r _site docs
 	echo "Deployed to the docs/ folder"
 
 test:
 	pytest scripts/tests/test_build.py
+
+ready:
+	make clean
+	make book
+	make build

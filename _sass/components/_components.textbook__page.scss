@@ -104,13 +104,14 @@ blockquote {
 .output_png img,
 p img {
   max-width: 500px;
+  max-height: 350px;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
 .output_png img {
-  width: 100% !important;
+    width: 100% !important;
 }
 
 .hl-ipython3 pre::before,
