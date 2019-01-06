@@ -36,16 +36,24 @@
   # connecting PDFs to data
   # Continuous Uniform
 
-- title: Exponential Distribution
+- title: Gamma Distribution
+  url: /gamma/introduction
+  sections:
+  - title: Estimating Parameters
+    url: /gamma/parameters
 
 - title: Normal Distribution
   url: /normal/introduction
   sections:
-  - title: Introduction
-    url: /normal/single_mean
+  - title: Estimating Means
+    url: /normal/means
   # - title: "Statistics vs. Machine Learning"
   # - title: "Data and Random Variables"
   # - title: Plots
-  # - title: Likelihood
-  # - title: "Association Rules"
   # - title: Bootstrap
+
+- title: Bootstrap
+  url: /bootstrap/introduction
+  sections:
+  - title: Confidence Intervals
+    url: /bootstrap/confidence_intervals

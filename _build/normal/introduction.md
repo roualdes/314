@@ -1,10 +1,10 @@
 ---
 title: 'Normal Distribution'
 prev_page:
-  url: /distributions/distributions
-  title: 'Distributions'
+  url: /gamma/parameters
+  title: 'Estimating Parameters'
 next_page:
-  url: /normal/single_mean
-  title: 'Introduction'
+  url: /normal/means
+  title: 'Estimating Means'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---

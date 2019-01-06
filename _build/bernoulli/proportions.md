@@ -52,12 +52,12 @@ df %>%
 <table>
 <thead><tr><th scope=col>SuperFamily</th><th scope=col>Family</th></tr></thead>
 <tbody>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
-	<tr><td>Feliformia</td><td>Felidae   </td></tr>
 	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
 	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
 	<tr><td>Feliformia</td><td>Viverridae</td></tr>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Feliformia</td><td>Felidae   </td></tr>
+	<tr><td>Caniformia</td><td>Ailuridae </td></tr>
 </tbody>
 </table>
 

@@ -5,8 +5,8 @@ prev_page:
   url: /bernoulli/summary
   title: 'Summary'
 next_page:
-  url: /normal/introduction
-  title: 'Normal Distribution'
+  url: /gamma/introduction
+  title: 'Gamma Distribution'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
