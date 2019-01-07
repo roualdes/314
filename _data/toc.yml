@@ -17,10 +17,10 @@
   not_numbered: true
 
 - title: Discrete Uniform Distribution
-  url: /discrete_uniform/introduction
+  url: /duniform/introduction
   sections:
   - title: Random Variables and Probability
-    url: /discrete_uniform/probability
+    url: /duniform/probability
 
 - title: Bernoulli Distribution
   url: /bernoulli/introduction
@@ -57,7 +57,7 @@
     url: /bootstrap/confidence_intervals
 
 - title: Linear Models
-  url: /linear_models/introduction
+  url: /lmodels/introduction
 
 - title: References
   url: /references
