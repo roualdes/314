@@ -7,7 +7,7 @@ prev_page:
   url: /bootstrap/introduction
   title: 'Bootstrap'
 next_page:
-  url: /linear_models/introduction
+  url: /lmodels/introduction
   title: 'Linear Models'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---

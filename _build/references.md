@@ -1,7 +1,7 @@
 ---
 title: 'References'
 prev_page:
-  url: /linear_models/introduction
+  url: /lmodels/introduction
   title: 'Linear Models'
 next_page:
   url: /glossary

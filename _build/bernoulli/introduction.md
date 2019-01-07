@@ -1,7 +1,7 @@
 ---
 title: 'Bernoulli Distribution'
 prev_page:
-  url: /discrete_uniform/probability
+  url: /duniform/probability
   title: 'Random Variables and Probability'
 next_page:
   url: /bernoulli/proportions
