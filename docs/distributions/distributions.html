@@ -27,9 +27,9 @@
   "headline":
     "Distributions, Mean, and Variance",
   "datePublished":
-    "2019-01-06T22:49:31-08:00",
+    "2019-01-07T14:57:15-08:00",
   "dateModified":
-    "2019-01-06T22:49:31-08:00",
+    "2019-01-07T14:57:15-08:00",
   "description":
     "Distributions, Mean, and Variance",
   "author": {
@@ -774,7 +774,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       <li><a href="#example">Example</a></li>
     </ul>
   </li>
-  <li><a href="#variance-of-a-random-variable">Variance of a Random Variable</a>
+  <li><a href="#variance-and-standard-deviation-of-a-random-variable">Variance and Standard Deviation of a Random Variable</a>
     <ul>
       <li><a href="#example-1">Example</a></li>
     </ul>
@@ -891,7 +891,11 @@ mean where you add up all the numbers and divide by how every many
 numbers there are.  The expected value does not describe data.  The expected value instead describes a measure of
 center of the probaility density function for a random variable.</p>
 
-<p>For the discrete random variable $X \sim \text{Uniform}(1, 6)$ the probability density function is displayed below.  Notice that the random variable is only defined for integer values between $1$ and $6$ inclusive.  These values make up the <strong>support</strong> of the random variable. Think of the support as the values for which the probability density function is positive.</p>
+<p>For the discrete random variable $X \sim \text{Uniform}(1, 6)$ the probability density function is displayed below.  More generally, as uniform implies sameness, mathematically the probability density function is the same for all arguments</p>
+
+<script type="math/tex; mode=display">uniform(x|a, b) = \frac{1}{b - a + 1}</script>
+
+<p>for $x \in \{a, a+1, \ldots, b-1, b\}$.  Notice that the random variable is only defined for integer values between $a$ and $b$ inclusive.  These values make up the <strong>support</strong> of the random variable. Think of the support as the values for which the probability density function is positive.</p>
 
 <div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="w">
 </span><span class="n">fx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">6</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
@@ -907,14 +911,7 @@ center of the probaility density function for a random variable.</p>
 
 <p>More formally, the expected value of $X \sim \text{Uniform}(a, b)$ is</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>$$ \mathbb{E}(X) = \sum_{x = a}^b x * \text{uniform}(x</td>
-      <td>a,b) = \sum_{x = a}^b x * \frac{1}{b - a + 1} $$.</td>
-    </tr>
-  </tbody>
-</table>
+<script type="math/tex; mode=display">\mathbb{E}(X) = \sum_{x = a}^b x * \text{uniform}(x|a,b) = \sum_{x = a}^b x * \frac{1}{b - a + 1}.</script>
 
 <p>In R, we can apply this formula to $X \sim \text{Uniform}(1,6)$,</p>
 
@@ -944,13 +941,19 @@ center of the probaility density function for a random variable.</p>
 
 <p>The fancy integral here is just to remind you that for discrete random variables, the integral becomes a sum, as above, and for continuous random variables the integral stays.  In both cases, the sum/integral ranges over the support of the random variable and the summand/integrand is the product of $x$ and the probability density function.</p>
 
-<h2 id="variance-of-a-random-variable">Variance of a Random Variable</h2>
+<h2 id="variance-and-standard-deviation-of-a-random-variable">Variance and Standard Deviation of a Random Variable</h2>
 
 <p>Where the mean is a measure of center of a random variable, the variance is a measure of spread.  Specifically, the variance measures squared distance from the mean, again weighted by the probability density function.</p>
 
-<p><strong>DEFINITION</strong>.  Let $X \sim F$, where $F$ is the name of a distribution function with mean $\mu = \mathbb{E}(X)$,</p>
+<p><strong>DEFINITION</strong>.  Let $X \sim F$, where $F$ is the name of a distribution function with mean $\mu = \mathbb{E}(X)$, the variance of $X$ is</p>
 
 <script type="math/tex; mode=display">\mathbb{V}(X) = \int_{\mathbb{R}} (x - \mathbb{E}(X))^2 \, dF(x).</script>
+
+<p><strong>DEFINITION</strong>. Let $X \sim F$, where $F$ is the name of a distribution function with variance $\mathbb{V}(X)$, the standard deviation of $X$ is</p>
+
+<script type="math/tex; mode=display">\mathbb{D}(X) = \sqrt{\mathbb{V}(X)}.</script>
+
+<p>The standard deviation is another measure of spread, like the variance, but the standard deviation is in the same units as the mean.</p>
 
 <h3 id="example-1">Example</h3>
 
@@ -960,11 +963,16 @@ center of the probaility density function for a random variable.</p>
 </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">a</span><span class="o">:</span><span class="n">b</span><span class="w">
 </span><span class="n">fx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
 </span><span class="n">m</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fx</span><span class="p">)</span><span class="w">
-</span><span class="nf">sum</span><span class="p">((</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fx</span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">((</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fx</span><span class="p">))</span><span class="w"> </span><span class="c1"># variance</span><span class="w">
+</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="c1"># standard deviation</span><span class="w">
 </span></code></pre></div></div>
 
 <div class="output output_html">
 2.91666666666667
+</div>
+
+<div class="output output_html">
+1.70782512765993
 </div>
 
 <p>It takes some time to understand the fancy integral notation above.  There are a few ideas that you should keep in mind when working with the definitions of $\mathbb{E}(X)$ and $\mathbb{V}(X)$:</p>
@@ -1021,7 +1029,7 @@ density function</p>
 
 <script type="math/tex; mode=display">\text{uniform}(x | a, b) = \frac{1}{b - a + 1}</script>
 
-<p>for $x \in {a, a+1, \ldots, b - 1, b }$.</p>
+<p>for $x \in \{a, a+1, \ldots, b - 1, b \}$.</p>
 
 <h3 id="bernoulli">Bernoulli</h3>
 
@@ -1030,7 +1038,7 @@ probability density function</p>
 
 <script type="math/tex; mode=display">\text{bernoulli}(x | p) = p^x (1 - p)^{1 - x}</script>
 
-<p>for $x \in {0, 1}$.</p>
+<p>for $x \in \{0, 1\}$.</p>
 
 <h3 id="geometric">Geometric</h3>
 
@@ -1039,7 +1047,7 @@ probability density function</p>
 
 <script type="math/tex; mode=display">\text{geometric}(x | p) = p (1 - p)^{x - 1}</script>
 
-<p>for $x \in {1, 2, \ldots }$.</p>
+<p>for $x \in \{1, 2, \ldots \}$.</p>
 
 <h3 id="binomial">Binomial</h3>
 
@@ -1048,7 +1056,7 @@ probability density function</p>
 
 <script type="math/tex; mode=display">\text{binomial}(x | K, p) = {K \choose x} p^x (1 - p)^{K - x}</script>
 
-<p>for $x \in {0, 1, \ldots, K }$.</p>
+<p>for $x \in \{0, 1, \ldots, K \}$.</p>
 
 <h3 id="poisson">Poisson</h3>
 
@@ -1088,7 +1096,7 @@ probability density function</p>
 
 <script type="math/tex; mode=display">\text{exponential}(x | \beta) = \beta\exp{ (-\beta x) }</script>
 
-<p>For $x \geq 0$.</p>
+<p>for $x \geq 0$.</p>
 
 <h3 id="gamma">Gamma</h3>
 

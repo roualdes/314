@@ -70,7 +70,11 @@ mean where you add up all the numbers and divide by how every many
 numbers there are.  The expected value does not describe data.  The expected value instead describes a measure of
 center of the probaility density function for a random variable.
 
-For the discrete random variable $X \sim \text{Uniform}(1, 6)$ the probability density function is displayed below.  Notice that the random variable is only defined for integer values between $1$ and $6$ inclusive.  These values make up the **support** of the random variable. Think of the support as the values for which the probability density function is positive.
+For the discrete random variable $X \sim \text{Uniform}(1, 6)$ the probability density function is displayed below.  More generally, as uniform implies sameness, mathematically the probability density function is the same for all arguments
+
+$$uniform(x|a, b) = \frac{1}{b - a + 1} $$
+
+for $x \in \\{a, a+1, \ldots, b-1, b\\}$.  Notice that the random variable is only defined for integer values between $a$ and $b$ inclusive.  These values make up the **support** of the random variable. Think of the support as the values for which the probability density function is positive.
 
 
 
@@ -97,7 +101,7 @@ Since population mean describes a measure of center, and the probability density
 
 More formally, the expected value of $X \sim \text{Uniform}(a, b)$ is
 
-$$ \mathbb{E}(X) = \sum_{x = a}^b x * \text{uniform}(x|a,b) = \sum_{x = a}^b x * \frac{1}{b - a + 1} $$.
+$$ \mathbb{E}(X) = \sum_{x = a}^b x * \text{uniform}(x|a,b) = \sum_{x = a}^b x * \frac{1}{b - a + 1}. $$
 
 In R, we can apply this formula to $X \sim \text{Uniform}(1,6)$,
 
@@ -145,13 +149,19 @@ $$ \mathbb{E}(X) = \int_{\mathbb{R}} x\,d\text{F}(x).$$
 
 The fancy integral here is just to remind you that for discrete random variables, the integral becomes a sum, as above, and for continuous random variables the integral stays.  In both cases, the sum/integral ranges over the support of the random variable and the summand/integrand is the product of $x$ and the probability density function.
 
-## Variance of a Random Variable
+## Variance and Standard Deviation of a Random Variable
 
 Where the mean is a measure of center of a random variable, the variance is a measure of spread.  Specifically, the variance measures squared distance from the mean, again weighted by the probability density function.  
 
-**DEFINITION**.  Let $X \sim F$, where $F$ is the name of a distribution function with mean $\mu = \mathbb{E}(X)$,
+**DEFINITION**.  Let $X \sim F$, where $F$ is the name of a distribution function with mean $\mu = \mathbb{E}(X)$, the variance of $X$ is 
 
 $$ \mathbb{V}(X) = \int_{\mathbb{R}} (x - \mathbb{E}(X))^2 \, dF(x).$$
+
+**DEFINITION**. Let $X \sim F$, where $F$ is the name of a distribution function with variance $\mathbb{V}(X)$, the standard deviation of $X$ is
+
+$$ \mathbb{D}(X) = \sqrt{\mathbb{V}(X)}.$$
+
+The standard deviation is another measure of spread, like the variance, but the standard deviation is in the same units as the mean.
 
 ### Example
 
@@ -165,13 +175,20 @@ a <- 1; b <- 6
 x <- a:b
 fx <- 1 / (b - a + 1)
 m <- sum(x * fx)
-sum((x - m)^2 * fx)
+(v <- sum((x - m)^2 * fx)) # variance
+sqrt(v) # standard deviation
 ```
 
 
 
 <div markdown="0" class="output output_html">
 2.91666666666667
+</div>
+
+
+
+<div markdown="0" class="output output_html">
+1.70782512765993
 </div>
 
 
@@ -221,7 +238,7 @@ density function
 
 $$ \text{uniform}(x | a, b) = \frac{1}{b - a + 1} $$
 
-for $x \in \{a, a+1, \ldots, b - 1, b \}$.
+for $x \in \\{a, a+1, \ldots, b - 1, b \\}$.
 
 ### Bernoulli
 
@@ -230,7 +247,7 @@ probability density function
 
 $$ \text{bernoulli}(x | p) = p^x (1 - p)^{1 - x} $$
 
-for $x \in \{0, 1\}$.
+for $x \in \\{0, 1\\}$.
 
 ### Geometric
 
@@ -239,7 +256,7 @@ probability density function
 
 $$ \text{geometric}(x | p) = p (1 - p)^{x - 1} $$
 
-for $x \in \{1, 2, \ldots \}$.
+for $x \in \\{1, 2, \ldots \\}$.
 
 ### Binomial
 
@@ -248,7 +265,7 @@ For $X \sim \text{Binomial}(K, p)$ where $K \in \mathbb{N} \\
 
 $$ \text{binomial}(x | K, p) = {K \choose x} p^x (1 - p)^{K - x} $$
 
-for $x \in \{0, 1, \ldots, K \}$.
+for $x \in \\{0, 1, \ldots, K \\}$.
 
 ### Poisson
 
@@ -289,7 +306,7 @@ probability density function
 
 $$ \text{exponential}(x | \beta) = \beta\exp{ (-\beta x) } $$
 
-For $x \geq 0$.
+for $x \geq 0$.
 
 ### Gamma
 

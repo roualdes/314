@@ -29,6 +29,9 @@
   <dt><b><a href="/bernoulli/proportions#goal-of-statistics">individual/observation</a></b></dt>
   <dd>a noun in the population of interest, not necessarily
     people</dd>
+    
+    <dt><b><a href="/bootstrap/confidence_intervals#percentile">interpolate</a></b></dt>
+  <dd>estimate a number within a range of data</dd>
 
   <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">level</a></b></dt>
   <dd>values that a categorical variable could take on</dd>
@@ -43,7 +46,10 @@
 
   <dt><b><a href="/bernoulli/proportions#goal-of-statistics">parameter</a></b></dt>
   <dd>a characteristic of a population, abstracted to
-    non-dataarguments of probability density functions.</dd>
+    non-dataarguments of probability density functions</dd>
+    
+    <dt><b><a href="/bootstrap/confidence_intervals#percentiles">percentile</a></b></dt>
+  <dd>the value in the support of the random variable that puts $p$% of the area under the probability density function to the left of it</dd>
 
   <dt><b><a href="/bernoulli/proportions#goal-of-statistics">population</a></b></dt>
   <dd>the broader group of nouns of interest</dd>

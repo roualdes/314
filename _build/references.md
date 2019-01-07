@@ -1,4 +1,5 @@
 ---
+interact_link: content/references.ipynb
 title: 'References'
 prev_page:
   url: /lmodels/introduction
@@ -8,6 +9,7 @@ next_page:
   title: 'Glossary'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 # References
 
 {% bibliography %}

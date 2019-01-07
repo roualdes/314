@@ -27,9 +27,9 @@
   "headline":
     "Estimating Means",
   "datePublished":
-    "2019-01-06T22:49:31-08:00",
+    "2019-01-07T14:57:15-08:00",
   "dateModified":
-    "2019-01-06T22:49:31-08:00",
+    "2019-01-07T14:57:15-08:00",
   "description":
     "Estimating Means",
   "author": {
@@ -940,21 +940,21 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
 <h2 id="central-limit-theorem">Central Limit Theorem</h2>
 
-<p>A more formal definition of the Central Limit Theorem goes like this.  Assume $X_n \sim_{iid} F(\theta)$ for $n = 1, \ldots, N$ where $\mathbb{E}(X) = \mu$ and $\mathbb{V}(X) = \sigma^2 &lt; \infty$.  Let $\hat{\mu}$ denote the sample mean and $\sigma_{\hat{\mu}}$ the standard deviation of the sample mean.  Then</p>
+<p>A more formal definition of the Central Limit Theorem goes like this.  Assume $X_n \sim_{iid} F(\theta)$ for $n = 1, \ldots, N$ where $\mathbb{E}(X) = \mu$ and $\mathbb{V}(X) = \sigma^2 &lt; \infty$.  Let $\hat{\mu}$ denote the sample mean.  Then</p>
 
-<script type="math/tex; mode=display">\frac{\hat{\mu} - \mu}{\sigma_{\hat{\mu}}} \stackrel{\cdot}{\sim} \text{Normal}(0, 1).</script>
+<script type="math/tex; mode=display">\hat{\mu}\stackrel{\cdot}{\sim} \text{Normal}\left(\mu, \frac{\mathbb{D}(X)}{\sqrt{N}} \right).</script>
 
-<p>In English, we’d read the sampling distribution of the standardized sample mean approaches the standard normal distribution as the sample size increases, so long as the population from which the independent data were sampled has finite variance.</p>
+<p>In English, we’d read the sampling distribution of the sample mean approaches a normal distribution with mean $\mu$ and standard deviation $\mathbb{D}(X)/\sqrt{N}$ as the sample size increases, so long as the population from which the independent data were sampled has finite variance.</p>
 
 <p>There are a few important facts about the Central Limit Theorem above.  As stated above, the Central Limit Theorem</p>
 
 <ol>
-  <li>depends on unknown population parameters, $\mu$ and $\sigma_{\hat{\mu}}$,</li>
+  <li>depends on unknown population parameters, $\mu$ and $\mathbb{D}(X)$,</li>
   <li>is an approximation of the sampling distribution of the sample mean that depends on the sample size $N$, and</li>
   <li>doesn’t tell us about other statistics than the sample mean.</li>
 </ol>
 
-<p>Notice that I didn’t say anything about the variance of the population being finite.  This assumption is generally a reasonable assumption that most applied statisticians are willing to accept.</p>
+<p>Notice that I didn’t claim that the finiteness of the variance of the population as an important fact.  This assumption is generally a reasonable assumption that most applied statisticians are willing to accept.</p>
 
 <p>In most introductory statistics courses, the majority of the course material is based around the Central Limit Theorem.  The Central Limit Theorem is a mathematical theorem, with it’s own assumptions, but by focusing on it, a course is making assumptions about the student’s future use of statistics.  Using only statistics that follow the CLT limits students application of statistics.  On the other hand, statisticians maintain their jobs by showing that statistics other than the sample mean follow the Central Limit Theorem, and there’s been no shortage of papers on this topic.</p>
 

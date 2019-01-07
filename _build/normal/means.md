@@ -180,18 +180,18 @@ Even after you accept that every statistic should be thought of as a random vari
 
 ## Central Limit Theorem
 
-A more formal definition of the Central Limit Theorem goes like this.  Assume $X_n \sim_{iid} F(\theta)$ for $n = 1, \ldots, N$ where $\mathbb{E}(X) = \mu$ and $\mathbb{V}(X) = \sigma^2 < \infty$.  Let $\hat{\mu}$ denote the sample mean and $\sigma_{\hat{\mu}}$ the standard deviation of the sample mean.  Then
+A more formal definition of the Central Limit Theorem goes like this.  Assume $X_n \sim_{iid} F(\theta)$ for $n = 1, \ldots, N$ where $\mathbb{E}(X) = \mu$ and $\mathbb{V}(X) = \sigma^2 < \infty$.  Let $\hat{\mu}$ denote the sample mean.  Then
 
-$$ \frac{\hat{\mu} - \mu}{\sigma_{\hat{\mu}}} \stackrel{\cdot}{\sim} \text{Normal}(0, 1). $$
+$$ \hat{\mu}\stackrel{\cdot}{\sim} \text{Normal}\left(\mu, \frac{\mathbb{D}(X)}{\sqrt{N}} \right). $$
 
-In English, we'd read the sampling distribution of the standardized sample mean approaches the standard normal distribution as the sample size increases, so long as the population from which the independent data were sampled has finite variance.
+In English, we'd read the sampling distribution of the sample mean approaches a normal distribution with mean $\mu$ and standard deviation $\mathbb{D}(X)/\sqrt{N}$ as the sample size increases, so long as the population from which the independent data were sampled has finite variance.
 
 There are a few important facts about the Central Limit Theorem above.  As stated above, the Central Limit Theorem
 
-1. depends on unknown population parameters, $\mu$ and $\sigma_{\hat{\mu}}$,
+1. depends on unknown population parameters, $\mu$ and $\mathbb{D}(X)$,
 2. is an approximation of the sampling distribution of the sample mean that depends on the sample size $N$, and
 3. doesn't tell us about other statistics than the sample mean.
 
-Notice that I didn't say anything about the variance of the population being finite.  This assumption is generally a reasonable assumption that most applied statisticians are willing to accept.
+Notice that I didn't claim that the finiteness of the variance of the population as an important fact.  This assumption is generally a reasonable assumption that most applied statisticians are willing to accept.
 
 In most introductory statistics courses, the majority of the course material is based around the Central Limit Theorem.  The Central Limit Theorem is a mathematical theorem, with it's own assumptions, but by focusing on it, a course is making assumptions about the student's future use of statistics.  Using only statistics that follow the CLT limits students application of statistics.  On the other hand, statisticians maintain their jobs by showing that statistics other than the sample mean follow the Central Limit Theorem, and there's been no shortage of papers on this topic.
