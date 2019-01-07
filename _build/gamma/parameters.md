@@ -9,3 +9,5 @@ next_page:
   title: 'Normal Distribution'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
+# Estimating Parameters

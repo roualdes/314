@@ -8,3 +8,6 @@ next_page:
   title: 'Estimating Means'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+# Normal Distribution
+
+## Introduction

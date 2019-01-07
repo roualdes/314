@@ -32,9 +32,10 @@
     url: /bernoulli/summary
 
 - title: Distributions
-  url: /distributions/distributions
-  # connecting PDFs to data
-  # Continuous Uniform
+  url: /distributions/introduction
+  sections:
+  - title: Distributions, Mean, and Variance
+    url: /distributions/distributions
 
 - title: Gamma Distribution
   url: /gamma/introduction
@@ -48,12 +49,18 @@
   - title: Estimating Means
     url: /normal/means
   # - title: "Statistics vs. Machine Learning"
-  # - title: "Data and Random Variables"
-  # - title: Plots
-  # - title: Bootstrap
 
 - title: Bootstrap
   url: /bootstrap/introduction
   sections:
   - title: Confidence Intervals
     url: /bootstrap/confidence_intervals
+
+- title: Linear Models
+  url: /linear_models/introduction
+
+- title: References
+  url: /references
+
+- title: Glossary
+  url: /glossary

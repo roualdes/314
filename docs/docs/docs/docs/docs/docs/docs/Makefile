@@ -1,4 +1,4 @@
-.PHONY: help book clean serve
+.PHONY: help book clean serve ready
 
 help:
 	@echo "Please use 'make <target>' where <target> is one of:"
@@ -28,10 +28,11 @@ serve:
 	bundle exec guard
 
 build:
-	rm -rf docs _site
 	bundle exec jekyll build
-	 cp -r _site docs
+	rm -rf docs; cp -r _site docs
 	echo "Deployed to the docs/ folder"
 
 test:
 	pytest scripts/tests/test_build.py
+
+ready: clean book build

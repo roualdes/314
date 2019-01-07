@@ -1,0 +1,3 @@
+# Gamma Distribution
+
+## Introduction

@@ -10,7 +10,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# Normal
+# Estimating Means
 
 The first formal model in these notes happened so fast, you might have missed it.  By assuming $X_n \sim_{iid} \text{Bernoulli}(p)$, we created a single model.  This one statistical model assumed the Bernoulli distribution.  Our data consisted of multiple independent observations from the identical distribution (iid), a Bernoulli distribution with unknown population parameter $p$.
 
@@ -43,7 +43,7 @@ ggplot(carnivora) + geom_density(aes(BW))
 
 
 {:.output .output_png}
-![png](../images/normal/means_5_1.png)
+![png](../images/normal/means_6_1.png)
 
 
 
@@ -63,7 +63,7 @@ ggplot(carnivora) +
 
 
 {:.output .output_png}
-![png](../images/normal/means_7_1.png)
+![png](../images/normal/means_8_1.png)
 
 
 
@@ -94,7 +94,7 @@ ggplot(df, aes(x)) + stat_function(fun = dnorm, args=list(mean=0, sd=1))
 
 
 {:.output .output_png}
-![png](../images/normal/means_10_1.png)
+![png](../images/normal/means_11_1.png)
 
 
 
@@ -152,7 +152,7 @@ ggplot(data.frame(mu = mus)) +
 
 
 {:.output .output_png}
-![png](../images/normal/means_16_1.png)
+![png](../images/normal/means_17_1.png)
 
 
 

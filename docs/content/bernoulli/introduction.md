@@ -1,4 +1,6 @@
-# Introduction
+# Bernoulli Distribution
+
+## Introduction
 
 The Bernoulli distribution is our first attempt to connect data to
 mathematical statistics.  We will learn that mathematical statistics

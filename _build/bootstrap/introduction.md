@@ -8,3 +8,7 @@ next_page:
   title: 'Confidence Intervals'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+# Bootstrap
+
+## Introduction
+

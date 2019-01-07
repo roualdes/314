@@ -1,4 +1,6 @@
-# Introduction
+# Discrete Uniform Distribution
+
+## Introduction
 
 Much of this class is about notation.  The next section attempts to
 build on your experience about dice in an effort to minimize the

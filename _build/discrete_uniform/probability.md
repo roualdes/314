@@ -10,7 +10,9 @@ next_page:
   title: 'Bernoulli Distribution'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-# Dice
+# Random Variables and Probability
+
+## Dice
 
 Die are easy to think about, because we've all rolled a die before and
 we all think we know what we mean when we say the probability of
@@ -18,7 +20,7 @@ rolling a $1$ is $1/6$.  Throughout this section, don't let this
 intuition go.  Rather expand upon it to the more detailed
 descriptions below.
 
-# Random Variable
+## Random Variable
 
 A **random variable** is a function from an **event** to a
 numerical value.  Note that the randomness is not, per se, part of the
@@ -62,10 +64,9 @@ willing to drop the events $\{H, T\}$ from our notation.  Next, we
 will consider what the following mathematical statements means, in
 an operational sense, $P(X \in \\{ H \\}) = 1/2$.
 
-# Probability
+## Probability
 
-Retired professor [Martha
-K. Smith](https://web.ma.utexas.edu/users/mks/statmistakes/probability.html)
+Retired professor [M. K. Smith](https://web.ma.utexas.edu/users/mks/statmistakes/probability.html)
 provides a nice survey of the various notions of the probability of an
 event.  This book will focus on an empirical version of probability
 that goes as follows.

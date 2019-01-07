@@ -8,7 +8,9 @@ next_page:
   title: 'Estimating Proportions'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-# Introduction
+# Bernoulli Distribution
+
+## Introduction
 
 The Bernoulli distribution is our first attempt to connect data to
 mathematical statistics.  We will learn that mathematical statistics

@@ -18,7 +18,7 @@ Statistics seeks to describe characteristics of a broad group (**population**) u
 
 ![](../images/srs.png)
 
-In proper language, a statistician uses a radom sample to calculate sample statistics which provide estimates of population parameters.  Relative to the image above, the population is depicted on the left, the sample is depicted on the right, and the arrows indicate we are to take a simple random sample of **individuals** (or **observations**) from the population.  With these data, we make inferences about the population parameters.  The discipline of statistics studies how to properly use data to make best guesses about the population.  To be useful, we must carefully interpret these best guesses.
+In proper language, a statistician uses a radom sample to calculate sample statistics which provide estimates of population parameters.  Relative to the image above, the population is depicted on the left, the sample is depicted on the right, and the arrows indicate we are to take a simple random sample of **individuals** (or **observations**) from the population.  With these data, we make inferences about the population **parameters**.  The discipline of statistics studies how to properly use data to make best guesses about the population.  To be useful, we must carefully interpret these best guesses.
 
 At the mathematical level, the population is described by a function, and characteristics of the population are parameters that give structure to these functions.  Data is then theoretically generated from the population's function.  The data, thus carrying information about this function, are used to estimate the population parameters.  As the data side is likely to be more tangible, we'll start there.
 
@@ -52,12 +52,12 @@ df %>%
 <table>
 <thead><tr><th scope=col>SuperFamily</th><th scope=col>Family</th></tr></thead>
 <tbody>
-	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
 	<tr><td>Feliformia</td><td>Viverridae</td></tr>
-	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
+	<tr><td>Caniformia</td><td>Canidae   </td></tr>
+	<tr><td>Feliformia</td><td>Felidae   </td></tr>
 	<tr><td>Feliformia</td><td>Viverridae</td></tr>
 	<tr><td>Feliformia</td><td>Felidae   </td></tr>
-	<tr><td>Caniformia</td><td>Ailuridae </td></tr>
+	<tr><td>Feliformia</td><td>Viverridae</td></tr>
 </tbody>
 </table>
 
@@ -119,9 +119,9 @@ ggplot(df, aes(factor(x), f)) +
 
 ### Example
 
-Since $x$ only ever takes on two values $0$ or $1$, this matches perfectly with our binary **categorical variable** `SuperFamily`.  The trick is, the **levels** of the variable `SuperFamily` will correspond to the values that the input $x$ of the Bernoulli random variable can take on, namely $0$ and $1$.  How we map from $\{Canfiromia, Feliformia\}$ to $\{0, 1\}$ is mathematically unimportant, but convention suggests that you are interested in one of the two levels more than the other.
+Since $x$ only ever takes on two values $0$ or $1$, this matches perfectly with our binary **categorical variable** `SuperFamily`.  The trick is, the **levels** of the variable `SuperFamily` will correspond to the values that the input $x$ of the Bernoulli random variable can take on, namely $0$ and $1$.  How we map from $\\{Canfiromia, Feliformia\\}$ to $\\{0, 1\\}$ is mathematically unimportant, but convention suggests that you are interested in one of the two levels more than the other.
 
-Symbollically, we write $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots, N$.  The random variables $X_n$ correspond to the sequence $0$s and $1$s that tell us which observations belong to the Super Family Caniformia.  The population **parameter** $p$ is unwknown, but can be estimated with the data $X_n$.  Notice that for Bernoulli data, the sample (because it's applied to data) mean returns a **proportion** since at most the sum of $N$ $1$s is $N$.
+Symbollically, we write $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots, N$.  The random variables $X_n$ correspond to the sequence $0$s and $1$s that tell us which observations belong to the Super Family Caniformia.  The population parameter $p$ is unwknown, but can be estimated with the data $X_n$.  Notice that for Bernoulli data, the sample (because it's applied to data) mean returns a **proportion** since at most the sum of $N$ $1$s is $N$.
 
 
 

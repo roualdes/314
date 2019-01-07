@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
   <title>Estimating Means</title>
-  <meta name="description" content="Normal">
+  <meta name="description" content="Estimating Means">
 
   <link rel="canonical" href="https://roualdes.us/314/normal/means.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="https://roualdes.us/314/feed.xml">
@@ -14,7 +14,7 @@
   <meta property="og:url"         content="https://roualdes.us/314/normal/means.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Estimating Means" />
-<meta property="og:description" content="Normal" />
+<meta property="og:description" content="Estimating Means" />
 <meta property="og:image"       content="" />
 
 
@@ -27,11 +27,11 @@
   "headline":
     "Estimating Means",
   "datePublished":
-    "2019-01-06T15:35:29-08:00",
+    "2019-01-06T20:16:34-08:00",
   "dateModified":
-    "2019-01-06T15:35:29-08:00",
+    "2019-01-06T20:16:34-08:00",
   "description":
-    "Normal",
+    "Estimating Means",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -492,7 +492,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/distributions/distributions"
+          href="/314/distributions/introduction"
         >
           
             3.
@@ -500,6 +500,37 @@ document.addEventListener('turbolinks:load', updateInteractLink)
           Distributions
         </a>
 
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/314/distributions/distributions"
+                >
+                  
+                    3.1
+                  
+                  Distributions, Mean, and Variance
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
         
       </li>
 
@@ -661,6 +692,69 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       
     
+      
+      
+
+      
+      
+
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/314/linear_models/introduction"
+        >
+          
+            7.
+          
+          Linear Models
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/314/references"
+        >
+          
+            8.
+          
+          References
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/314/glossary"
+        >
+          
+            9.
+          
+          Glossary
+        </a>
+
+        
+      </li>
+
+      
+    
   </ul>
 </nav>
 
@@ -723,7 +817,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
 
             <div class="c-textbook__content">
-              <h1 id="normal">Normal</h1>
+              <h1 id="estimating-means">Estimating Means</h1>
 
 <p>The first formal model in these notes happened so fast, you might have missed it.  By assuming $X_n \sim_{iid} \text{Bernoulli}(p)$, we created a single model.  This one statistical model assumed the Bernoulli distribution.  Our data consisted of multiple independent observations from the identical distribution (iid), a Bernoulli distribution with unknown population parameter $p$.</p>
 
@@ -742,7 +836,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 </span><span class="n">ggplot</span><span class="p">(</span><span class="n">carnivora</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_density</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">BW</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
-<p class="output output_png"><img src="../images/normal/means_5_1.png" alt="png" /></p>
+<p class="output output_png"><img src="../images/normal/means_6_1.png" alt="png" /></p>
 
 <p>The above plot tells us that the majority of our data consist of observations below $500$ grams with a few observations showing up sporadically above $500$.  How many observations are above $500$ is not immediately clear, so let’s see if we can modify the plot above to help us visualize all of the data.</p>
 
@@ -751,7 +845,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
     </span><span class="n">geom_rug</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">BW</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
-<p class="output output_png"><img src="../images/normal/means_7_1.png" alt="png" /></p>
+<p class="output output_png"><img src="../images/normal/means_8_1.png" alt="png" /></p>
 
 <h2 id="properties-of-the-normal-distribution">Properties of the Normal Distribution</h2>
 
@@ -771,7 +865,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 </span><span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">stat_function</span><span class="p">(</span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dnorm</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
-<p class="output output_png"><img src="../images/normal/means_10_1.png" alt="png" /></p>
+<p class="output output_png"><img src="../images/normal/means_11_1.png" alt="png" /></p>
 
 <h2 id="likelihood">Likelihood</h2>
 
@@ -818,7 +912,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
                   </span><span class="n">color</span><span class="o">=</span><span class="s2">"orange"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p class="output output_png"><img src="../images/normal/means_16_1.png" alt="png" /></p>
+<p class="output output_png"><img src="../images/normal/means_17_1.png" alt="png" /></p>
 
 <p>Let’s explain the code above in English, before we dive into the details of what just happened statistcally.  We are interested in birth weights from animals of the Order Carnivora, but we are not interested in missing values, encoded as <code class="highlighter-rouge">NA</code>s in R.  We use the library <code class="highlighter-rouge">dplyr</code> to <code class="highlighter-rouge">select</code> only specific variables we are currently interested in, omit the <code class="highlighter-rouge">NA</code>s, and then <code class="highlighter-rouge">pull</code> out the vector of data we want from the data frame.</p>
 

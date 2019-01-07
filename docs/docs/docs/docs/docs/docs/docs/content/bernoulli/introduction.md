@@ -1,15 +1,13 @@
-# Bernoulli Data
+# Bernoulli Distribution
 
- Description of binary *categorical* variables, which are numerically
- encoded (0/1) data.  Where does data come from?  Plot of *population*
- and *sample* depicted by circles, with arrows going from some of the
- individuals in the population to all of the elements in the sample.
+## Introduction
 
- Will need paragraphs about:
+The Bernoulli distribution is our first attempt to connect data to
+mathematical statistics.  We will learn that mathematical statistics
+has a deep theory about what exactly produces data.  As with much of
+mathematics, statistics theorizes that functions are the culprits
+behind data.
 
- * population
- * sample
- * random variables
- * what statistics is trying to do
- * likelihood as how we try to do it
- * bootstrap to quantify our uncertainty in the small world setting
+To better understand these functions, we introduce early in this
+course the fact that probability density functions are the theoretical
+construct behind data and at the same time lead to the sample mean.

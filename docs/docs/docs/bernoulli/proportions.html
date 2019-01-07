@@ -27,9 +27,9 @@
   "headline":
     "Estimating Proportions",
   "datePublished":
-    "2019-01-06T15:27:56-08:00",
+    "2019-01-06T20:06:49-08:00",
   "dateModified":
-    "2019-01-06T15:27:56-08:00",
+    "2019-01-06T20:06:49-08:00",
   "description":
     "Estimating Proportions",
   "author": {
@@ -492,7 +492,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/distributions/distributions"
+          href="/314/distributions/introduction"
         >
           
             3.
@@ -500,6 +500,37 @@ document.addEventListener('turbolinks:load', updateInteractLink)
           Distributions
         </a>
 
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/314/distributions/distributions"
+                >
+                  
+                    3.1
+                  
+                  Distributions, Mean, and Variance
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
         
       </li>
 
@@ -589,7 +620,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/normal/single_mean"
+                  href="/314/normal/means"
                 >
                   
                     5.1
@@ -656,6 +687,69 @@ document.addEventListener('turbolinks:load', updateInteractLink)
               
             
           </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/314/linear_models/introduction"
+        >
+          
+            7.
+          
+          Linear Models
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/314/references"
+        >
+          
+            8.
+          
+          References
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/314/glossary"
+        >
+          
+            9.
+          
+          Glossary
+        </a>
+
         
       </li>
 
@@ -758,12 +852,12 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 <table>
 <thead><tr>&lt;th scope=col&gt;SuperFamily&lt;/th&gt;&lt;th scope=col&gt;Family&lt;/th&gt;</tr></thead>
 <tbody>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
-	<tr><td>Feliformia</td><td>Felidae   </td></tr>
 	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
 	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
 	<tr><td>Feliformia</td><td>Viverridae</td></tr>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Feliformia</td><td>Felidae   </td></tr>
+	<tr><td>Caniformia</td><td>Ailuridae </td></tr>
 </tbody>
 </table>
 
@@ -802,7 +896,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
 <h3 id="example">Example</h3>
 
-<p>Since $x$ only ever takes on two values $0$ or $1$, this matches perfectly with our binary <strong>categorical variable</strong> <code class="highlighter-rouge">SuperFamily</code>.  The trick is, the <strong>levels</strong> of the variable <code class="highlighter-rouge">SuperFamily</code> will correspond to the values that the input $x$ of the Bernoulli random variable can take on, namely $0$ and $1$.  How we map from ${Canfiromia, Feliformia}$ to ${0, 1}$ is mathematically unimportant, but convention suggests that you are interested in one of the two levels more than the other.</p>
+<p>Since $x$ only ever takes on two values $0$ or $1$, this matches perfectly with our binary <strong>categorical variable</strong> <code class="highlighter-rouge">SuperFamily</code>.  The trick is, the <strong>levels</strong> of the variable <code class="highlighter-rouge">SuperFamily</code> will correspond to the values that the input $x$ of the Bernoulli random variable can take on, namely $0$ and $1$.  How we map from $\{Canfiromia, Feliformia\}$ to $\{0, 1\}$ is mathematically unimportant, but convention suggests that you are interested in one of the two levels more than the other.</p>
 
 <p>Symbollically, we write $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots, N$.  The random variables $X_n$ correspond to the sequence $0$s and $1$s that tell us which observations belong to the Super Family Caniformia.  The population <strong>parameter</strong> $p$ is unwknown, but can be estimated with the data $X_n$.  Notice that for Bernoulli data, the sample (because it’s applied to data) mean returns a <strong>proportion</strong> since at most the sum of $N$ $1$s is $N$.</p>
 

@@ -4,7 +4,7 @@ prev_page:
   url: /bernoulli/proportions
   title: 'Estimating Proportions'
 next_page:
-  url: /distributions/distributions
+  url: /distributions/introduction
   title: 'Distributions'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---

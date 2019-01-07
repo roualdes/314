@@ -1,16 +1,16 @@
 ---
 interact_link: content/distributions/distributions.ipynb
-title: 'Distributions'
+title: 'Distributions, Mean, and Variance'
 prev_page:
-  url: /bernoulli/summary
-  title: 'Summary'
+  url: /distributions/introduction
+  title: 'Distributions'
 next_page:
   url: /gamma/introduction
   title: 'Gamma Distribution'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# Distributions
+# Distributions, Mean, and Variance
 
 ## Random Variables
 
