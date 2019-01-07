@@ -54,7 +54,7 @@
 
   <dt><b>random variable</b></dt>
   <dd>a function from an event to a numerical value,
-    e.g. $X(\\{Caniformia\\}) = 1$</dd>
+    e.g. $X(\{Caniformia\}) = 1$</dd>
 
   <dt><b>sample</b></dt>
   <dd>a subset of the population, ideally randomly collected</dd>

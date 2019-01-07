@@ -1,7 +1,7 @@
 # Glossary
 
 <dl>
-  <dt><b><a href="/314/bernoulli/proportions">Bernoulli
+  <dt><b><a href="/314/bernoulli/proportions#bernoulli-distribution">Bernoulli
   distribution</a></b></dt>
   <dd>a named random variables used for binary outcomes; $1$ usually
     denotes the level of interest</dd>

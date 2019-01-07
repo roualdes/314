@@ -44,4 +44,16 @@
       intentionally share anything in common, except) that they come
       from the same population (identically distributed).
 
+<dl>
+    <dt>independent and identically distributed</dt>
+    <dd>a description of data that suggests the data were randomly
+      sampled (independent $\Rightarrow$ no two data points
+      intentionally share anything in common, except) that they come
+      from the same population (identically distributed).</dd>
+
+    <dt>parameter</dt>
+    <dd>a characteristic of a population, abstracted to
+      non-dataarguments of probability density functions.</dd>
+</dl>
+
 * **maximum likelihood estimator**

@@ -35,7 +35,4 @@ build:
 test:
 	pytest scripts/tests/test_build.py
 
-ready:
-	make clean
-	make book
-	make build
+ready: clean book build

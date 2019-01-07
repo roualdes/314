@@ -34,19 +34,15 @@
       categorical data; unfortunately thought of as $successes /
       trials$.
 
-* **parameter**
-    - a characteristic of a population, abstracted to
-      non-dataarguments of probability density functions.
 
-* **independent and identically distributed**
-    - a description of data that suggests the data were randomly
-      sampled (independent $\Rightarrow$ no two data points
-      intentionally share anything in common, except) that they come
-      from the same population (identically distributed).
 
 <dl>
-    <dt><b>independent and identically distributed</b></dt>
-    <dd>a description of data that suggests the data were randomly
+  <dt><b>proportion</b></dt>
+  <dd>AKA a mean, when applied to numerically encoded binary
+      categorical data; unfortunately thought of as $successes /
+      trials$.</dd>
+  <dt><b>independent and identically distributed</b></dt>
+  <dd>a description of data that suggests the data were randomly
       sampled (independent $\Rightarrow$ no two data points
       intentionally share anything in common, except) that they come
       from the same population (identically distributed).</dd>

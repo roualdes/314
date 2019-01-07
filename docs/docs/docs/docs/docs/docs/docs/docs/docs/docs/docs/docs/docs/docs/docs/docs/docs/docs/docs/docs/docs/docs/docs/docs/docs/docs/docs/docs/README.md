@@ -1,39 +1,26 @@
-# <img src="content/images/logo/logo.png" width=40 /> Jupyter Book
+# MATH 314 Lecture Notes
 
-[![CircleCI](https://circleci.com/gh/choldgraf/jupyter-book.svg?style=svg)](https://circleci.com/gh/choldgraf/jupyter-book)
+These MATH 314 lecture notes supplement the material presented in
+class and the material found on the [course website](https://roualdes.us/teaching).
 
-This is a guide and template for hosting your own book using
-Jupyter Notebooks and Jekyll.
+Pages might have [Binder](https://mybinder.org) links automatically
+added for interactivity.
 
-Here are some highlights:
+I'm trying something new (at least to me) here.  Instead of starting
+with a slew of topics that don't show up, and thus make sense, until
+much later in the course, I practicing in the art of just-in-time
+teaching.  To be honest, I don't know if just-in-time teaching is a
+thing.  These lecture notes are an experiment to find out.
 
-* All course content is written in markdown and Jupyter Notebooks, stored in `notebooks/`
-* This site comes packaged with helper scripts to convert these into Jekyll pages (in `scripts/`)
-* Pages can have [Binder](https://mybinder.org) or JupyterHub links automatically added for interactivity.
-* The website itself is based on Jekyll, and is highly extensible and can be freely-hosted on GitHub.
+## Getting started
 
-This repository comes with some sample textbook files from the Data 8 course
-for Data Science at UC Berkeley. You can update these materials and all site
-content with your own, and have a Jupyter-based textbook ready to go shortly!
+To do well in this course, without becoming too stressed out, one
+should know some calculus, namely derivatives and integration, and at
+least have had an introduction to computer programming.  The course
+will heavily use [R](https://cran.r-project.org/), but
+[RStudio](https://www.rstudio.com/) is the suggested interface to the
+language R.
 
-Here are a few links of interest:
-
-* **[A demo of the hosted textbook](http://predictablynoisy.com/jupyter-book/ )**
-* **[A short guide to deploying your own textbook](https://predictablynoisy.com/jupyter-book/guide/01_overview)**
-* **[The markdown version of the guide in this repo](content/guide/)**
-
-## Explore this book
-
-This website is an example of a Jupyter Book. You can explore the chapters of the book
-by clicking on links in the sidebar to the left. Or, you can move linearly forward and
-backwards by clicking the left/right arrow on your computer.
-
-## Contribute or improve the book
-
-Notice some inefficient CSS? A typo in the text? Want to add a cool feature so that others
-can enjoy the improvements to Jupyter Books? Don't hesitate to [open an issue or a PR on the
-Jupyter Book template repo](https://github.com/choldgraf/jupyter-book). We'd love your
-help!
 
 ## Acknowledgements
 

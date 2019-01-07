@@ -6,10 +6,11 @@
   <dd>a named random variables used for binary outcomes; $1$ usually
     denotes the level of interest</dd>
 
-  <dt><b>categorical variable</b></dt>
+  <dt><b><a href="/314/bernoulli/proportions#example">categorical
+  variable</a></b></dt>
   <dd>a variable in a dataset that takes on not-mathable values</dd>
 
-  <dt><b>dataframe</b></dt>
+  <dt><b><a href="/314/bernoulli/proportions#data">dataframe</a></b></dt>
   <dd>a two dimensional data structure in the programming language R
       in which each row represents a new observation and each column
     represents a new variable</dd>
