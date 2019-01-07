@@ -8,10 +8,10 @@
   <title>Gamma Distribution</title>
   <meta name="description" content="Gamma Distribution">
 
-  <link rel="canonical" href="https://roualdes.us/314/gamma/introduction.html">
-  <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="https://roualdes.us/314/feed.xml">
+  <link rel="canonical" href="https://314.roualdes.us/gamma/introduction.html">
+  <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="https://314.roualdes.us/feed.xml">
 
-  <meta property="og:url"         content="https://roualdes.us/314/gamma/introduction.html" />
+  <meta property="og:url"         content="https://314.roualdes.us/gamma/introduction.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Gamma Distribution" />
 <meta property="og:description" content="Gamma Distribution" />
@@ -23,13 +23,13 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "https://roualdes.us/314/gamma/introduction.html",
+    "https://314.roualdes.us/gamma/introduction.html",
   "headline":
     "Gamma Distribution",
   "datePublished":
-    "2019-01-06T20:31:47-08:00",
+    "2019-01-06T22:15:03-08:00",
   "dateModified":
-    "2019-01-06T20:31:47-08:00",
+    "2019-01-06T22:15:03-08:00",
   "description":
     "Gamma Distribution",
   "author": {
@@ -41,21 +41,21 @@
     "name": "Data 100 at UC Berkeley",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://roualdes.us/314",
+      "url": "https://314.roualdes.us",
       "width": 60,
       "height": 60
     }
   },
   "image": {
     "@type": "ImageObject",
-    "url": "https://roualdes.us/314",
+    "url": "https://314.roualdes.us",
     "height": 60,
     "width": 60
   }
 }
 
   </script>
-  <link rel="stylesheet" href="/314/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
   <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
@@ -74,7 +74,7 @@
   <meta name="theme-color" content="#233947">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="/314/images/logo/favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo/favicon.ico">
 
   <!-- MathJax Config -->
   <!-- Allow inline math using $ and automatically break long math lines -->
@@ -118,7 +118,7 @@ initFunction = function(myfunc) {
 
   <!-- Include Turbolinks to make page loads fast -->
   <!-- https://github.com/turbolinks/turbolinks -->
-  <script src="/314/assets/js/turbolinks.js" async></script>
+  <script src="/assets/js/turbolinks.js" async></script>
   <meta name="turbolinks-cache-control" content="no-cache">
 
   <!-- Load nbinteract for widgets -->
@@ -129,13 +129,13 @@ initFunction = function(myfunc) {
 
 
   <!-- Google analytics -->
-  <script src="/314/assets/js/ga.js" async></script>
+  <script src="/assets/js/ga.js" async></script>
 
   <!-- Clipboard copy button -->
   <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
 
   <!-- Load custom website scripts -->
-  <script src="/314/assets/js/scripts.js" async></script>
+  <script src="/assets/js/scripts.js" async></script>
 
   <!-- Load JS that depends on site variables -->
   <script>
@@ -146,7 +146,7 @@ const codeCellId = index => `codecell${index}`
 
 const clipboardButton = id =>
   `<a class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
-    <img src="/314/assets/images/copy-button.svg" alt="Copy to clipboard">
+    <img src="/assets/images/copy-button.svg" alt="Copy to clipboard">
   </a>`
 
 // Clears selected text since ClipboardJS will select the text when copying
@@ -200,8 +200,8 @@ initFunction(addCopyButtonToCodeCells);
 </script>
 
   <!-- Load custom user CSS and JS  -->
-  <script src="/314/assets/custom/custom.js" async></script>
-  <link rel="stylesheet" href="/314/assets/custom/custom.css">
+  <script src="/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/assets/custom/custom.css">
 
   <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
   <script>
@@ -264,7 +264,7 @@ function addParamToInternalLinks(hub) {
   var links = document.querySelectorAll("a").forEach(function(link) {
     var href = link.href;
     // If the link is an internal link...
-    if (href.search("https://roualdes.us") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
+    if (href.search("https://314.roualdes.us") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
       // Assume we're an internal link, add the hub param to it
       var params = getJsonFromUrl(href);
       if (params !== false) {
@@ -338,7 +338,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
 
 <nav id="js-sidebar" class="c-textbook__sidebar">
-  <img src="/314/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/>
+  <img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/>
   <h2 class="c-sidebar__title">MATH 314 Lecture Notes</h2>
   <ul class="c-sidebar__chapters">
     
@@ -350,7 +350,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry c-sidebar__entry--active"
-          href="/314/intro"
+          href="/intro"
         >
           
           Home
@@ -369,7 +369,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/duniform/introduction"
+          href="/duniform/introduction"
         >
           
             1.
@@ -393,7 +393,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/duniform/probability"
+                  href="/duniform/probability"
                 >
                   
                     1.1
@@ -421,7 +421,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/bernoulli/introduction"
+          href="/bernoulli/introduction"
         >
           
             2.
@@ -445,7 +445,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/bernoulli/proportions"
+                  href="/bernoulli/proportions"
                 >
                   
                     2.1
@@ -464,7 +464,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/bernoulli/summary"
+                  href="/bernoulli/summary"
                 >
                   
                     2.2
@@ -492,7 +492,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/distributions/introduction"
+          href="/distributions/introduction"
         >
           
             3.
@@ -516,7 +516,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/distributions/distributions"
+                  href="/distributions/distributions"
                 >
                   
                     3.1
@@ -544,7 +544,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry c-sidebar__entry--active"
-          href="/314/gamma/introduction"
+          href="/gamma/introduction"
         >
           
             4.
@@ -568,7 +568,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/gamma/parameters"
+                  href="/gamma/parameters"
                 >
                   
                     4.1
@@ -596,7 +596,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/normal/introduction"
+          href="/normal/introduction"
         >
           
             5.
@@ -620,7 +620,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/normal/means"
+                  href="/normal/means"
                 >
                   
                     5.1
@@ -648,7 +648,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/bootstrap/introduction"
+          href="/bootstrap/introduction"
         >
           
             6.
@@ -672,7 +672,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <li class="c-sidebar__section">
                 <a class="c-sidebar__entry "
-                  href="/314/bootstrap/confidence_intervals"
+                  href="/bootstrap/confidence_intervals"
                 >
                   
                     6.1
@@ -700,7 +700,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/lmodels/introduction"
+          href="/lmodels/introduction"
         >
           
             7.
@@ -721,7 +721,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/references"
+          href="/references"
         >
           
             8.
@@ -742,7 +742,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/314/glossary"
+          href="/glossary"
         >
           
             9.
@@ -799,13 +799,13 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
               <nav class="c-page__nav">
   
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/314/distributions/distributions">
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/distributions/distributions">
       〈 <span class="u-margin-right-tiny"></span> Distributions, Mean, and Variance
     </a>
   
 
   
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/314/gamma/parameters">
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/gamma/parameters">
       Estimating Parameters <span class="u-margin-right-tiny"></span> 〉
     </a>
   
