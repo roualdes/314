@@ -17,7 +17,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 A random variable is a function from a set of all possible outcomes,
 named the **sample space**, to exactly one real number.  We often
 assume that random variables follow named distributions, e.g. $Y \sim
-Uniform(a, b)$ where $a < b$, or $X \sim \text{Bernoulli}(p)$ where $p
+\text{Uniform}(a, b)$ where $a < b$, or $X \sim \text{Bernoulli}(p)$ where $p
 \in [0, 1]$.  Named distributions are common because they often
 abstractly represent processes in the world worth measuring.  Based on
 the outcome of the process of interest, we calculate probabilities
@@ -25,8 +25,7 @@ for a random variable that follows a specific distribution.
 
 The Uniform distribution represents well rolling die.  Much of the
 probabilities surrounding gambling are found by assuming random
-variables follow various Uniform distributions.  Roullete is
-essentially a random variable $X \sim \text{Uniform}(1, 36)$.
+variables follow various Uniform distributions.  Ignoring payouts, roulette is essentially a random variable $X \sim \text{Uniform}(1, 36)$.
 
 The Bernoulli distirbution represents well any process that has two
 mutually exclusive outcomes with a fixed probability of "success."
