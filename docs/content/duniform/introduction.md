@@ -13,7 +13,7 @@ we think of them as variables that take on random values.
 Using a fair die as an example of a random variable, we introduce a
 particular, but not the only, notion of probability.  While it's easy
 to get lost in the new notation and naturalness of this interpretation
-of probability, don't lose site of the world's most interesting
+of probability, don't lose sight of the world's most interesting
 processes.  Random variables are not always repeatable in an
 *operational* manner, and thus it's not always obvious how probability
 is meant to be understood in tese contexts.

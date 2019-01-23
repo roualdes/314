@@ -33,7 +33,7 @@ This special die helps us separate the distinct pieces
 of random variables.  With this special die, we have events -- any value of
 interest that a die might turn up -- and values produced by the random
 variable associated with those events.  In notation, we might write
-$X(A) = 1$, $X(B) = 2, \ldots, X(F) = 1$.
+$X(A) = 1$, $X(B) = 2, \ldots, X(F) = 6$.
 
 In mathematical statistics, we read $X \sim Uniform(\\{A, B, C,
 D, E, F\\})$, the random variable $X$ follows a

@@ -128,7 +128,7 @@ To interpret this interval, we say: *we are $95$% confident that the true popula
 
 If we were to repeat this analysis an infinite number of times, $95$% of the intervals created would include the true population mean.  This is operational definition of the percent confidence.
 
-Remarkably, this procedure guarantees that $95$% of all confidence intervals made will capture the true population mean.  To apply this procedure to real data, we would repeatedly resample, with replacement and with equal probability, from the original dataset.  Next we continue with the example about birth weights of animals from the Order Carnivora found in Section [Assumed Normality](/normal/assumed_normality).
+Remarkably, this procedure guarantees that $95$% of all confidence intervals made will capture the true population mean.  To apply this procedure to real data, we would repeatedly resample, with replacement and with equal probability, from the original dataset.  Next we continue with the example about birth weights of animals from the Order Carnivora found in Section [Assumed Normality](/normal/means#assumed-normality).
 
 ### Example
 

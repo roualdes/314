@@ -8,10 +8,10 @@
   <title>Estimating Parameters</title>
   <meta name="description" content="Estimating Parameters">
 
-  <link rel="canonical" href="https://314.roualdes.us/gamma/parameters.html">
-  <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="https://314.roualdes.us/feed.xml">
+  <link rel="canonical" href="/gamma/parameters.html">
+  <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="https://314.roualdes.us/gamma/parameters.html" />
+  <meta property="og:url"         content="/gamma/parameters.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Estimating Parameters" />
 <meta property="og:description" content="Estimating Parameters" />
@@ -23,13 +23,13 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "https://314.roualdes.us/gamma/parameters.html",
+    "/gamma/parameters.html",
   "headline":
     "Estimating Parameters",
   "datePublished":
-    "2019-01-07T15:08:22-08:00",
+    "2019-01-23T09:46:22-08:00",
   "dateModified":
-    "2019-01-07T15:08:22-08:00",
+    "2019-01-23T09:46:22-08:00",
   "description":
     "Estimating Parameters",
   "author": {
@@ -41,14 +41,14 @@
     "name": "Data 100 at UC Berkeley",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://314.roualdes.us",
+      "url": "",
       "width": 60,
       "height": 60
     }
   },
   "image": {
     "@type": "ImageObject",
-    "url": "https://314.roualdes.us",
+    "url": "",
     "height": 60,
     "width": 60
   }
@@ -264,7 +264,7 @@ function addParamToInternalLinks(hub) {
   var links = document.querySelectorAll("a").forEach(function(link) {
     var href = link.href;
     // If the link is an internal link...
-    if (href.search("https://314.roualdes.us") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
+    if (href.search("") !== -1 || href.startsWith('/') || href.search("127.0.0.1:") !== -1) {
       // Assume we're an internal link, add the hub param to it
       var params = getJsonFromUrl(href);
       if (params !== false) {
