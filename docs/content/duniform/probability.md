@@ -62,7 +62,7 @@ that goes as follows.
 The probability of an event $E$ is the limiting relative frequency of
 the occurrences of $E$ over the number of trials,
 
-$$ P(X \in E) = \lim_{n \rightarrow \infty} \frac{1(X \in E)}{n},$$
+$$ P(X \in E) = \lim_{N \rightarrow \infty} \sum_{n=1}^N \frac{1(X_n \in E)}{N},$$
 
 where $1(X \in E)$ takes on the value $1$ any time the random variable
 $X$ is in the event $E$ and $0$ otherwise.  We interpret probability
