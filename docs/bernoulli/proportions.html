@@ -27,9 +27,9 @@
   "headline":
     "Estimating Proportions",
   "datePublished":
-    "2019-01-23T22:24:59-08:00",
+    "2019-01-28T19:56:27-08:00",
   "dateModified":
-    "2019-01-23T22:24:59-08:00",
+    "2019-01-28T19:56:27-08:00",
   "description":
     "Estimating Proportions",
   "author": {
@@ -836,14 +836,14 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
 <h2 id="data">Data</h2>
 
-<p>Since this class is both a introduction to R and a statistics course, we’ll waste no time introducing R code.  Let’s load two of the most common packages, read in a data set (which R calls a <strong>dataframe</strong>), and then make a plot.  For every analysis, big or small, that we perform in this class these three steps should be the very first.f</p>
+<p>Since this class is both a introduction to R and a statistics course, we’ll waste no time introducing R code.  Let’s load two of the most common packages, read in a data set (which R calls a <strong>dataframe</strong>), and then make a plot.  For every analysis, big or small, that we perform in this class these three steps should be the very first.</p>
 
 <div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># library(readr)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
 </span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"~/website/app/public/data/carnivora.csv"</span><span class="p">)</span><span class="w">
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv"</span><span class="p">)</span><span class="w">
 </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">select</span><span class="p">(</span><span class="s1">'SuperFamily'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Family'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
     </span><span class="n">sample_n</span><span class="p">(</span><span class="m">6</span><span class="p">)</span><span class="w">
@@ -853,12 +853,12 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 <table>
 <thead><tr>&lt;th scope=col&gt;SuperFamily&lt;/th&gt;&lt;th scope=col&gt;Family&lt;/th&gt;</tr></thead>
 <tbody>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Feliformia</td><td>Hyaenidae </td></tr>
+	<tr><td>Caniformia</td><td>Canidae   </td></tr>
 	<tr><td>Caniformia</td><td>Canidae   </td></tr>
 	<tr><td>Feliformia</td><td>Felidae   </td></tr>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
-	<tr><td>Feliformia</td><td>Felidae   </td></tr>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
+	<tr><td>Caniformia</td><td>Canidae   </td></tr>
 </tbody>
 </table>
 

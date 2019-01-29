@@ -24,7 +24,7 @@ At the mathematical level, the population is described by a function, and charac
 
 ## Data
 
-Since this class is both a introduction to R and a statistics course, we'll waste no time introducing R code.  Let's load two of the most common packages, read in a data set (which R calls a **dataframe**), and then make a plot.  For every analysis, big or small, that we perform in this class these three steps should be the very first.f
+Since this class is both a introduction to R and a statistics course, we'll waste no time introducing R code.  Let's load two of the most common packages, read in a data set (which R calls a **dataframe**), and then make a plot.  For every analysis, big or small, that we perform in this class these three steps should be the very first.
 
 
 
@@ -40,7 +40,7 @@ library(ggplot2)
 
 {:.input_area}
 ```R
-df <- readr::read_csv("~/website/app/public/data/carnivora.csv")
+df <- readr::read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 df %>%
     select('SuperFamily', 'Family') %>%
     sample_n(6)
@@ -52,12 +52,12 @@ df %>%
 <table>
 <thead><tr><th scope=col>SuperFamily</th><th scope=col>Family</th></tr></thead>
 <tbody>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Feliformia</td><td>Hyaenidae </td></tr>
+	<tr><td>Caniformia</td><td>Canidae   </td></tr>
 	<tr><td>Caniformia</td><td>Canidae   </td></tr>
 	<tr><td>Feliformia</td><td>Felidae   </td></tr>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
-	<tr><td>Feliformia</td><td>Felidae   </td></tr>
-	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
+	<tr><td>Caniformia</td><td>Canidae   </td></tr>
 </tbody>
 </table>
 
