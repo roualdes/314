@@ -128,7 +128,7 @@ Symbollically, we write $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots,
 {:.input_area}
 ```R
 library(dplyr)
-carnivora <- read.csv("~/website/app/public/data/carnivora.csv") %>%
+carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv") %>%
     mutate(Caniformia = as.numeric(SuperFamily == 'Caniformia')) # interested in Canfiformia
 (phat <- round(mean(carnivora$Caniformia), 2))
 ```
