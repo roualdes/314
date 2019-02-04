@@ -27,9 +27,9 @@
   "headline":
     "Estimating Parameters",
   "datePublished":
-    "2019-01-30T13:10:03-08:00",
+    "2019-02-04T09:07:15-08:00",
   "dateModified":
-    "2019-01-30T13:10:03-08:00",
+    "2019-02-04T09:07:15-08:00",
   "description":
     "Estimating Parameters",
   "author": {
@@ -800,6 +800,53 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
             <div class="c-textbook__content">
               <h1 id="estimating-parameters">Estimating Parameters</h1>
+
+<p>Pedagogically, the Exponential and Gamma distributions will provide us insight on the difference between the likelihood estimate of population parameters and estimates of the mean of a random variable.</p>
+
+<h1 id="exponential-distribution">Exponential Distribution</h1>
+
+<p>Let $X \sim \text{Exponential}(\beta)$.  Then $X$ has probability density function</p>
+
+<script type="math/tex; mode=display">\text{exponential}(x | \beta) = \beta\exp{(-\beta x)}</script>
+
+<p>for $x \geq 0$ and $\beta &gt; 0$.  The parameter $\beta$ measures the rate at which events occur.  From this, it’s easy enough to verify the mean of an exponential random variable is $\mathbb{E}(X) = 1 / \beta$ as derived from</p>
+
+<script type="math/tex; mode=display">\mathbb{E}(X) = \int_0^{\infty} x \, d\text{ Exponential}(x).</script>
+
+<p>Consider a random sample that measures days between rain events at the Winnipeg International Airport (Canada), from the R library DAAG <a href="#Maindonald:2015">(Maindonald, Braun, &amp; Braun, 2015)</a>.  These data measure the time between rain events, and are thus necessarily positive as the density plot below shows.  The maximum likelihood estimate of the rate parameter is $\hat{\beta} = N / \sum_{n=1}^N X_N$.  The exponential density function with an estimated rate parameter $\hat{\beta}$ is drawn over the density plot.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/droughts.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">length</span><span class="p">)</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">length</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_density</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">stat_function</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">dexp</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">beta</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'orange'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="output output_png"><img src="../images/gamma/parameters_4_1.png" alt="png" /></p>
+
+<h1 id="gamma-distribution">Gamma Distribution</h1>
+
+<p>Let $X \sim \text{Gamma}(\alpha, \beta)$.  Then $X$ has probability density function</p>
+
+<script type="math/tex; mode=display">\text{gamma}(x | \alpha, \beta) =
+\frac{\beta^{\alpha}}{\Gamma(\alpha)} x^{\alpha - 1} \exp{ (-\beta x) }</script>
+
+<p>for $x \geq 0, \alpha &gt; 0$, and $\beta &gt; 0$.  Notice that when $\alpha = 1$, the exponential density function is recovered since the <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a> evaluated at $1$ is equal to $1$, $\Gamma(1) = 1$.</p>
+
+<p>The Gamma distribution has one parameter more than the exponential distribution.  In general, more parameters in a model will enable better adaption to the data.  Don’t read too closely into this though, better adaption to a dataset does not guarantee better predictions.  We’ll consider this point more closely later on in the course.</p>
+
+<p>The second parameter $\alpha$ is called the shape parameter.  Because the shape parameter appears inside the gamma function, there is no closed form for the maximum likelihood estimator of $\alpha$.  Instead of maximizing the likelihood function by hand, we’ll use a computer to approximate the parameters that maximize the likelihood function of the Gamma density function.</p>
+
+<p>The computer maximized likelihood for the gamma density function applied to the same dataset above gives estimates $\hat{\alpha} = 0.472$ and $\hat{\beta} = 0.24$.  Below, the gamma density function with $(\hat{\alpha}, \hat{\beta})$ overlays the density plot for these data.  We see that the Gamma distribution fits these data better than the Exponential distribution.  This happens because the Gamma distribution has one more parameter than the Exponential distribution.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">length</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_density</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">stat_function</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">dgamma</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="m">0.472</span><span class="p">,</span><span class="w"> </span><span class="n">rate</span><span class="o">=</span><span class="m">.24</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'orange'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="output output_png"><img src="../images/gamma/parameters_7_1.png" alt="png" /></p>
+
 
               <nav class="c-page__nav">
   
