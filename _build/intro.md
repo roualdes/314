@@ -33,6 +33,13 @@ will heavily use [R](https://cran.r-project.org/), but
 [RStudio](https://www.rstudio.com/) is the suggested interface to the
 language R.
 
+## License
+
+Copyright (c) 2019 Edward A. Roualdes
+
+The contents of this book are licensed under the
+[Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA 4.0) license.
+
 
 ## Acknowledgements
 
