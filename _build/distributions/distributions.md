@@ -248,6 +248,8 @@ $$ \text{bernoulli}(x | p) = p^x (1 - p)^{1 - x} $$
 
 for $x \in \\{0, 1\\}$.
 
+$$ \mathbb{E}(X) = p \quad \text{ and } \quad \mathbb{V}(X) = p(1 - p)$$
+
 ### Geometric
 
 For $X \sim \text{Geometric}(p)$ where $p \in [0, 1]$, $X$ has
@@ -266,6 +268,8 @@ $$ \text{binomial}(x | K, p) = {K \choose x} p^x (1 - p)^{K - x} $$
 
 for $x \in \\{0, 1, \ldots, K \\}$.
 
+$$ \mathbb{E}(X) = Kp \quad \text{ and } \quad \mathbb{V}(X) = Kp(1 - p)$$
+
 ### Poisson
 
 For $X \sim \text{Poisson}(\lambda)$ where $\lambda > 0$, $X$ has
@@ -274,6 +278,8 @@ probability density function
 $$ \text{poisson}(x | \lambda) = \frac{e^{-\lambda}\lambda^x}{x!}$$
 
 for $x \in \mathbb{N}$.
+
+$$ \mathbb{E}(X) = \lambda \quad \text{ and } \quad \mathbb{V}(X) = \lambda $$
 
 ## Continuous Distributions
 
@@ -306,6 +312,8 @@ probability density function
 $$ \text{exponential}(x | \beta) = \beta\exp{ (-\beta x) } $$
 
 for $x \geq 0$.
+
+$$ \mathbb{E}(X) = 1 / \beta \quad \text{ and } \quad \mathbb{V}(X) = 1 / \beta^2 $$
 
 ### Gamma
 

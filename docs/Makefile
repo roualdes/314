@@ -15,6 +15,7 @@ install:
 	bundle install
 
 book:
+	rm -rf _build
 	python scripts/license.py --path ./content
 	python scripts/generate_book.py
 

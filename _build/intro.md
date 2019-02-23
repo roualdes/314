@@ -35,10 +35,10 @@ language R.
 
 ## License
 
-Copyright (c) 2019 Edward A. Roualdes
-
 The contents of this book are licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA 4.0) license.
+
+Copyright (c) 2019 Edward A. Roualdes
 
 
 ## Acknowledgements
