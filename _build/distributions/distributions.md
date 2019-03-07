@@ -335,6 +335,8 @@ $$ \text{normal}(x | \mu, \sigma) = (2\sigma^2)^{-1/2} \exp{ \left(
 
 for $x \in \mathbb{R}$.
 
+$$ \mathbb{E}(X) = \mu \quad \text{ and } \quad \mathbb{V}(X) = \sigma^2 $$
+
 ### Student-t
 
 For $X \sim \text{StudentT}(\nu, \mu, \sigma)$ where $\nu > 0$, $\mu
