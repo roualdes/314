@@ -27,9 +27,9 @@
   "headline":
     "Distributions, Mean, and Variance",
   "datePublished":
-    "2019-03-07T11:52:30-08:00",
+    "2019-03-15T09:51:41-07:00",
   "dateModified":
-    "2019-03-07T11:52:30-08:00",
+    "2019-03-15T09:51:41-07:00",
   "description":
     "Distributions, Mean, and Variance",
   "author": {
@@ -1031,6 +1031,8 @@ density function</p>
 
 <p>for $x \in \{a, a+1, \ldots, b - 1, b \}$.</p>
 
+<script type="math/tex; mode=display">\mathbb{E}(X) = \frac{b+a}{2} \quad \text{ and } \quad \mathbb{V}(X) = \frac{(b - a + 1)^2 - 1}{12}</script>
+
 <h3 id="bernoulli">Bernoulli</h3>
 
 <p>For $X \sim \text{Bernoulli}(p)$ where $p \in [0, 1]$, $X$ has
@@ -1050,6 +1052,8 @@ probability density function</p>
 <script type="math/tex; mode=display">\text{geometric}(x | p) = p (1 - p)^{x - 1}</script>
 
 <p>for $x \in \{1, 2, \ldots \}$.</p>
+
+<script type="math/tex; mode=display">\mathbb{E}(X) = 1/p \quad \text{ and } \quad \mathbb{V}(X) = \frac{1 - p}{p^2}</script>
 
 <h3 id="binomial">Binomial</h3>
 
@@ -1084,6 +1088,8 @@ density function</p>
 
 <p>for $x \in [a, b]$.</p>
 
+<script type="math/tex; mode=display">\mathbb{E}(X) = \frac{b+a}{2} \quad \text{ and } \quad \mathbb{V}(X) = \frac{(b - a)^2}{12}</script>
+
 <h3 id="beta">Beta</h3>
 
 <p>For $X \sim \text{Beta}(\alpha, \beta)$ where $\alpha &gt; 0$ and
@@ -1094,6 +1100,8 @@ $\beta &gt; 0$, $X$ has probability density function</p>
 1}</script>
 
 <p>for $x \in [0, 1]$.</p>
+
+<script type="math/tex; mode=display">\mathbb{E}(X) = \frac{\alpha}{\alpha + \beta} \quad \text{ and } \quad \mathbb{V}(X) = \frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}</script>
 
 <h3 id="exponential">Exponential</h3>
 
@@ -1115,6 +1123,8 @@ $\beta &gt; 0$, $X$ has probability density function</p>
 \frac{\beta^{\alpha}}{\Gamma(\alpha)} x^{\alpha - 1} \exp{ (-\beta x) }</script>
 
 <p>for $x \geq 0$.</p>
+
+<script type="math/tex; mode=display">\mathbb{E}(X) = \alpha / \beta \quad \text{ and } \quad \mathbb{V}(X) = \alpha / \beta^2</script>
 
 <h3 id="normal">Normal</h3>
 
@@ -1139,6 +1149,8 @@ function</p>
 \frac{1}{\nu}\left(\frac{y - \mu}{\sigma}\right)^2 \right)^{-(\nu+1)/2}</script>
 
 <p>for $x \in \mathbb{R}$.</p>
+
+<script type="math/tex; mode=display">\mathbb{E}(X) = \mu \quad \text{ and } \quad \mathbb{V}(X) = \sigma^2 \frac{\nu}{\nu - 2}</script>
 
               <nav class="c-page__nav">
   

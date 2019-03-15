@@ -239,6 +239,8 @@ $$ \text{uniform}(x | a, b) = \frac{1}{b - a + 1} $$
 
 for $x \in \\{a, a+1, \ldots, b - 1, b \\}$.
 
+$$ \mathbb{E}(X) = \frac{b+a}{2} \quad \text{ and } \quad \mathbb{V}(X) = \frac{(b - a + 1)^2 - 1}{12}$$
+
 ### Bernoulli
 
 For $X \sim \text{Bernoulli}(p)$ where $p \in [0, 1]$, $X$ has
@@ -258,6 +260,8 @@ probability density function
 $$ \text{geometric}(x | p) = p (1 - p)^{x - 1} $$
 
 for $x \in \\{1, 2, \ldots \\}$.
+
+$$ \mathbb{E}(X) = 1/p \quad \text{ and } \quad \mathbb{V}(X) = \frac{1 - p}{p^2}$$
 
 ### Binomial
 
@@ -292,6 +296,8 @@ $$ \text{uniform}(x | a, b) = \frac{1}{b - a} $$
 
 for $x \in [a, b]$.
 
+$$ \mathbb{E}(X) = \frac{b+a}{2} \quad \text{ and } \quad \mathbb{V}(X) = \frac{(b - a)^2}{12}$$
+
 ### Beta
 
 For $X \sim \text{Beta}(\alpha, \beta)$ where $\alpha > 0$ and
@@ -302,6 +308,8 @@ $$ \text{beta}(x | \alpha, \beta) = \frac{\Gamma(\alpha +
 1}$$
 
 for $x \in [0, 1]$.
+
+$$ \mathbb{E}(X) = \frac{\alpha}{\alpha + \beta} \quad \text{ and } \quad \mathbb{V}(X) = \frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}$$
 
 
 ### Exponential
@@ -324,6 +332,8 @@ $$ \text{gamma}(x | \alpha, \beta) =
 \frac{\beta^{\alpha}}{\Gamma(\alpha)} x^{\alpha - 1} \exp{ (-\beta x) } $$
 
 for $x \geq 0$.
+
+$$ \mathbb{E}(X) = \alpha / \beta \quad \text{ and } \quad \mathbb{V}(X) = \alpha / \beta^2 $$
 
 ### Normal
 
@@ -348,3 +358,5 @@ $$ \text{studentT}(x | \nu, \mu, \sigma) = \frac{\Gamma((\nu + 1) /
 \frac{1}{\nu}\left(\frac{y - \mu}{\sigma}\right)^2 \right)^{-(\nu+1)/2}$$
 
 for $x \in \mathbb{R}$.
+
+$$ \mathbb{E}(X) = \mu \quad \text{ and } \quad \mathbb{V}(X) = \sigma^2 \frac{\nu}{\nu - 2} $$
