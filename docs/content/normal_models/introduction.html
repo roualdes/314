@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Random Variables and Probability</title>
-  <meta name="description" content="Random Variables and Probability">
+  <title>Normal Linear Models</title>
+  <meta name="description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology">
 
-  <link rel="canonical" href="/duniform/probability.html">
+  <link rel="canonical" href="/content/normal_models/introduction.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/duniform/probability.html" />
+  <meta property="og:url"         content="/content/normal_models/introduction.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Random Variables and Probability" />
-<meta property="og:description" content="Random Variables and Probability" />
+<meta property="og:title"       content="Normal Linear Models" />
+<meta property="og:description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology" />
 <meta property="og:image"       content="" />
 
 
@@ -23,15 +23,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/duniform/probability.html",
+    "/content/normal_models/introduction.html",
   "headline":
-    "Random Variables and Probability",
+    "Normal Linear Models",
   "datePublished":
     "2019-03-24T15:45:41-07:00",
   "dateModified":
     "2019-03-24T15:45:41-07:00",
   "description":
-    "Random Variables and Probability",
+    "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -349,7 +349,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       
 
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
+        <a class="c-sidebar__entry c-sidebar__entry--active"
           href="/intro"
         >
           
@@ -386,13 +386,13 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
           
 
-          <ul class="c-sidebar__sections ">
+          <ul class="c-sidebar__sections u-hidden-visually">
             
               
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry c-sidebar__entry--active"
+                <a class="c-sidebar__entry "
                   href="/duniform/probability"
                 >
                   
@@ -699,7 +699,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       
 
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
+        <a class="c-sidebar__entry c-sidebar__entry--active"
           href="/normal_models/introduction"
         >
           
@@ -717,7 +717,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
           
 
-          <ul class="c-sidebar__sections u-hidden-visually">
+          <ul class="c-sidebar__sections ">
             
               
               
@@ -819,9 +819,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
     <nav class="onthispage">
       <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
       <ul class="toc__menu">
-  <li><a href="#dice">Dice</a></li>
-  <li><a href="#random-variable">Random Variable</a></li>
-  <li><a href="#probability">Probability</a></li>
+  <li><a href="#introduction">Introduction</a></li>
 </ul>
     </nav>
   </aside>
@@ -846,91 +844,15 @@ document.addEventListener('turbolinks:load', updateInteractLink)
             
 
             <div class="c-textbook__content">
-              <h1 id="random-variables-and-probability">Random Variables and Probability</h1>
+              <h1 id="normal-linear-models">Normal Linear Models</h1>
 
-<h2 id="dice">Dice</h2>
+<h2 id="introduction">Introduction</h2>
 
-<p>Die are easy to think about, because we’ve all rolled a die before and
-we all think we know what we mean when we say the probability of
-rolling a $1$ is $1/6$.  Throughout this section, don’t let this
-intuition go.  Rather expand upon it to the more detailed
-descriptions below.</p>
-
-<h2 id="random-variable">Random Variable</h2>
-
-<p>A <strong>random variable</strong> is a function from an <strong>event</strong> to a
-numerical value.  Note that the randomness is not, per se, part of the
-random variable.  The randomness is instead found in the underlying
-process that the random variable is meant to quantify.</p>
-
-<p>A die is especially easy to think about, but
-for clarity let’s imagine a die labeled with the letters $A, B, C,
-D, E, F$ instead of the numbers $1, 2, 3, 4, 5, 6$.  As far the
-events go, rolling an $A$ will still happen with probability $1/6$.
-This special die helps us separate the distinct pieces
-of random variables.  With this special die, we have events – any value of
-interest that a die might turn up – and values produced by the random
-variable associated with those events.  In notation, we might write
-$X(A) = 1$, $X(B) = 2, \ldots, X(F) = 6$.</p>
-
-<p>In mathematical statistics, we read $X \sim Uniform(\{A, B, C,
-D, E, F\})$, the random variable $X$ follows a
-<strong>discrete</strong> Uniform distribution on the set $\{A, B, C, D, E, F\}$.
-If you’re content to keep numbers on your die to enable cleaner
-notation we read $X \sim \text{Uniform}(1, 6)$, the random
-variable $X$ follows a <strong>discrete</strong> Uniform distribution on the set
-$\{1, 2, 3, 4, 5, 6\}$.  Notice that the notation $\text{Uniform}(1,
-6)$ implies the integer values in between $1$ and $6$.  The latter
-notation is more common.</p>
-
-<p>In fact, it’s common to drop the argument to the random variable,
-which is really a function, entirely.  More often interest lies in the
-probability of events.  For example, we might be interested in the
-probability that either $A, B,$ or $C$ turn up.  Let $E = \{1, 2, 3\}$
-be the event that an $A, B$, or $C$ turns up in one roll.  We read
-$P(X \in E)$ what is the probability that we roll one of $A, B,$ or
-$C$.  At a certain point, the argument to $X$ just gets in the way
-since the notation $P(X \in E)$ equally applies to a die labeled with
-letter or numbers.</p>
-
-<p>Consider another random variable, also named $X$.  Let $X \sim U(0,
-1)$ be a discrete Uniform random variable on the numbers $0$ and $1$.
-Note that this could reasonably represent a fair coin, since we are
-willing to drop the events ${H, T}$ from our notation.  Next, we
-will consider what the following mathematical statements means, in
-an operational sense, $P(X \in \{ H \}) = 1/2$.</p>
-
-<h2 id="probability">Probability</h2>
-
-<p>Retired professor <a href="https://web.ma.utexas.edu/users/mks/statmistakes/probability.html">M. K. Smith</a>
-provides a nice survey of the various notions of the probability of an
-event.  This book will focus on an empirical version of probability
-that goes as follows.</p>
-
-<p>The probability of an event $E$ is the limiting relative frequency of
-the occurrences of $E$ over the number of trials,</p>
-
-<script type="math/tex; mode=display">P(X \in E) = \lim_{N \rightarrow \infty} \sum_{n=1}^N \frac{1(X_n \in E)}{N},</script>
-
-<p>where $1(X \in E)$ takes on the value $1$ any time the random variable
-$X$ is in the event $E$ and $0$ otherwise.  We interpret probability
-as if the process that produces $X$ were repeated (thus assuming
-repeatability) an infinite number of times.  In terms of a fair coin,
-$P(X \in \{H\}) = 1/2$ implies that we believe that flipping a fair
-coin an infinite number of times would witness one half of the flips
-to produce head.</p>
+<p>When specifically only interested in the population mean, the Normal distribution is a common choice.  There’s computational, theoretical, and practical arguments for this.  The computational argument acknowledges the simplicity of the log-likelihood of the normal distribution for the mean $\mu$.  The theoretical argument acknowledges the Central Limit Theorem, which tells us that the sampling distribution of the sample mean converges to the normal distribution when the population is well behaved.  The practicality of the Normality assumptions recognizes the implicit identity function that connects the expected value to a linear form.  This practical argument is difficult to recognize until it no longer exists, for instance within logistic regression.  This chapter will focus on normal linear models for computational and practical reasons.</p>
 
               <nav class="c-page__nav">
   
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/duniform/introduction">
-      〈 <span class="u-margin-right-tiny"></span> Discrete Uniform Distribution
-    </a>
-  
 
-  
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/bernoulli/introduction">
-      Bernoulli Distribution <span class="u-margin-right-tiny"></span> 〉
-    </a>
   
 </nav>
 

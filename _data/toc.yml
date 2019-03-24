@@ -56,8 +56,14 @@
   - title: Confidence Intervals
     url: /bootstrap/confidence_intervals
 
-- title: Linear Models
-  url: /lmodels/introduction
+- title: Normal Linear Models
+  url: /normal_models/introduction
+  sections:
+  - title: One Mean
+    url: /normal_models/one_mean
+  - title: Simple Linear Regression
+    url: /normal_models/simple_reg
+
 
 - title: References
   url: /references

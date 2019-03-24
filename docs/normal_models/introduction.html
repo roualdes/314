@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Linear Models</title>
-  <meta name="description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology">
+  <title>Normal Linear Models</title>
+  <meta name="description" content="Normal Linear Models">
 
-  <link rel="canonical" href="/content/lmodels/introduction.html">
+  <link rel="canonical" href="/normal_models/introduction.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/content/lmodels/introduction.html" />
+  <meta property="og:url"         content="/normal_models/introduction.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Linear Models" />
-<meta property="og:description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology" />
+<meta property="og:title"       content="Normal Linear Models" />
+<meta property="og:description" content="Normal Linear Models" />
 <meta property="og:image"       content="" />
 
 
@@ -23,15 +23,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/content/lmodels/introduction.html",
+    "/normal_models/introduction.html",
   "headline":
-    "Linear Models",
+    "Normal Linear Models",
   "datePublished":
-    "2019-03-15T09:51:41-07:00",
+    "2019-03-24T15:45:41-07:00",
   "dateModified":
-    "2019-03-15T09:51:41-07:00",
+    "2019-03-24T15:45:41-07:00",
   "description":
-    "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
+    "Normal Linear Models",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -700,14 +700,64 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry c-sidebar__entry--active"
-          href="/lmodels/introduction"
+          href="/normal_models/introduction"
         >
           
             7.
           
-          Linear Models
+          Normal Linear Models
         </a>
 
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/one_mean"
+                >
+                  
+                    7.1
+                  
+                  One Mean
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/simple_reg"
+                >
+                  
+                    7.2
+                  
+                  Simple Linear Regression
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
         
       </li>
 
@@ -794,13 +844,23 @@ document.addEventListener('turbolinks:load', updateInteractLink)
             
 
             <div class="c-textbook__content">
-              <h1 id="linear-models">Linear Models</h1>
+              <h1 id="normal-linear-models">Normal Linear Models</h1>
 
 <h2 id="introduction">Introduction</h2>
 
+<p>When specifically only interested in the population mean, the Normal distribution is a common choice.  There’s computational, theoretical, and practical arguments for this.  The computational argument acknowledges the simplicity of the log-likelihood of the normal distribution for the mean $\mu$.  The theoretical argument acknowledges the Central Limit Theorem, which tells us that the sampling distribution of the sample mean converges to the normal distribution when the population is well behaved.  The practicality of the Normality assumptions recognizes the implicit identity function that connects the expected value to a linear form.  This practical argument is difficult to recognize until it no longer exists, for instance within logistic regression.  This chapter will focus on normal linear models for computational and practical reasons.</p>
+
               <nav class="c-page__nav">
   
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/bootstrap/confidence_intervals">
+      〈 <span class="u-margin-right-tiny"></span> Confidence Intervals
+    </a>
+  
 
+  
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal_models/one_mean">
+      One Mean <span class="u-margin-right-tiny"></span> 〉
+    </a>
   
 </nav>
 

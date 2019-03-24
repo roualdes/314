@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Random Variables and Probability</title>
-  <meta name="description" content="Random Variables and Probability">
+  <title>Simple Linear Regression</title>
+  <meta name="description" content="Simple Linear Regression">
 
-  <link rel="canonical" href="/duniform/probability.html">
+  <link rel="canonical" href="/normal_models/simple_reg.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/duniform/probability.html" />
+  <meta property="og:url"         content="/normal_models/simple_reg.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Random Variables and Probability" />
-<meta property="og:description" content="Random Variables and Probability" />
+<meta property="og:title"       content="Simple Linear Regression" />
+<meta property="og:description" content="Simple Linear Regression" />
 <meta property="og:image"       content="" />
 
 
@@ -23,15 +23,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/duniform/probability.html",
+    "/normal_models/simple_reg.html",
   "headline":
-    "Random Variables and Probability",
+    "Simple Linear Regression",
   "datePublished":
     "2019-03-24T15:45:41-07:00",
   "dateModified":
     "2019-03-24T15:45:41-07:00",
   "description":
-    "Random Variables and Probability",
+    "Simple Linear Regression",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -386,13 +386,13 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
           
 
-          <ul class="c-sidebar__sections ">
+          <ul class="c-sidebar__sections u-hidden-visually">
             
               
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry c-sidebar__entry--active"
+                <a class="c-sidebar__entry "
                   href="/duniform/probability"
                 >
                   
@@ -717,7 +717,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
           
 
-          <ul class="c-sidebar__sections u-hidden-visually">
+          <ul class="c-sidebar__sections ">
             
               
               
@@ -742,7 +742,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
+                <a class="c-sidebar__entry c-sidebar__entry--active"
                   href="/normal_models/simple_reg"
                 >
                   
@@ -815,17 +815,6 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 <!-- TOC will only show up if it has at least one item -->
 
 
-  <aside class="sidebar__right">
-    <nav class="onthispage">
-      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
-      <ul class="toc__menu">
-  <li><a href="#dice">Dice</a></li>
-  <li><a href="#random-variable">Random Variable</a></li>
-  <li><a href="#probability">Probability</a></li>
-</ul>
-    </nav>
-  </aside>
-
 
 
       <main class="c-textbook__page" tabindex="-1">
@@ -844,92 +833,129 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+
+<a href="https://mybinder.org/v2/gh/roualdes/314/master?filepath=content%2Fnormal_models%2Fsimple_reg.ipynb"><button class="interact-button" id="interact-button-hub"><img class="interact-button-logo" src="/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="random-variables-and-probability">Random Variables and Probability</h1>
+              <h1 id="simple-linear-regression">Simple Linear Regression</h1>
 
-<h2 id="dice">Dice</h2>
+<p>Let’s continue with the cars data, but this time let’s formally recognize that a car’s weight might have some effect on city MPG.  Assume</p>
 
-<p>Die are easy to think about, because we’ve all rolled a die before and
-we all think we know what we mean when we say the probability of
-rolling a $1$ is $1/6$.  Throughout this section, don’t let this
-intuition go.  Rather expand upon it to the more detailed
-descriptions below.</p>
+<script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
+\mu = \beta_0 + \beta_1 * weight.</script>
 
-<h2 id="random-variable">Random Variable</h2>
+<p>We again focus on the expected value, not $\sigma$, but we will start dropping the $\mathbb{E}(Y)$ notation because it quickly becomes cumbersome and needlessly repetitive.  Notice that this model implicitly states that the expected city MPG depends linearly on a car’s weight.</p>
 
-<p>A <strong>random variable</strong> is a function from an <strong>event</strong> to a
-numerical value.  Note that the randomness is not, per se, part of the
-random variable.  The randomness is instead found in the underlying
-process that the random variable is meant to quantify.</p>
+<p>The following code reads in the dataset, plots the $\texttt{mpgCity}$ variable against the $\texttt{weight}$ data, and calculates an estimate of the population mean dependent on the sampled cars’ weights.  Here the estimated expected city MPG is formed by a linear combination of $\hat{\beta}_0, \hat{\beta}_1$ and $\texttt{weight}$.</p>
 
-<p>A die is especially easy to think about, but
-for clarity let’s imagine a die labeled with the letters $A, B, C,
-D, E, F$ instead of the numbers $1, 2, 3, 4, 5, 6$.  As far the
-events go, rolling an $A$ will still happen with probability $1/6$.
-This special die helps us separate the distinct pieces
-of random variables.  With this special die, we have events – any value of
-interest that a die might turn up – and values produced by the random
-variable associated with those events.  In notation, we might write
-$X(A) = 1$, $X(B) = 2, \ldots, X(F) = 6$.</p>
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">cars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/cars.csv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-<p>In mathematical statistics, we read $X \sim Uniform(\{A, B, C,
-D, E, F\})$, the random variable $X$ follows a
-<strong>discrete</strong> Uniform distribution on the set $\{A, B, C, D, E, F\}$.
-If you’re content to keep numbers on your die to enable cleaner
-notation we read $X \sim \text{Uniform}(1, 6)$, the random
-variable $X$ follows a <strong>discrete</strong> Uniform distribution on the set
-$\{1, 2, 3, 4, 5, 6\}$.  Notice that the notation $\text{Uniform}(1,
-6)$ implies the integer values in between $1$ and $6$.  The latter
-notation is more common.</p>
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">mpgCity</span><span class="p">))</span><span class="w">
 
-<p>In fact, it’s common to drop the argument to the random variable,
-which is really a function, entirely.  More often interest lies in the
-probability of events.  For example, we might be interested in the
-probability that either $A, B,$ or $C$ turn up.  Let $E = \{1, 2, 3\}$
-be the event that an $A, B$, or $C$ turns up in one roll.  We read
-$P(X \in E)$ what is the probability that we roll one of $A, B,$ or
-$C$.  At a certain point, the argument to $X$ just gets in the way
-since the notation $P(X \in E)$ equally applies to a die labeled with
-letter or numbers.</p>
+</span><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">mX</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)}))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">)</span><span class="w">
 
-<p>Consider another random variable, also named $X$.  Let $X \sim U(0,
-1)$ be a discrete Uniform random variable on the numbers $0$ and $1$.
-Note that this could reasonably represent a fair coin, since we are
-willing to drop the events ${H, T}$ from our notation.  Next, we
-will consider what the following mathematical statements means, in
-an operational sense, $P(X \in \{ H \}) = 1/2$.</p>
+</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-<h2 id="probability">Probability</h2>
+<div class="output output_html">
+&lt;ol class=list-inline&gt;
+	<li>50.1430417155167</li>
+	<li>-0.00883260731796067</li>
+&lt;/ol&gt;
 
-<p>Retired professor <a href="https://web.ma.utexas.edu/users/mks/statmistakes/probability.html">M. K. Smith</a>
-provides a nice survey of the various notions of the probability of an
-event.  This book will focus on an empirical version of probability
-that goes as follows.</p>
+</div>
 
-<p>The probability of an event $E$ is the limiting relative frequency of
-the occurrences of $E$ over the number of trials,</p>
+<p class="output output_png"><img src="../images/normal_models/simple_reg_2_2.png" alt="png" /></p>
 
-<script type="math/tex; mode=display">P(X \in E) = \lim_{N \rightarrow \infty} \sum_{n=1}^N \frac{1(X_n \in E)}{N},</script>
+<p>We write the estimated linear model as</p>
 
-<p>where $1(X \in E)$ takes on the value $1$ any time the random variable
-$X$ is in the event $E$ and $0$ otherwise.  We interpret probability
-as if the process that produces $X$ were repeated (thus assuming
-repeatability) an infinite number of times.  In terms of a fair coin,
-$P(X \in \{H\}) = 1/2$ implies that we believe that flipping a fair
-coin an infinite number of times would witness one half of the flips
-to produce head.</p>
+<script type="math/tex; mode=display">\hat{\mu} = \hat{\beta}_0 + \hat{\beta}_1*weight = 50.14 + -0.01*weight.</script>
+
+<p>What’s nice about this model is that we can easily interpret the parameters $\hat{\beta}_0 = 50.14$ and $\hat{\beta}_1 = -0.01$.  For instance, $\hat{\beta}_0$, better known as an intercept, is an estimate of (the population) city MPG for a car that weighs $0$ pounds.  While this doesn’t make sense conceptually, this is the literal interpretation of the estimated intercept in the context of these data.  Notice that there’s not data near $\text{weight} = 0$.  When this is the case, you can generally expect the intercept to not make much sense.</p>
+
+<p>The slope, $\hat{\beta}_1$, describes the linear relationship between a car’s weight and city MPG.  This estimate too is relatively easy to interpret in the context of these data.  For every 1 unit increase in a car’s weight (a 1 pound increase), we estimate a $0.01$ decrease in the expected city MPG.</p>
+
+<p>Be careful to not overly interpret these estimates as describing a causal relationship.  Determining causal relationships from non-experimental data is no easy task, and we won’t even try to broach this topic in this course.  Peter Norvig, Director of Research at Google, wrote an essay describing many of the difficulties of applied statistics practice surrounding observational data.  His essay <a href="http://norvig.com/experiment-design.html">Warning Signs in Experimental Design and Interpretation</a> enumerates common warning signs for when a practioner of applied statistics might be misinterpreting their data.  For a more theoretical approach to determining causal relationships from data, see Judea Pearl’s book <a href="http://bayes.cs.ucla.edu/BOOK-2K/">Causality</a>.</p>
+
+<p>Just like before, the estimates $\hat{\beta}_0, \hat{\beta}_1$ are simply one set of estimates based on one random sample.  The values we produced could be due to pure random chance.  To better understand our uncertainty in these estimates, we will calculate confidence intervals.  We will let the function $\texttt{boot::boot}$ do the random sampling for us, and for that we need write a function that accepts our data and a vector of indices.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">boot</span><span class="p">)</span><span class="w">
+
+</span><span class="n">simple_reg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w">
+    </span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">]</span><span class="w">
+    </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot</span><span class="p">(</span><span class="n">cbind</span><span class="p">(</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="o">=</span><span class="m">999</span><span class="p">,</span><span class="w"> </span><span class="n">simple_reg</span><span class="p">)</span><span class="w">
+</span><span class="n">bci_beta0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">bci_beta1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The $90\%$ confidence intervals for $\beta_0$ and $\beta_1$ are</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bci_beta0</span><span class="w">
+</span><span class="n">bci_beta1</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 999 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 1)
+
+Intervals : 
+Level     Percentile     
+90%   (45.28, 55.33 )  
+Calculations and Intervals on Original Scale
+</code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 999 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 2)
+
+Intervals : 
+Level     Percentile     
+90%   (-0.0104, -0.0074 )  
+Calculations and Intervals on Original Scale
+</code></pre></div></div>
+
+<p>Some classes will make a big deal about the slope estimate not including $0$.  There’s no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, is the true population slope equal to zero or isn’t it.  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.</p>
+
+<p>Increasingly, statisticians are warning against such binary decision making; e.g. <a href="https://www.nature.com/articles/d41586-019-00874-8">“It’s time to talk about ditching statistical significance”</a>, <a href="https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913">“Moving to a World Beyond ‘p &lt; 0.05’”</a>, or <a href="https://www.nature.com/articles/d41586-019-00857-9">“Scientists rise up against statistical significance”</a>.</p>
+
+<p>In this class, we’ll focus on predictions, understanding uncertainty in our predictions, and making decisions in the face of this uncertainty.</p>
 
               <nav class="c-page__nav">
   
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/duniform/introduction">
-      〈 <span class="u-margin-right-tiny"></span> Discrete Uniform Distribution
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_models/one_mean">
+      〈 <span class="u-margin-right-tiny"></span> One Mean
     </a>
   
 
   
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/bernoulli/introduction">
-      Bernoulli Distribution <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/references">
+      References <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

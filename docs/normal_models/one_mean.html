@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Linear Models</title>
-  <meta name="description" content="Linear Models">
+  <title>One Mean</title>
+  <meta name="description" content="One Mean">
 
-  <link rel="canonical" href="/lmodels/introduction.html">
+  <link rel="canonical" href="/normal_models/one_mean.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/lmodels/introduction.html" />
+  <meta property="og:url"         content="/normal_models/one_mean.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Linear Models" />
-<meta property="og:description" content="Linear Models" />
+<meta property="og:title"       content="One Mean" />
+<meta property="og:description" content="One Mean" />
 <meta property="og:image"       content="" />
 
 
@@ -23,15 +23,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/lmodels/introduction.html",
+    "/normal_models/one_mean.html",
   "headline":
-    "Linear Models",
+    "One Mean",
   "datePublished":
-    "2019-03-15T09:51:41-07:00",
+    "2019-03-24T15:45:41-07:00",
   "dateModified":
-    "2019-03-15T09:51:41-07:00",
+    "2019-03-24T15:45:41-07:00",
   "description":
-    "Linear Models",
+    "One Mean",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -349,7 +349,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       
 
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/intro"
         >
           
@@ -699,15 +699,65 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       
 
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
-          href="/lmodels/introduction"
+        <a class="c-sidebar__entry "
+          href="/normal_models/introduction"
         >
           
             7.
           
-          Linear Models
+          Normal Linear Models
         </a>
 
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections ">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry c-sidebar__entry--active"
+                  href="/normal_models/one_mean"
+                >
+                  
+                    7.1
+                  
+                  One Mean
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/simple_reg"
+                >
+                  
+                    7.2
+                  
+                  Simple Linear Regression
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
         
       </li>
 
@@ -765,15 +815,6 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 <!-- TOC will only show up if it has at least one item -->
 
 
-  <aside class="sidebar__right">
-    <nav class="onthispage">
-      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
-      <ul class="toc__menu">
-  <li><a href="#introduction">Introduction</a></li>
-</ul>
-    </nav>
-  </aside>
-
 
 
       <main class="c-textbook__page" tabindex="-1">
@@ -792,22 +833,105 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+
+<a href="https://mybinder.org/v2/gh/roualdes/314/master?filepath=content%2Fnormal_models%2Fone_mean.ipynb"><button class="interact-button" id="interact-button-hub"><img class="interact-button-logo" src="/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="linear-models">Linear Models</h1>
+              <h1 id="one-mean">One Mean</h1>
 
-<h2 id="introduction">Introduction</h2>
+<p>Consider a dataset about $N = 54$ cars sampled from the year $1993$.  Of interest is the (unknown population) mean miles per gallon, $\mu$.  We assume</p>
+
+<script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\ \mathbb{E}(Y) = \mu.</script>
+
+<p>The parameter $\sigma$ might be of interest to some, but not us now.  By choosing this model we are implicitly assuming that $\mathbb{E}(Y) = \mu$, where $\mu$ is a constant function that does not depend on any other characteristics about the population of cars from $1993$.</p>
+
+<p>Assuming the mean $\mu$ is constant is an unrealistic assumption if you think too long about this problem.  Nevertheless, this is a common assumption because of its simplicity.  In situations where simplicity is what you want, assuming the mean $\mu$ is constant across all cars from $1993$ is fine.  On the other hand, such simplicity is not always desired.  More complex models that relate mean miles per gallon to, say, weight or the drivetrain type are explored in the following sections of this chapter.</p>
+
+<p>The following code reads in the dataset, plots the $\texttt{mpgCity}$ data, and calculates an estimate of the population mean, $\hat{\mu}$ based on the observed MPG for each car.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">cars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/cars.csv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># -1 * simplified log-likelihood for normal model</span><span class="w">
+</span><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mu</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">mu_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+    </span><span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">mpgCity</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_rug</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data.frame</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu_hat</span><span class="p">),</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">mu</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="output output_png"><img src="../images/normal_models/one_mean_2_1.png" alt="png" /></p>
+
+<p>The estimate $\hat{\mu}$ is our best guess of the population mean city MPG for cars from $1993$.  What we don’t yet have is any measure of uncertainty surrounding this best guess.  Though this number seems reasonable, it’s possible this number could have shown up by pure chance.  We’ll next produce a confidence interval for the true population mean city MPG for cars from $1993$.</p>
+
+<p>The following code uses the library $\texttt{boot}$ to perform the random sampling (uniformly and with replacement) from the original data.  The same strategy that’s discussed in Chapter Bootstrap is used here.  Sampling will happen over the indices of our original data.  The function $\texttt{boot::boot}$ requires that we write a function that takes two arguments, the data to calculate our statistic of interest on and a vector of indices.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">boot</span><span class="p">)</span><span class="w">
+
+</span><span class="n">sample_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span><span class="o">$</span><span class="n">par</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot</span><span class="p">(</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="o">=</span><span class="m">999</span><span class="p">,</span><span class="w"> </span><span class="n">sample_mean</span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="n">bci</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 999 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = b, conf = 0.9, type = "perc")
+
+Intervals : 
+Level     Percentile     
+90%   (21.83, 24.85 )  
+Calculations and Intervals on Original Scale
+</code></pre></div></div>
+
+<p>The standard conclusion from this goes as follows.  We are $90\%$ confident that the true population mean city MPG for cars from $1993$ is between $21.9$ and $24.8$.</p>
+
+<p>Notice though this confidence interval carries with it a number of assumptions.  The same assumption from before is carried forward, that the true population mean does not vary by any other population characteristics.  Further, the bounds of the confidence interval are randomly produced.  If you re-run the code above, you’ll likely get slightly different numbers.  So don’t get too carried away with carrying decimal places, $2$ is a good general policy.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+    </span><span class="n">geom_density</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">mpgCity</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_rug</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data.frame</span><span class="p">(</span><span class="n">ci</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">mu_hat</span><span class="p">,</span><span class="w"> </span><span class="n">bci</span><span class="o">$</span><span class="n">percent</span><span class="p">[</span><span class="m">4</span><span class="o">:</span><span class="m">5</span><span class="p">]),</span><span class="w"> </span><span class="n">bounds</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="nb">F</span><span class="p">,</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="nb">T</span><span class="p">)),</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">ci</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">bounds</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">guides</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="output output_png"><img src="../images/normal_models/one_mean_6_1.png" alt="png" /></p>
+
+<p>When interpreting the estimated mean, and the lower and upper bound of the confidence interval, it’s important to remember that these statistics are referring to the population mean, not specific data points.  Specifically, it is <strong>not</strong> the case that $90\%$ of all observed data (within this sample nor any future sample) will fall within this interval.</p>
+
+<p>A strict interpretation of this interval says that $90\%$ of an infinite collection of confidence intervals, calculated by and your infinite number of friends, will contain the true population mean.  That is $90\%$ of these (hypothetical) confidence intervals will capture the true population mean.  This indeed suggests that $10\%$ of the hypothetical confidence intervals will not capture the true population mean.</p>
+
+<p>This subtle difference highlights the difference between estimating a population mean, for which it is reasonable to assume a Normal distribution, and fitting a distribution (via its parameters) to a dataset.</p>
 
               <nav class="c-page__nav">
   
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/bootstrap/confidence_intervals">
-      〈 <span class="u-margin-right-tiny"></span> Confidence Intervals
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_models/introduction">
+      〈 <span class="u-margin-right-tiny"></span> Normal Linear Models
     </a>
   
 
   
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/references">
-      References <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal_models/simple_reg">
+      Simple Linear Regression <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>
