@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>MATH 314 Lecture Notes</title>
-  <meta name="description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology">
+  <title>k Means</title>
+  <meta name="description" content="$k$ Means">
 
-  <link rel="canonical" href="/content/intro.html">
+  <link rel="canonical" href="/normal_models/k_means.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/content/intro.html" />
+  <meta property="og:url"         content="/normal_models/k_means.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="MATH 314 Lecture Notes" />
-<meta property="og:description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology" />
+<meta property="og:title"       content="k Means" />
+<meta property="og:description" content="$k$ Means" />
 <meta property="og:image"       content="" />
 
 
@@ -23,15 +23,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/content/intro.html",
+    "/normal_models/k_means.html",
   "headline":
-    "MATH 314 Lecture Notes",
+    "k Means",
   "datePublished":
     "2019-04-09T10:57:59-07:00",
   "dateModified":
     "2019-04-09T10:57:59-07:00",
   "description":
-    "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
+    "$k$ Means",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -349,7 +349,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       
 
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/intro"
         >
           
@@ -717,7 +717,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
           
 
-          <ul class="c-sidebar__sections u-hidden-visually">
+          <ul class="c-sidebar__sections ">
             
               
               
@@ -780,7 +780,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
+                <a class="c-sidebar__entry c-sidebar__entry--active"
                   href="/normal_models/k_means"
                 >
                   
@@ -853,17 +853,6 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 <!-- TOC will only show up if it has at least one item -->
 
 
-  <aside class="sidebar__right">
-    <nav class="onthispage">
-      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
-      <ul class="toc__menu">
-  <li><a href="#getting-started">Getting started</a></li>
-  <li><a href="#license">License</a></li>
-  <li><a href="#acknowledgements">Acknowledgements</a></li>
-</ul>
-    </nav>
-  </aside>
-
 
 
       <main class="c-textbook__page" tabindex="-1">
@@ -882,49 +871,132 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+
+<a href="https://mybinder.org/v2/gh/roualdes/314/master?filepath=content%2Fnormal_models%2Fk_means.ipynb"><button class="interact-button" id="interact-button-hub"><img class="interact-button-logo" src="/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="math-314-lecture-notes">MATH 314 Lecture Notes</h1>
+              <h1 id="k-means">$k$ Means</h1>
 
-<p>These MATH 314 lecture notes supplement the material presented in
-class and the material found on the <a href="https://roualdes.us/teaching">course website</a>.</p>
+<p>This section is the immediate extension from two means to $k$ means.</p>
 
-<p>Pages might have <a href="https://mybinder.org">Binder</a> links automatically
-added for interactivity.</p>
+<p>The name ANOVA is sometimes used in this setting. ANOVA stands for analysis of analysis of variance, but should be more literally translated to comparing $k$ levels’ means.  The reason behind the name ANOVA is that often, but not in this class, the variation amongst the groups compared to variation within the groups gives a reasonable decision rule for determinging when means by level are different.</p>
 
-<p>I’m trying something new (at least to me) here.  Instead of starting
-with a slew of topics that don’t show up, and thus make sense, until
-much later in the course, I practicing in the art of just-in-time
-teaching.  To be honest, I don’t know if just-in-time teaching is a
-thing.  These lecture notes are an experiment to find out.</p>
+<p>We continue to work with the dataset $\texttt{carnivora}$.  Now we’ll estimate a mean for $k = 4$ of the levels of the categorical variable $\texttt{Family}$: Canidae, Felidae, Mustelidae, and Viverridae. For the body weight data, $\texttt{SW}$, we assume</p>
 
-<h2 id="getting-started">Getting started</h2>
+<script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
+\mu = \beta_0 + \beta_1 * Felidae + \beta_2 * Mustelidae + \beta_3 * Viverridae.</script>
 
-<p>To do well in this course, without becoming too stressed out, one
-should know some calculus, namely derivatives and integration, and at
-least have had an introduction to computer programming.  The course
-will heavily use <a href="https://cran.r-project.org/">R</a>, but
-<a href="https://www.rstudio.com/">RStudio</a> is the suggested interface to the
-language R.</p>
+<p>Let’s plot our data and add the mean as a new layer, now that we’re getting good at plotting.  The code below first carefully removes missing data and filters our dataset down to the levels of interest.</p>
 
-<h2 id="license">License</h2>
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">carnivora</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-<p>The contents of this book are licensed under the
-<a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> (CC BY-SA 4.0) license.</p>
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">carn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">carnivora</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="n">Family</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">filter</span><span class="p">(</span><span class="n">Family</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Canidae"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Felidae"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Mustelidae"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Viverridae"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">droplevels</span><span class="w">
 
-<p>Copyright (c) 2019 Edward A. Roualdes</p>
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">carn</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">Family</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+    </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">stat_summary</span><span class="p">(</span><span class="n">fun.y</span><span class="o">=</span><span class="s2">"mean"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"orange"</span><span class="p">,</span><span class="w"> </span><span class="n">geom</span><span class="o">=</span><span class="s2">"point"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
 
-<h2 id="acknowledgements">Acknowledgements</h2>
 
-<p>This book was derived from the Jupyter Books project.  Jupyter Books
-was originally created by <a href="http://www.samlau.me/">Sam Lau</a> and <a href="https://predictablynoisy.com">Chris Holdgraf</a>
-with support of the <strong>UC Berkeley Data Science Education Program and
-the Berkeley Institute for Data Science</strong>.</p>
+</span></code></pre></div></div>
+
+<p class="output output_png"><img src="../images/normal_models/k_means_2_1.png" alt="png" /></p>
+
+<p>From the plot above, it seems like Felidae has the greatest mean weight, but it also seems like there is the most variation in Felidae.</p>
+
+<p>Code to fit our model above looks quite similar to our previous efforts in Sections Simple Linear Regression and Two Means.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">mX</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)}))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Family</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
+
+</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output output_html">
+&lt;ol class=list-inline&gt;
+	<li>9.5112452959159</li>
+	<li>26.9478270139983</li>
+	<li>-4.915414368483</li>
+	<li>-6.69996081208209</li>
+&lt;/ol&gt;
+
+</div>
+
+<p>The same trick is taking place in our model.  The “intercept” is really the first level’s mean, Canidae.  Each coefficient after that is a level-specific offset relative to the Canidae’s mean.  To find, say, Mustelidae’s mean, you have to add $\hat{\beta}_0$ to $\hat{\beta}_2$.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">beta</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">beta</span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output output_html">
+4.5958309274329
+</div>
+
+<p>These estimates are still no different than group means.  Don’t be discouraged, we are building to more complex models than group means.  Nonetheless, here’s the empirical evidence.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">carn</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">group_by</span><span class="p">(</span><span class="n">Family</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">summarise</span><span class="p">(</span><span class="n">mnSW</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">SW</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output output_html">
+<table>
+<thead><tr>&lt;th scope=col&gt;Family&lt;/th&gt;&lt;th scope=col&gt;mnSW&lt;/th&gt;</tr></thead>
+<tbody>
+	<tr><td>Canidae   </td><td> 9.511111 </td></tr>
+	<tr><td>Felidae   </td><td>36.458947 </td></tr>
+	<tr><td>Mustelidae</td><td> 4.595667 </td></tr>
+	<tr><td>Viverridae</td><td> 2.811250 </td></tr>
+</tbody>
+</table>
+
+</div>
+
+<p>Quantifying uncertainty in our estimates is carried out with the bootstrap method.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">boot</span><span class="p">)</span><span class="w">
+
+</span><span class="n">breg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w">
+    </span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">]</span><span class="w">
+    </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot</span><span class="p">(</span><span class="n">cbind</span><span class="p">(</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="o">=</span><span class="m">999</span><span class="p">,</span><span class="w"> </span><span class="n">breg</span><span class="p">)</span><span class="w">
+</span><span class="n">bci_beta0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.95</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">bci_beta1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.95</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
 
               <nav class="c-page__nav">
   
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_models/two_means">
+      〈 <span class="u-margin-right-tiny"></span> Two Means
+    </a>
+  
 
+  
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/references">
+      References <span class="u-margin-right-tiny"></span> 〉
+    </a>
   
 </nav>
 

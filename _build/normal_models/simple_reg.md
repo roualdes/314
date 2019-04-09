@@ -7,8 +7,8 @@ prev_page:
   url: /normal_models/one_mean
   title: 'One Mean'
 next_page:
-  url: /references
-  title: 'References'
+  url: /normal_models/two_means
+  title: 'Two Means'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

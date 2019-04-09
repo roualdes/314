@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Simple Linear Regression</title>
-  <meta name="description" content="Simple Linear Regression">
+  <title>Two Means</title>
+  <meta name="description" content="Two Means">
 
-  <link rel="canonical" href="/normal_models/simple_reg.html">
+  <link rel="canonical" href="/normal_models/two_means.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/normal_models/simple_reg.html" />
+  <meta property="og:url"         content="/normal_models/two_means.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Simple Linear Regression" />
-<meta property="og:description" content="Simple Linear Regression" />
+<meta property="og:title"       content="Two Means" />
+<meta property="og:description" content="Two Means" />
 <meta property="og:image"       content="" />
 
 
@@ -23,15 +23,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/normal_models/simple_reg.html",
+    "/normal_models/two_means.html",
   "headline":
-    "Simple Linear Regression",
+    "Two Means",
   "datePublished":
     "2019-04-09T10:57:59-07:00",
   "dateModified":
     "2019-04-09T10:57:59-07:00",
   "description":
-    "Simple Linear Regression",
+    "Two Means",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -742,7 +742,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry c-sidebar__entry--active"
+                <a class="c-sidebar__entry "
                   href="/normal_models/simple_reg"
                 >
                   
@@ -761,7 +761,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
+                <a class="c-sidebar__entry c-sidebar__entry--active"
                   href="/normal_models/two_means"
                 >
                   
@@ -879,7 +879,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
 
 
-<a href="https://mybinder.org/v2/gh/roualdes/314/master?filepath=content%2Fnormal_models%2Fsimple_reg.ipynb"><button class="interact-button" id="interact-button-hub"><img class="interact-button-logo" src="/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+<a href="https://mybinder.org/v2/gh/roualdes/314/master?filepath=content%2Fnormal_models%2Ftwo_means.ipynb"><button class="interact-button" id="interact-button-hub"><img class="interact-button-logo" src="/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
 
 
 
@@ -887,113 +887,205 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 
 
             <div class="c-textbook__content">
-              <h1 id="simple-linear-regression">Simple Linear Regression</h1>
+              <h1 id="two-means">Two Means</h1>
 
-<p>Let’s continue with the cars data, but this time let’s formally recognize that a car’s weight might have some effect on city MPG.  Assume</p>
+<p>Simple linear regression attempts to explain a numerical variable based on a linear model.  The line is defined with respect to an x-axis numerical variable.  In this section, we will keep with a numerical variable on the y-axis, but we’ll introduce a non-numeric variable on the x-axis.</p>
 
-<script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
-\mu = \beta_0 + \beta_1 * weight.</script>
+<p>Consider the dataset $\texttt{carnivora}$, which records a number of variables on the 112 animals from the Order Carnivora.  We are interested trying to predict $\texttt{SW}$, body weight (kg), using the <strong>categorical variable</strong> $\texttt{SuperFamily}$.  The <strong>levels</strong> of the categorical variable $\texttt{SuperFamily}$ are $\texttt{Caniformia}$ and $\texttt{Feliformia}$, which is to say that this dataset contains observations from animals from these two super families of the Order Carnivora.</p>
 
-<p>We again focus on the expected value, not $\sigma$, but we will start dropping the $\mathbb{E}(Y)$ notation because it quickly becomes cumbersome and needlessly repetitive.  Notice that this model implicitly states that the expected city MPG depends linearly on a car’s weight.</p>
+<p>The most common plot used to visualize the relationship between a numeric y-axis variable with a categorical variable (for now with two levels) is a boxplot.  A boxplot provides a visual representation of the $25$\%, $50$\%, and $75$\% quantiles.  There’s a bit more to it, but we’ll focus on a few more advanced plotting ideas than what is most common in practice.</p>
 
-<p>The following code reads in the dataset, plots the $\texttt{mpgCity}$ variable against the $\texttt{weight}$ data, and calculates an estimate of the population mean dependent on the sampled cars’ weights.  Here the estimated expected city MPG is formed by a linear combination of $\hat{\beta}_0, \hat{\beta}_1$ and $\texttt{weight}$.</p>
+<p>Instead of a boxplot, we’ll focus on two plots.  When there is a sufficiently small amount of data, we should make a scatter plot with the points jittered to better visualize the number of observations being plot.  Below is an example where the amount of jitter, random variation introduced along the x-axis (named width), is set to a relatively small number to prevent overlapping from the mutually exclusive groups Caniformia and Feliformia.  This plot ignores the non-numerical nature of the x-axis variable in favor of displaying all the data.</p>
+
+<p>The jittered scatterplot highlights a reasonable rule of thumb for visualization: display as much of the original data as possible, without cluttering the plot.</p>
 
 <div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">cars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/cars.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">carnivora</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv"</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">mpgCity</span><span class="p">))</span><span class="w">
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">carnivora</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">.1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-</span><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+<p class="output output_png"><img src="../images/normal_models/two_means_2_1.png" alt="png" /></p>
+
+<p>The other plot we’ll use when the y-axis variable is numeric and the x-axis variable is categorical is a violin plot.  A violin plot is a density plot turned vertical and one density plot is made for each level of the x-axis categorical variable.  Below is an example.  The violin plot should be used in addition to the jittered scatter plot, or whever the former plot is too cluttered to be meaningful.</p>
+
+<p>Both of these plots help the scientist visualize the location of the mean and variation for the y-axis variable, within each level of the x-axis categorical variable.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">carnivora</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_violin</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="output output_png"><img src="../images/normal_models/two_means_4_1.png" alt="png" /></p>
+
+<p>The two means model is the common name for estimating a mean of the y-axis variable, here body weight, for each level of the x-axis variable, here super family.  In reality, it’s just estimating means by group when there are exactly two levels within the x-axis grouping variable.</p>
+
+<p>Before we move on, it’s informative to see that this model is really doing nothing more than estimating means by group.  The code below, first carefully removes $\texttt{NA}$s, estimates group means using $\texttt{dplyr}$, and then estimates group means using our current model.  The current model produces identical numbers, but only through this intermediate number that doesn’t quite make sense yet.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">carn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">carnivora</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">na.omit</span><span class="w">
+
+</span><span class="n">carn</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">group_by</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">summarise</span><span class="p">(</span><span class="n">mnSB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">SW</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output output_html">
+<table>
+<thead><tr>&lt;th scope=col&gt;SuperFamily&lt;/th&gt;&lt;th scope=col&gt;mnSB&lt;/th&gt;</tr></thead>
+<tbody>
+	<tr><td>Caniformia</td><td>23.44421  </td></tr>
+	<tr><td>Feliformia</td><td>16.60218  </td></tr>
+</tbody>
+</table>
+
+</div>
+
+<p>Model notation is based around the idea of an intercept, despite the fact that the word intercept is not well defined here.  What we mean by intercept in this context is the mean value of body weight, the y-axis variable, for the first level of the x-axis variable, here Caniformia.  In $\texttt{R}$, the first level will always be the alphabetically or numerically first level contained in the x-axis categorical variable.</p>
+
+<p>For the body weight data, $\texttt{SW}$, we assume</p>
+
+<script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
+\mu = \beta_0 + \beta_1 * Feliformia.</script>
+
+<p>There are three pieces to this model that deserve special attention.  The first thing to notice is that the structure of the model looks identical to simple linear regression.  This similarity will allow us to unify these two models in coming sections of these lecture notes.  The difference between simple linear regression and this model rests on the (statistical) type of the x-axis variable, which brings us to the other pieces that deserve special attention.</p>
+
+<p>The second point to note is that Feliformia is not a numerical variable, like in simple linear regression.  In the world of statistics, Feliformia in this context is called an indicator variable.  Indicator variables only ever take on two values, $0$ and $1$.  Feliformia will be $1$ when predicting or calculating the mean body weight for an animal from the super family Feliformia, and $0$ otherwise.</p>
+
+<p>The third point to note is that Caniformia does not obviously show up in this model.  It’s only when predicting or calculating the mean body weight for an animal from the super family Caniformia that Feliformia is $0$ and thus the term $\beta_0$ represents Caniformia’s mean body weight.</p>
+
+<p>The main difference between simple linear regression and this model is the type of the x-axis variable.  In simple linear regression the x-axis variable is numerical.  Here, the x-axis variable is categorical.  This changes our interpretation of the current model.</p>
+
+<p>Now, the “intercept” $\beta_0$ is Caniformia’s mean body weight, and the “slope” $\beta_1$ is the offset for Feliformia, relative to Caniformia.  That is, if you take $\hat{\beta}_0$ and add it to $\hat{\beta}_1$, you’ll get the estimated mean body weight for Feliformia.</p>
+
+<p>The code to fit this model is very similar to the code for simple linear regression.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">mX</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)}))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">)</span><span class="w">
+</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
 
-</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="p">)</span><span class="w">
+</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
 <div class="output output_html">
 &lt;ol class=list-inline&gt;
-	<li>50.1430417155167</li>
-	<li>-0.00883260731796067</li>
+	<li>23.4442214234</li>
+	<li>-6.84204247330019</li>
 &lt;/ol&gt;
 
 </div>
 
-<p class="output output_png"><img src="../images/normal_models/simple_reg_2_2.png" alt="png" /></p>
+<div class="output output_html">
+16.6021789500998
+</div>
 
-<p>We write the estimated linear model as</p>
+<p>Notice that $X$ again has two columns.</p>
 
-<script type="math/tex; mode=display">\hat{\mu} = \hat{\beta}_0 + \hat{\beta}_1*weight = 50.14 + -0.01*weight.</script>
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
+</span><span class="n">tail</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
-<p>What’s nice about this model is that we can easily interpret the parameters $\hat{\beta}_0 = 50.14$ and $\hat{\beta}_1 = -0.01$.  For instance, $\hat{\beta}_0$, better known as an intercept, is an estimate of (the population) city MPG for a car that weighs $0$ pounds.  While this doesn’t make sense conceptually, this is the literal interpretation of the estimated intercept in the context of these data.  Notice that there’s not data near $\text{weight} = 0$.  When this is the case, you can generally expect the intercept to not make much sense.</p>
+<div class="output output_html">
+<table>
+<thead><tr>&lt;th scope=col&gt;(Intercept)&lt;/th&gt;&lt;th scope=col&gt;SuperFamilyFeliformia&lt;/th&gt;</tr></thead>
+<tbody>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+</tbody>
+</table>
 
-<p>The slope, $\hat{\beta}_1$, describes the linear relationship between a car’s weight and city MPG.  This estimate too is relatively easy to interpret in the context of these data.  For every 1 unit increase in a car’s weight (a 1 pound increase), we estimate a $0.01$ decrease in the expected city MPG.</p>
+</div>
 
-<p>Be careful to not overly interpret these estimates as describing a causal relationship.  Determining causal relationships from non-experimental data is no easy task, and we won’t even try to broach this topic in this course.  Peter Norvig, Director of Research at Google, wrote an essay describing many of the difficulties of applied statistics practice surrounding observational data.  His essay <a href="http://norvig.com/experiment-design.html">Warning Signs in Experimental Design and Interpretation</a> enumerates common warning signs for when a practioner of applied statistics might be misinterpreting their data.  For a more theoretical approach to determining causal relationships from data, see Judea Pearl’s book <a href="http://bayes.cs.ucla.edu/BOOK-2K/">Causality</a>.</p>
+<div class="output output_html">
+<table>
+<thead><tr><th></th>&lt;th scope=col&gt;(Intercept)&lt;/th&gt;&lt;th scope=col&gt;SuperFamilyFeliformia&lt;/th&gt;</tr></thead>
+<tbody>
+	<tr>&lt;th scope=row&gt;107&lt;/th&gt;<td>1</td><td>1</td></tr>
+	<tr>&lt;th scope=row&gt;108&lt;/th&gt;<td>1</td><td>1</td></tr>
+	<tr>&lt;th scope=row&gt;109&lt;/th&gt;<td>1</td><td>1</td></tr>
+	<tr>&lt;th scope=row&gt;110&lt;/th&gt;<td>1</td><td>1</td></tr>
+	<tr>&lt;th scope=row&gt;111&lt;/th&gt;<td>1</td><td>1</td></tr>
+	<tr>&lt;th scope=row&gt;112&lt;/th&gt;<td>1</td><td>1</td></tr>
+</tbody>
+</table>
 
-<p>Just like before, the estimates $\hat{\beta}_0, \hat{\beta}_1$ are simply one set of estimates based on one random sample.  The values we produced could be due to pure random chance.  To better understand our uncertainty in these estimates, we will calculate confidence intervals.  We will let the function $\texttt{boot::boot}$ do the random sampling for us, and for that we need write a function that accepts our data and a vector of indices.</p>
+</div>
+
+<p>The first column, as in simple linear regression, is called the intercept and is always $1$.  The second column is $0$ when an observation (row) represents an animal from the super family Caniformia, and is $1$ when an observation represents an animal from the super family Feliformia.  Notice then that the model uses both $\beta_0$ and $\beta_1$ to estimate the mean for members of the super family Feliformia.  This explains why $\beta_1$ is the offset for Feliformia relative to (the ever present) group mean $\beta_0$ for Caniformia.  In the world of data science, they say the variable $\texttt{SuperFamilyFeliformia}$ is one-hot encoded for the observations which are members of the super family Feliformia.</p>
+
+<p>With this in mind, we can recover the two means of body weight for Caniformia and Feliformia.  Caniformia’s estimated mean body weight is $\hat{\beta}_0$ and Feliformia’s estimated mean body weight is $\hat{\beta}_0 + \hat{\beta}_1$.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">beta</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w">
+</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="output output_html">
+23.4442214234
+</div>
+
+<div class="output output_html">
+16.6021789500998
+</div>
+
+<p>The interpretation of each group’s mean is the same as interpretting a single mean.</p>
+
+<p>Quantifying uncertainty in our estimates is carried out with the bootstrap method.</p>
 
 <div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">boot</span><span class="p">)</span><span class="w">
 
-</span><span class="n">simple_reg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="n">breg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w">
     </span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">]</span><span class="w">
     </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot</span><span class="p">(</span><span class="n">cbind</span><span class="p">(</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="o">=</span><span class="m">999</span><span class="p">,</span><span class="w"> </span><span class="n">simple_reg</span><span class="p">)</span><span class="w">
+</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot</span><span class="p">(</span><span class="n">cbind</span><span class="p">(</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="o">=</span><span class="m">999</span><span class="p">,</span><span class="w"> </span><span class="n">breg</span><span class="p">)</span><span class="w">
 </span><span class="n">bci_beta0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
 </span><span class="n">bci_beta1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The $90\%$ confidence intervals for $\beta_0$ and $\beta_1$ are</p>
+<p>Plotting the bootstrap estimated sampling distributions for Feliformia’s offset gives good idea of the similarlity between Caniformia and Feliformia.</p>
 
-<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bci_beta0</span><span class="w">
-</span><span class="n">bci_beta1</span><span class="w">
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bdf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">b</span><span class="o">$</span><span class="n">t</span><span class="p">)</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">bdf</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'caniformia'</span><span class="p">,</span><span class="w"> </span><span class="s1">'feliformia_offset'</span><span class="p">)</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">bdf</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">feliformia_offset</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_density</span><span class="p">()</span><span class="w">
+</span><span class="n">quantile</span><span class="p">(</span><span class="n">bdf</span><span class="o">$</span><span class="n">feliformia_offset</span><span class="p">,</span><span class="w"> </span><span class="n">probs</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="m">.5</span><span class="p">,</span><span class="w"> </span><span class="m">.9</span><span class="p">))</span><span class="w">
 </span></code></pre></div></div>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-Based on 999 bootstrap replicates
+<div class="output output_html">
+&lt;dl class=dl-horizontal&gt;
+	<dt>10%</dt>
+		<dd>-19.7847136837903</dd>
+	<dt>50%</dt>
+		<dd>-6.11791867824693</dd>
+	<dt>90%</dt>
+		<dd>5.48009070530623</dd>
+&lt;/dl&gt;
 
-CALL : 
-boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 1)
+</div>
 
-Intervals : 
-Level     Percentile     
-90%   (45.28, 55.33 )  
-Calculations and Intervals on Original Scale
-</code></pre></div></div>
+<p class="output output_png"><img src="../images/normal_models/two_means_16_2.png" alt="png" /></p>
 
-<div class="output output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-Based on 999 bootstrap replicates
-
-CALL : 
-boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 2)
-
-Intervals : 
-Level     Percentile     
-90%   (-0.0104, -0.0074 )  
-Calculations and Intervals on Original Scale
-</code></pre></div></div>
-
-<p>Some classes will make a big deal about the slope estimate not including $0$.  There’s no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, is the true population slope equal to zero or isn’t it.  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.</p>
-
-<p>Increasingly, statisticians are warning against such binary decision making; e.g. <a href="https://www.nature.com/articles/d41586-019-00874-8">“It’s time to talk about ditching statistical significance”</a>, <a href="https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913">“Moving to a World Beyond ‘p &lt; 0.05’”</a>, or <a href="https://www.nature.com/articles/d41586-019-00857-9">“Scientists rise up against statistical significance”</a>.</p>
-
-<p>In this class, we’ll focus on predictions, understanding uncertainty in our predictions, and making decisions in the face of this uncertainty.</p>
+<p>The summary statistics, including the plot, above suggest that there’s a reasonable chance that the mean body weight for Feliformia is roughly equal to that of Caniformia.  But be careful with this conclusion, because the violin plot above shows that there’s some members of the super family Caniformia that are always heavier than some members of Feliformia.  Do you know which animals these are?</p>
 
               <nav class="c-page__nav">
   
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_models/one_mean">
-      〈 <span class="u-margin-right-tiny"></span> One Mean
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_models/simple_reg">
+      〈 <span class="u-margin-right-tiny"></span> Simple Linear Regression
     </a>
   
 
   
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal_models/two_means">
-      Two Means <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal_models/k_means">
+      k Means <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

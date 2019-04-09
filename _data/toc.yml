@@ -63,6 +63,10 @@
     url: /normal_models/one_mean
   - title: Simple Linear Regression
     url: /normal_models/simple_reg
+  - title: Two Means
+    url: /normal_models/two_means
+  - title: k Means
+    url: /normal_models/k_means
 
 
 - title: References
