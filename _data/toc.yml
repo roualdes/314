@@ -67,6 +67,8 @@
     url: /normal_models/two_means
   - title: k Means
     url: /normal_models/k_means
+  - title: Multiple Linear Regression
+    url: /normal_models/multiple_linear_reg
 
 
 - title: References

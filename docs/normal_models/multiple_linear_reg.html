@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Normal Linear Models</title>
-  <meta name="description" content="Normal Linear Models">
+  <title>Multiple Linear Regression</title>
+  <meta name="description" content="Multiple Linear Regression">
 
-  <link rel="canonical" href="/normal_models/introduction.html">
+  <link rel="canonical" href="/normal_models/multiple_linear_reg.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/normal_models/introduction.html" />
+  <meta property="og:url"         content="/normal_models/multiple_linear_reg.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Normal Linear Models" />
-<meta property="og:description" content="Normal Linear Models" />
+<meta property="og:title"       content="Multiple Linear Regression" />
+<meta property="og:description" content="Multiple Linear Regression" />
 <meta property="og:image"       content="" />
 
 
@@ -23,15 +23,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/normal_models/introduction.html",
+    "/normal_models/multiple_linear_reg.html",
   "headline":
-    "Normal Linear Models",
+    "Multiple Linear Regression",
   "datePublished":
     "2019-04-21T09:13:49-07:00",
   "dateModified":
     "2019-04-21T09:13:49-07:00",
   "description":
-    "Normal Linear Models",
+    "Multiple Linear Regression",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -349,7 +349,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       
 
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/intro"
         >
           
@@ -699,7 +699,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
       
 
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/normal_models/introduction"
         >
           
@@ -799,7 +799,7 @@ document.addEventListener('turbolinks:load', updateInteractLink)
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
+                <a class="c-sidebar__entry c-sidebar__entry--active"
                   href="/normal_models/multiple_linear_reg"
                 >
                   
@@ -872,15 +872,6 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 <!-- TOC will only show up if it has at least one item -->
 
 
-  <aside class="sidebar__right">
-    <nav class="onthispage">
-      <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
-      <ul class="toc__menu">
-  <li><a href="#introduction">Introduction</a></li>
-</ul>
-    </nav>
-  </aside>
-
 
 
       <main class="c-textbook__page" tabindex="-1">
@@ -899,24 +890,87 @@ document.addEventListener('turbolinks:load', updateInteractLink)
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+
+<a href="https://mybinder.org/v2/gh/roualdes/314/master?filepath=content%2Fnormal_models%2Fmultiple_linear_reg.ipynb"><button class="interact-button" id="interact-button-hub"><img class="interact-button-logo" src="/assets/images/logo_binder.svg" alt="Interact" />Interact</button></a>
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="normal-linear-models">Normal Linear Models</h1>
+              <h1 id="multiple-linear-regression">Multiple Linear Regression</h1>
 
-<h2 id="introduction">Introduction</h2>
+<p>Multiple linear regression is the extension of simple linear regression to multiple explanatory variables and picks up means by group along the way.  Hence, multiple linear regression seeks to explain a single, numerical response variable using multiple explanatory variables of different types.</p>
 
-<p>When specifically only interested in the population mean, the Normal distribution is a common choice.  There’s computational, theoretical, and practical arguments for this.  The computational argument acknowledges the simplicity of the log-likelihood of the normal distribution for the mean $\mu$.  The theoretical argument acknowledges the Central Limit Theorem, which tells us that the sampling distribution of the sample mean converges to the normal distribution when the population is well behaved.  The practicality of the Normality assumptions recognizes the implicit identity function that connects the expected value to a linear form.  This practical argument is difficult to recognize until it no longer exists, for instance within logistic regression.  This chapter will focus on normal linear models for computational and practical reasons.</p>
+<p>It helps to immediately visualize what the combination of multiple explanatory variables of different types adds to simple linear regression.  Consider the dataset $\texttt{carnivora}$.  We’ll fit four different models using body weight $\texttt{SW}$ as the numerical response variable, birth weight $\texttt{BW}$ as a numerical explanatory variable, and Super Family as a categorical explanatory variable.  The four models are simple linear regression, multiple linear regression with unique intercepts for the levels of the categorical explanatory variable, multiple linear regression with unique slopes for the levels of the categorical explanatory variable, and multiple linear regression with unique intercepts and unique slopes for the levels of the categorical explanatory variable.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+</span><span class="n">carnivora</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">carn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">carnivora</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">select</span><span class="p">(</span><span class="n">BW</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">,</span><span class="w"> </span><span class="n">SuperFamily</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">na.omit</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Much of the code to fit any one of the four models is not particularly new nor challenging.  The only real difference shows up in $\texttt{model.matrix()}$.  Pay some attention to how R code changes the model specification.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">mX</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)}))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">BW</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
+</span><span class="n">X_ints</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SuperFamily</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BW</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
+</span><span class="n">X_slps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SuperFamily</span><span class="o">:</span><span class="n">BW</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
+</span><span class="n">X_ints_slps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SuperFamily</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BW</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SuperFamily</span><span class="o">:</span><span class="n">BW</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
+
+</span><span class="n">beta_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
+</span><span class="n">beta_hat_ints</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X_ints</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
+</span><span class="n">beta_hat_slps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X_slps</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
+</span><span class="n">beta_hat_ints_slps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X_ints_slps</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The code below uses the four vectors of estimated coefficients to make a faceted plot, where each panel corresponds to the respective model matrix.  Each panel is labelled to help you identify what your options are for modeling within the framework of multiple linear regression.</p>
+
+<div class="language-R input_area highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta_hat</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)})</span><span class="w">
+</span><span class="n">y_hat_ints</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">X_ints</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta_hat_ints</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)})</span><span class="w">
+</span><span class="n">y_hat_slps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">X_slps</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta_hat_slps</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)})</span><span class="w">
+</span><span class="n">y_hat_ints_slps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">X_ints_slps</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta_hat_ints_slps</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)})</span><span class="w">
+
+</span><span class="n">N</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">y_hat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span><span class="w"> </span><span class="n">y_hat_ints</span><span class="p">,</span><span class="w"> </span><span class="n">y_hat_slps</span><span class="p">,</span><span class="w"> </span><span class="n">y_hat_ints_slps</span><span class="p">),</span><span class="w">
+                </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="n">carn</span><span class="o">$</span><span class="n">BW</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">sf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="n">carn</span><span class="o">$</span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w">
+                </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"SLR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MLR_ints"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MLR_slps"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MLR_ints_slps"</span><span class="p">),</span><span class="w"> </span><span class="n">each</span><span class="o">=</span><span class="n">N</span><span class="p">))</span><span class="w">
+</span><span class="n">df</span><span class="o">$</span><span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"SLR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MLR_ints"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MLR_slps"</span><span class="p">,</span><span class="w"> </span><span class="s2">"MLR_ints_slps"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+    </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+    </span><span class="n">geom_line</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_hat</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">sf</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">sf</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+    </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Birth weight (g)"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"Body weight (kg)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_color_discrete</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"SuperFamily"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="output output_png"><img src="../images/normal_models/multiple_linear_reg_5_1.png" alt="png" /></p>
+
+<p>Notice that simple linear regression is as expected, just a single line that represents the estimated relationship between birth weight and body weight for animals of the Order Carnivora.  The panel labeled MLR_ints shows multiple linear regression, where the different Super Families share a common slope but have unique intercepts.  The panel labeled MLR_slps shows multiple linear regression, where the different Super Families share a common intercept but have unique slopes.  The panel labeled MLF_ints_slps shows multiple linear regression, where the different Super Families have unique intercepts and unique slopes.</p>
 
               <nav class="c-page__nav">
   
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/bootstrap/confidence_intervals">
-      〈 <span class="u-margin-right-tiny"></span> Confidence Intervals
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_models/k_means">
+      〈 <span class="u-margin-right-tiny"></span> k Means
     </a>
   
 
   
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal_models/one_mean">
-      One Mean <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/references">
+      References <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

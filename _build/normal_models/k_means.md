@@ -7,8 +7,8 @@ prev_page:
   url: /normal_models/two_means
   title: 'Two Means'
 next_page:
-  url: /references
-  title: 'References'
+  url: /normal_models/multiple_linear_reg
+  title: 'Multiple Linear Regression'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

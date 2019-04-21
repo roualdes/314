@@ -2,8 +2,8 @@
 interact_link: content/references.ipynb
 title: 'References'
 prev_page:
-  url: /normal_models/k_means
-  title: 'k Means'
+  url: /normal_models/multiple_linear_reg
+  title: 'Multiple Linear Regression'
 next_page:
   url: /glossary
   title: 'Glossary'
