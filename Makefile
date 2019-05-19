@@ -27,7 +27,9 @@ serve:
 	bundle exec guard
 
 site:
+	rm -rf docs
 	bundle exec jekyll build
 	touch _site/.nojekyll
+	cp -r _site docs
 
-ready: clean book build
+ready: clean book site

@@ -1,4 +1,4 @@
-.PHONY: help book clean serve ready
+.PHONY: help book clean serve
 
 help:
 	@echo "Please use 'make <target>' where <target> is one of:"
@@ -15,12 +15,10 @@ install:
 	bundle install
 
 book:
-	rm -rf _build
-	python scripts/license.py --path ./content
-	python scripts/generate_book.py
+	jupyter-book build ./
 
 runall:
-	python scripts/execute_all_notebooks.py
+	jupyter-book run ./content
 
 clean:
 	python scripts/clean.py
@@ -28,13 +26,10 @@ clean:
 serve:
 	bundle exec guard
 
-build:
+site:
 	rm -rf docs
 	bundle exec jekyll build
+	touch _site/.nojekyll
 	cp -r _site docs
-	echo "Deployed to the docs/ folder"
 
-test:
-	pytest scripts/tests/test_build.py
-
-ready: clean book build
+ready: clean book site

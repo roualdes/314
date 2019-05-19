@@ -7,16 +7,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Estimating Parameters</title>
-  <meta name="description" content="Estimating Parameters">
+  <title>Search the site</title>
+  <meta name="description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology">
 
-  <link rel="canonical" href="/gamma/parameters.html">
+  <link rel="canonical" href="/search">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/gamma/parameters.html" />
+  <meta property="og:url"         content="/search" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Estimating Parameters" />
-<meta property="og:description" content="Estimating Parameters" />
+<meta property="og:title"       content="Search the site" />
+<meta property="og:description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology" />
 <meta property="og:image"       content="" />
 
 
@@ -25,15 +25,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/gamma/parameters.html",
+    "/search",
   "headline":
-    "Estimating Parameters",
+    "Search the site",
   "datePublished":
     "2019-05-19T13:10:31-07:00",
   "dateModified":
     "2019-05-19T13:10:31-07:00",
   "description":
-    "Estimating Parameters",
+    "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -689,13 +689,13 @@ initFunction(initQuery);
 
           
 
-          <ul class="c-sidebar__sections ">
+          <ul class="c-sidebar__sections u-hidden-visually">
             
               
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry c-sidebar__entry--active"
+                <a class="c-sidebar__entry "
                   href="/gamma/parameters.html"
                 >
                   
@@ -1005,13 +1005,6 @@ initFunction(initQuery);
 </nav>
 
       
-      <!-- Empty sidebar placeholder that we'll auto-fill with javascript -->
-      <aside class="sidebar__right">
-          <header><h4 class="nav__title"><i class="fa fa-list"></i>   On this page</h4></header>
-          <nav class="onthispage">
-          </nav>
-      </aside>
-      
       <main class="c-textbook__page" tabindex="-1">
           <div class="o-wrapper">
             <div class="c-sidebar-toggle">
@@ -1028,120 +1021,196 @@ initFunction(initQuery);
 </div>
 
             
-<div class="buttons">
-
-
-
-
-
-
-</div>
-
 
             <div class="c-textbook__content">
-              <h1 id="estimating-parameters">Estimating Parameters</h1>
-
-<p>Pedagogically, the Exponential and Gamma distributions will provide us insight on the difference between the likelihood estimate of population parameters and estimates of the mean of a random variable.</p>
-
-<h1 id="exponential-distribution">Exponential Distribution</h1>
-
-<div class="cell code_cell">
-  <div class="input_area hidecode">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"point"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"density"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"path"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">old</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">theme_set</span><span class="p">(</span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">)))</span><span class="w">
-</span></code></pre></div>    </div>
-  </div>
-
+              <div class="search-content__inner-wrap">
+    <input type="text" id="lunr_search" class="search-input" tabindex="-1" placeholder="'Enter your search term...''" />
+    <div id="results" class="results"></div>
 </div>
 
-<p>Let $X \sim \text{Exponential}(\beta)$.  Then $X$ has probability density function</p>
-
-<script type="math/tex; mode=display">\text{exponential}(x | \beta) = \beta\exp{(-\beta x)}</script>
-
-<p>for $x \geq 0$ and $\beta &gt; 0$.  The parameter $\beta$ measures the rate at which events occur.  From this, it’s easy enough to verify the mean of an exponential random variable is $\mathbb{E}(X) = 1 / \beta$ as derived from</p>
-
-<script type="math/tex; mode=display">\mathbb{E}(X) = \int_0^{\infty} x \, d\text{ Exponential}(x).</script>
-
-<p>Consider a random sample that measures days between rain events at the Winnipeg International Airport (Canada), from the R library DAAG <a href="#Maindonald:2015">(Maindonald, Braun, &amp; Braun, 2015)</a>.  These data measure the time between rain events, and are thus necessarily positive as the density plot below shows.  The maximum likelihood estimate of the rate parameter is $\hat{\beta} = N / \sum_{n=1}^N X_N$.  The exponential density function with an estimated rate parameter $\hat{\beta}$ is drawn over the density plot.</p>
-
-<div class="cell code_cell">
-  <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/droughts.csv"</span><span class="p">)</span><span class="w">
-</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">length</span><span class="p">)</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">length</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_density</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">stat_function</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">dexp</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">beta</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'orange'</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
-  </div>
-
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <p class="output_png"><img src="../images/gamma/parameters_5_1.png" alt="png" /></p>
-
-    </div>
-  </div>
-</div>
-
-<h1 id="gamma-distribution">Gamma Distribution</h1>
-
-<p>Let $X \sim \text{Gamma}(\alpha, \beta)$.  Then $X$ has probability density function</p>
-
-<script type="math/tex; mode=display">\text{gamma}(x | \alpha, \beta) =
-\frac{\beta^{\alpha}}{\Gamma(\alpha)} x^{\alpha - 1} \exp{ (-\beta x) }</script>
-
-<p>for $x \geq 0, \alpha &gt; 0$, and $\beta &gt; 0$.  Notice that when $\alpha = 1$, the exponential density function is recovered since the <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a> evaluated at $1$ is equal to $1$, $\Gamma(1) = 1$.</p>
-
-<p>The Gamma distribution has one parameter more than the exponential distribution.  In general, more parameters in a model will enable better adaption to the data.  Don’t read too closely into this though, better adaption to a dataset does not guarantee better predictions.  We’ll consider this point more closely later on in the course.</p>
-
-<p>The second parameter $\alpha$ is called the shape parameter.  Because the shape parameter appears inside the gamma function, there is no closed form for the maximum likelihood estimator of $\alpha$.  Instead of maximizing the likelihood function by hand, we’ll use a computer to approximate the parameters that maximize the likelihood function of the Gamma density function.</p>
-
-<p>The computer maximized likelihood for the gamma density function applied to the same dataset above gives estimates $\hat{\alpha} = 0.472$ and $\hat{\beta} = 0.24$.  Below, the gamma density function with $(\hat{\alpha}, \hat{\beta})$ overlays the density plot for these data.  We see that the Gamma distribution fits these data better than the Exponential distribution.  This happens because the Gamma distribution has one more parameter than the Exponential distribution.</p>
-
-<div class="cell code_cell">
-  <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">length</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_density</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">stat_function</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">dgamma</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="m">0.472</span><span class="p">,</span><span class="w"> </span><span class="n">rate</span><span class="o">=</span><span class="m">.24</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s1">'orange'</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
-  </div>
-
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <p class="output_png"><img src="../images/gamma/parameters_8_1.png" alt="png" /></p>
-
-    </div>
-  </div>
-</div>
-
+<script>
+    // Add the lunr store since we will now search it
+    var store = [{
+        "title": "Bernoulli Distribution",
+        
+        "excerpt":
+            "Bernoulli Distribution   Introduction   The Bernoulli distribution is our first attempt to connect data to mathematical statistics.  We will learn that mathematical statistics has a deep theory about what exactly produces data.  As with much of mathematics, statistics theorizes that functions are the culprits behind data.   To better understand these functions, we introduce early in this course the fact that probability density functions are the theoretical construct behind data and at the same time lead to the sample mean.  ",
+        "categories": [],
+        "tags": [],
+        "url": "/bernoulli/introduction.html",
+        "teaser":null},{
+        "title": "Estimating Proportions",
+        
+        "excerpt":
+            "Estimating Proportions Goal of Statistics Statistics seeks to describe characteristics of a broad group (population) using only a subset of information (sample). For instance, making statements about all of Chico’s graduates would be difficult; we’d first have to find them all and then extract data from each person. Instead, statistics uses a sample of all graduates to infer characterstics about the population of Chico’s graduates. In proper language, a statistician uses a radom sample to calculate sample statistics which provide estimates of population parameters. Relative to the image above, the population is depicted on the left, the sample is depicted...",
+        "categories": [],
+        "tags": [],
+        "url": "/bernoulli/proportions.html",
+        "teaser":null},{
+        "title": "Summary",
+        
+        "excerpt":
+            "Summary Statistics studies how to estimate population parameters from random samples of data. As an applied discipline, we need to maintain the specifics of our context to enable proper interpretation. As a mathematical discipline, we need to keep track of all the different named functions and their roles. In statistics, populations are abstracted to different named distribution. Each distribution produces random variables that constitute a sample. With random variables in hand, we establish means to estimate parameters that describe the population of interest. You should imagine that a parameter instantiates a specific probability density function. In this course, we use...",
+        "categories": [],
+        "tags": [],
+        "url": "/bernoulli/summary.html",
+        "teaser":null},{
+        "title": "Confidence Intervals",
+        
+        "excerpt":
+            "Confidence Intervals Sampling Distributions The Bootstrap is a method to approximate the sampling distribution of an arbitrary statistic. The sampling distribution of a statistic is to be thought of as the collection of statistics you’d have if you repeatedly resampled the population and calculated the statistic of interest on each new sample. From this collection of resampled statistics we can estimate standard deviation of our estimator. The plot below attempts to visualize this idea, albeit for a finite number of resamples R. Different from last time we saw a visualization of the sampling distribution, this time we have no data....",
+        "categories": [],
+        "tags": [],
+        "url": "/bootstrap/confidence_intervals.html",
+        "teaser":null},{
+        "title": "Bootstrap",
+        
+        "excerpt":
+            "Bootstrap Introduction In this course, we will rely on a method called the Bootstrap to approximate the sampling distribution of our statistics, insted of relying so directly on the Central Limit Theorem. The name bootstrap shows up a lot these days, and I’m positive you have used this word to describe something different than what we’ll talk about here. Our Bootstrap has nothing to do with compilers nor CSS libraries. After estimating population parameters, a natural next question is, how certain are we in our estimate? By approximating sampling distributions, the (statistical) Bootstrap will be our primary means of quantifying...",
+        "categories": [],
+        "tags": [],
+        "url": "/bootstrap/introduction.html",
+        "teaser":null},{
+        "title": "Distributions, Mean, and Variance",
+        
+        "excerpt":
+            "Distributions, Mean, and Variance Random Variables A random variable is a function from a set of all possible outcomes, named the sample space, to exactly one real number. We often assume that random variables follow named distributions, e.g. $Y \\sim \\text{Uniform}(a, b)$ where $a &lt; b$, or $X \\sim \\text{Bernoulli}(p)$ where $p \\in [0, 1]$. Named distributions are common because they often abstractly represent processes in the world worth measuring. Based on the outcome of the process of interest, we calculate probabilities for a random variable that follows a specific distribution. The Uniform distribution represents well rolling die. Much of...",
+        "categories": [],
+        "tags": [],
+        "url": "/distributions/distributions.html",
+        "teaser":null},{
+        "title": "Distributions",
+        
+        "excerpt":
+            "Distributions   Introduction  ",
+        "categories": [],
+        "tags": [],
+        "url": "/distributions/introduction.html",
+        "teaser":null},{
+        "title": "Discrete Uniform Distribution",
+        
+        "excerpt":
+            "Discrete Uniform Distribution Introduction Much of this class is about notation. The next section attempts to build on your experience about dice in an effort to minimize the mental hurdles that follow this new notation. Expanding on the process of rolling a single die, we introduce a more formal definition of a random variable. Despite it’s name, random variables are 1) not random and 2) not variables. They get this name nonetheless because we think of them as variables that take on random values. Using a fair die as an example of a random variable, we introduce a particular, but...",
+        "categories": [],
+        "tags": [],
+        "url": "/duniform/introduction.html",
+        "teaser":null},{
+        "title": "Random Variables and Probability",
+        
+        "excerpt":
+            "Random Variables and Probability Dice Die are easy to think about, because we’ve all rolled a die before and we all think we know what we mean when we say the probability of rolling a $1$ is $1/6$. Throughout this section, don’t let this intuition go. Rather expand upon it to the more detailed descriptions below. Random Variable A random variable is a function from an event to a numerical value. Note that the randomness is not, per se, part of the random variable. The randomness is instead found in the underlying process that the random variable is meant to...",
+        "categories": [],
+        "tags": [],
+        "url": "/duniform/probability.html",
+        "teaser":null},{
+        "title": "Gamma Distribution",
+        
+        "excerpt":
+            "Gamma Distribution   Introduction   In this chapter we’ll introduce the Exponential Distribution a one parameter distribution that is a special case of the Gamma distribution and, of course, the Gamma distribution.  The Gamma distribution is used to model random durations of time until a next event.  What each event is, really only depends on the context of the process being modeled.  A general example might be time until the end of the life of someone or something.  The Gamma distribution is also used to model random volumes, e.g. rainfall.  ",
+        "categories": [],
+        "tags": [],
+        "url": "/gamma/introduction.html",
+        "teaser":null},{
+        "title": "Estimating Parameters",
+        
+        "excerpt":
+            "Estimating Parameters Pedagogically, the Exponential and Gamma distributions will provide us insight on the difference between the likelihood estimate of population parameters and estimates of the mean of a random variable. Exponential Distribution library(ggplot2) update_geom_defaults(\"point\", list(colour = \"blue\")) update_geom_defaults(\"density\", list(colour = \"blue\")) update_geom_defaults(\"path\", list(colour = \"blue\")) old &lt;- theme_set(theme_bw() + theme(text = element_text(size=18))) Let $X \\sim \\text{Exponential}(\\beta)$. Then $X$ has probability density function for $x \\geq 0$ and $\\beta &gt; 0$. The parameter $\\beta$ measures the rate at which events occur. From this, it’s easy enough to verify the mean of an exponential random variable is $\\mathbb{E}(X) = 1 /...",
+        "categories": [],
+        "tags": [],
+        "url": "/gamma/parameters.html",
+        "teaser":null},{
+        "title": "Glossary",
+        
+        "excerpt":
+            "Glossary Bernoulli distribution a named random variables used for binary outcomes; $1$ usually denotes the level of interest categorical variable a variable in a dataset that takes on not-mathable values dataframe a two dimensional data structure in the programming language R in which each row represents a new observation and each column represents a new variable discrete random variable a random variable that only takes on a countable set of values independent and identically distributed a description of data that suggests the data were randomly sampled (independent $\\Rightarrow$ no two data points intentionally share anything in common, except) that they...",
+        "categories": [],
+        "tags": [],
+        "url": "/glossary.html",
+        "teaser":null},{
+        "title": "Home",
+        
+        "excerpt":
+            "MATH 314 Lecture Notes These MATH 314 lecture notes supplement the material presented in class and the material found on the course website. Pages might have Binder links automatically added for interactivity. I’m trying something new (at least to me) here. Instead of starting with a slew of topics that don’t show up, and thus make sense, until much later in the course, I practicing in the art of just-in-time teaching. To be honest, I don’t know if just-in-time teaching is a thing. These lecture notes are an experiment to find out. Getting started To do well in this course,...",
+        "categories": [],
+        "tags": [],
+        "url": "/intro.html",
+        "teaser":null},{
+        "title": "Normal Distribution",
+        
+        "excerpt":
+            "Normal Distribution   Introduction  ",
+        "categories": [],
+        "tags": [],
+        "url": "/normal/introduction.html",
+        "teaser":null},{
+        "title": "Estimating Means",
+        
+        "excerpt":
+            "Estimating Means The first formal model in these notes happened so fast, you might have missed it. By assuming $X_n \\sim_{iid} \\text{Bernoulli}(p)$, we created a single model. This one statistical model assumed the Bernoulli distribution. Our data consisted of multiple independent observations from the identical distribution (iid), a Bernoulli distribution with unknown population parameter $p$. In this section, we change the assumed distribution to the Normal distribution. Because the support for the Normal distribution is all real numbers, this distribution applies to data that could potentially take on any value in the real line. We complete the section by rehearsing...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal/means.html",
+        "teaser":null},{
+        "title": "Normal Linear Models",
+        
+        "excerpt":
+            "Normal Linear Models Introduction When specifically only interested in the population mean, the Normal distribution is a common choice. There’s computational, theoretical, and practical arguments for this. The computational argument acknowledges the simplicity of the log-likelihood of the normal distribution for the mean $\\mu$. The theoretical argument acknowledges the Central Limit Theorem, which tells us that the sampling distribution of the sample mean converges to the normal distribution when the population is well behaved. The practicality of the Normality assumptions recognizes the implicit identity function that connects the expected value to a linear form. This practical argument is difficult to...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/introduction.html",
+        "teaser":null},{
+        "title": "k Means",
+        
+        "excerpt":
+            "$k$ Means This section is the immediate extension from two means to $k$ means. The name ANOVA is sometimes used in this setting. ANOVA stands for analysis of analysis of variance, but should be more literally translated to comparing $k$ levels’ means. The reason behind the name ANOVA is that often, but not in this class, the variation amongst the groups compared to variation within the groups gives a reasonable decision rule for determinging when means by level are different. We continue to work with the dataset $\\texttt{carnivora}$. Now we’ll estimate a mean for $k = 4$ of the levels...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/k_means.html",
+        "teaser":null},{
+        "title": "Multiple Linear Regression",
+        
+        "excerpt":
+            "Multiple Linear Regression Multiple linear regression is the extension of simple linear regression to multiple explanatory variables and picks up means by group along the way. Hence, multiple linear regression seeks to explain a single, numerical response variable using multiple explanatory variables of different types. It helps to immediately visualize what the combination of multiple explanatory variables of different types adds to simple linear regression. Consider the dataset $\\texttt{carnivora}$. We’ll fit four different models using body weight $\\texttt{SW}$ as the numerical response variable, birth weight $\\texttt{BW}$ as a numerical explanatory variable, and Super Family as a categorical explanatory variable. The...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/multiple_linear_reg.html",
+        "teaser":null},{
+        "title": "One Mean",
+        
+        "excerpt":
+            "One Mean Consider a dataset about $N = 54$ cars sampled from the year $1993$. Of interest is the (unknown population) mean miles per gallon, $\\mu$. We assume The parameter $\\sigma$ might be of interest to some, but not us now. By choosing this model we are implicitly assuming that $\\mathbb{E}(Y) = \\mu$, where $\\mu$ is a constant function that does not depend on any other characteristics about the population of cars from $1993$. Assuming the mean $\\mu$ is constant is an unrealistic assumption if you think too long about this problem. Nevertheless, this is a common assumption because of...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/one_mean.html",
+        "teaser":null},{
+        "title": "Simple Linear Regression",
+        
+        "excerpt":
+            "Simple Linear Regression Let’s continue with the cars data, but this time let’s formally recognize that a car’s weight might have some effect on city MPG. Assume We again focus on the expected value, not $\\sigma$, but we will start dropping the $\\mathbb{E}(Y)$ notation because it quickly becomes cumbersome and needlessly repetitive. Notice that this model implicitly states that the expected city MPG depends linearly on a car’s weight. The following code reads in the dataset, plots the $\\texttt{mpgCity}$ variable against the $\\texttt{weight}$ data, and calculates an estimate of the population mean dependent on the sampled cars’ weights. Here the...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/simple_reg.html",
+        "teaser":null},{
+        "title": "Two Means",
+        
+        "excerpt":
+            "Two Means Simple linear regression attempts to explain a numerical variable based on a linear model. The line is defined with respect to an x-axis numerical variable. In this section, we will keep with a numerical variable on the y-axis, but we’ll introduce a non-numeric variable on the x-axis. Consider the dataset $\\texttt{carnivora}$, which records a number of variables on the 112 animals from the Order Carnivora. We are interested trying to predict $\\texttt{SW}$, body weight (kg), using the categorical variable $\\texttt{SuperFamily}$. The levels of the categorical variable $\\texttt{SuperFamily}$ are $\\texttt{Caniformia}$ and $\\texttt{Feliformia}$, which is to say that this dataset...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/two_means.html",
+        "teaser":null},{
+        "title": "References",
+        
+        "excerpt":
+            "References Maindonald, J. H., Braun, W. J., &amp; Braun, M. W. J. (2015). Package ‘DAAG.’ Data Analysis and Graphics Data and Functions. Carpenter, B., Gelman, A., Hoffman, M. D., Lee, D., Goodrich, B., Betancourt, M., … Riddell, A. (2017). Stan: A probabilistic programming language. Journal of Statistical Software, 76(1). Ash, R. B., &amp; Doléans-Dade, C. A. (2000). Probability and Measure Theory. Academic Press. Bernardo, J. M., &amp; Smith, A. F. M. (2009). Bayesian theory (Vol. 405). John Wiley &amp; Sons. Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., &amp; Rubin, D. B. (2014). Bayesian Data...",
+        "categories": [],
+        "tags": [],
+        "url": "/references.html",
+        "teaser":null},]
+</script>
               <nav class="c-page__nav">
   
-    
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/gamma/introduction">
-      〈 <span class="u-margin-right-tiny"></span> Gamma Distribution
-    </a>
-  
 
-  
-    
-    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal/introduction">
-      Normal Distribution <span class="u-margin-right-tiny"></span> 〉
-    </a>
   
 </nav>
 
