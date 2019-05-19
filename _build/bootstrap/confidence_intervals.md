@@ -2,6 +2,8 @@
 redirect_from:
   - "/bootstrap/confidence-intervals"
 interact_link: content/bootstrap/confidence_intervals.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Confidence Intervals'
 prev_page:
   url: /bootstrap/introduction
@@ -20,17 +22,29 @@ The Bootstrap is a method to approximate the sampling distribution of an arbitra
 
 The plot below attempts to visualize this idea, albeit for a finite number of resamples `R`.  Different from last time we saw a visualization of the sampling distribution, this time we have no data.  By sampling from the (assumed) population, instead of from our original sample, our code is truer to the theory of sampling distributions, although further away from applied statistics.  Compare the code below to the example found in the Section [Normal Distribution](/normal/means#assumed-normality) to see what the difference between resampling from data and resampling from an assumed population looks like in terms of code.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(ggplot2)
 ```
+</div>
 
+</div>
 
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
 
+</div>
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 R <- 1001
 N <- 99
@@ -41,15 +55,22 @@ for (r in seq_len(R)) {
 
 ggplot(data.frame(mu = mus)) + geom_density(aes(mu)) + geom_rug(aes(mu))
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/bootstrap/confidence_intervals_3_1.png)
 
-
-{:.output .output_png}
-![png](../images/bootstrap/confidence_intervals_2_1.png)
-
-
+</div>
+</div>
+</div>
 
 The plot above represents a finite approximation to the sampling distribution of the sample mean coming from a $\text{Gamma}(2, 2)$ population. Despite the fact that a $\text{Gamma}(2, 2)$ probability density function is right skewed, we see that the sampling distribution is shaped like the probability density function for a Normal distribution, centered at $1$ with standard deviation $\mathbb{D}(X)/\sqrt{N} = \left(1/\sqrt{2}\right) / \sqrt{99}$.  The normalization of the sample means, each itself from the Gamma distribution, is due to the Central Limit Theorem.
 
@@ -57,39 +78,67 @@ The plot above represents a finite approximation to the sampling distribution of
 
 Another informative attribute of random variables is the **percentile**.  The $p$% percentile $\pi_p$ puts $p$% of the area under random variable's probability density function to the left of $\pi_p$.  A picture will help.  Consider a standrd normal distribution, where $\pi_{.84} \approx 1$.  Further, $\pi_{0.5} = 0$ for the standard normal distribution since the $\text{Normal}(0, 1)$ distribution is centered at, and perfectly symmetric about, $0$.  The more common name for $pi_{0.5}$ is the median.
 
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```R
+# NO CODE
+library(grid)
+pip <- textGrob(expression(pi[.84]), gp=gpar(fontsize=18))
+ggplot(data.frame(x=c(-4, 4)), aes(x)) + 
+    stat_function(fun=dnorm) +
+    geom_segment(aes(x=1, xend=1, y=0, yend=dnorm(1))) +
+    theme(plot.margin = unit(c(1,1,2,1), "lines")) +
+    annotation_custom(pip, xmin=1, xmax=1, ymin=-0.04, ymax=-0.04) +
+    geom_text(x=-0.5, y=0.1, label="~.84", size=14) +
+    geom_text(x=1.5, y=0.025, label="~.16", alpha=0.5) +
+    coord_cartesian(clip = "off")
+```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/bootstrap/confidence_intervals_7_1.png)
 
-
-
-{:.output .output_png}
-![png](../images/bootstrap/confidence_intervals_6_1.png)
-
-
+</div>
+</div>
+</div>
 
 R will calculate these values for us with the following code.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 qnorm(.84)
 qnorm(0.5)
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 0.994457883209753
 </div>
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 0
 </div>
 
+</div>
+</div>
+</div>
 
 When working with data, instead of a probability density function, find a sample percentile  by first sorting the data into ascending order.  With sorted data, find the value, not necessarily within the dataset, that puts approximately $p$% of the data to the left of the value of interest.  Since R will more often than not do these calculations for us, we just need remember that R will **interpolate** between any two numbers in a dataset so as to best, in some sense, apply the definition of percentile to data.
 
@@ -103,9 +152,8 @@ We next blend together the sampling distribution, as estimated by the Bootstrap,
 
 Above, we approximated the sampling distribution of the sample mean of a $\text{Gamma}(2, 2)$ distribution by repeatedly resampling from the assumed known population.  Let's take a step closer to applying the Bootstrap and pretend that we have only one sample of data from this $\text{Gamma}(2, 2)$ population.  Then we'll estimate the sampling distribution via Bootstrap. The vector of sample means, `mus`, allows us to estimate two percentiles, $\pi_{0.025}$ and $\pi_{0.975}$.  The estimated percentiles will form our $95$\% confidence interval.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 R <- 1001
 N <- 99
@@ -118,7 +166,9 @@ for (r in seq_len(R)) {
 
 ci <- round(quantile(mus, c(0.025, 0.975)), 2)
 ```
+</div>
 
+</div>
 
 For me, the interval is $(0.9, 1.1)$. The Bootstrap is inherently a stochastic procedure, so if you rerun the code above you might get slightly different numbers.  Since $\mathbb{E}(X) = \frac{\alpha}{\beta} = 2/2 = 1$, we see that this interval is indeed reasonably accurate.    
 
@@ -132,12 +182,11 @@ Remarkably, this procedure guarantees that $95$% of all confidence intervals mad
 
 ### Example
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(dplyr)
-carnivora <- read.csv("~/website/app/public/data/carnivora.csv")
+carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 d <- carnivora %>%
     select(BW) %>%
     na.omit %>%
@@ -154,6 +203,8 @@ for (r in seq_len(R)) {
 
 ci <- round(quantile(mus, c(0.05, 0.95)), 2) # confidence interval, 90%
 ```
+</div>
 
+</div>
 
 We are $90$% confident that the population mean birth weight of animals from the Order Carnivora is between $181$ and $325$ grams.  Again, you might get slightly different numbers if you rerun the code above; increasing `R` should stabilize this issue, at the cost of increasing the computational cost.

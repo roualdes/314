@@ -1,5 +1,7 @@
 ---
 interact_link: content/normal/means.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Estimating Means'
 prev_page:
   url: /normal/introduction
@@ -20,52 +22,77 @@ In this section, we change the assumed distribution to the Normal distribution. 
 
 It's common to assume any single numerical variable data follows a Normal distribution, $ Y_n \sim \text{Normal}(\mu, \sigma)$ for $n = 1, 2, \ldots, N$.  Note that we will call this a formal model although I understand that it is difficult to separate the ideas of distribution and model at this point.  For now, let's push forward and begin as we ought to begin any analysis, plot the data.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(ggplot2)
 ```
+</div>
 
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
+
+</div>
 
 Let's return to our dataset about the Order Carnivora.  Consider the variable `BW`, which records birth weight in grams.  These are **numeric** data and it's reasonable to assume the data came from a **continuous** random variable, because grams can theoretically take on any positive value in a reasonable range for birth weights from the Order Carnivora.  To plot these data we'll use a **density plot**.  A common alternative plot is a histogram.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
-carnivora <- read.csv("~/website/app/public/data/carnivora.csv")
+carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 ggplot(carnivora) + geom_density(aes(BW))
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal/means_7_1.png)
 
-
-{:.output .output_png}
-![png](../images/normal/means_6_1.png)
-
-
+</div>
+</div>
+</div>
 
 The above plot tells us that the majority of our data consist of observations below $500$ grams with a few observations showing up sporadically above $500$.  How many observations are above $500$ is not immediately clear, so let's see if we can modify the plot above to help us visualize all of the data.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ggplot(carnivora) + 
     geom_density(aes(BW)) +
     geom_rug(aes(BW))
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal/means_9_1.png)
 
-
-{:.output .output_png}
-![png](../images/normal/means_8_1.png)
-
-
+</div>
+</div>
+</div>
 
 ## Properties of the Normal Distribution
 
@@ -81,22 +108,28 @@ $$ \text{normal}(x | \mu, \sigma) = (2\pi\sigma^2)^{-1/2} \exp{\left( \frac{-(x 
 
 A plot of the standard Normal probability density function is displayed below.  Try to change the code to help you better understand that the $\text{Normal}(\mu, \sigma)$ distribution indexes an uncountable number of distributions via $\mu$ and $\sigma$.  For each specific choice of $(\mu, \sigma)$, think of it as an instantiation of a new random variable.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 df <- data.frame(x = seq(-4, 4, length.out=101))
 ggplot(df, aes(x)) + stat_function(fun = dnorm, args=list(mean=0, sd=1))
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal/means_12_1.png)
 
-
-{:.output .output_png}
-![png](../images/normal/means_11_1.png)
-
-
+</div>
+</div>
+</div>
 
 ## Likelihood
 
@@ -120,9 +153,8 @@ Statisticians recognize that collecting new data is unlikely to happen, but base
 
 Just like we can use a computer to approximate the probability a coin flip turning up heads to be $1/2$, we can simulate the shape of multiple esimates of $\mu$ from a population of animals from the Order Carnivora.  Let's look at the code and a plot, and then I'll explain what's going on.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(dplyr)
 d <- carnivora %>%
@@ -146,15 +178,22 @@ ggplot(data.frame(mu = mus)) +
                   args=list(mean=mean(d), sd=sd(d)/sqrt(N)),
                   color="orange")
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal/means_18_1.png)
 
-
-{:.output .output_png}
-![png](../images/normal/means_17_1.png)
-
-
+</div>
+</div>
+</div>
 
 Let's explain the code above in English, before we dive into the details of what just happened statistcally.  We are interested in birth weights from animals of the Order Carnivora, but we are not interested in missing values, encoded as `NA`s in R.  We use the library `dplyr` to `select` only specific variables we are currently interested in, omit the `NA`s, and then `pull` out the vector of data we want from the data frame.
 

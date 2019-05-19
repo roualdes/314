@@ -2,6 +2,8 @@
 redirect_from:
   - "/normal-models/multiple-linear-reg"
 interact_link: content/normal_models/multiple_linear_reg.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Multiple Linear Regression'
 prev_page:
   url: /normal_models/k_means
@@ -18,9 +20,8 @@ Multiple linear regression is the extension of simple linear regression to multi
 
 It helps to immediately visualize what the combination of multiple explanatory variables of different types adds to simple linear regression.  Consider the dataset $\texttt{carnivora}$.  We'll fit four different models using body weight $\texttt{SW}$ as the numerical response variable, birth weight $\texttt{BW}$ as a numerical explanatory variable, and Super Family as a categorical explanatory variable.  The four models are simple linear regression, multiple linear regression with unique intercepts for the levels of the categorical explanatory variable, multiple linear regression with unique slopes for the levels of the categorical explanatory variable, and multiple linear regression with unique intercepts and unique slopes for the levels of the categorical explanatory variable.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(ggplot2)
 library(dplyr)
@@ -29,13 +30,26 @@ carn <- carnivora %>%
     select(BW, SW, SuperFamily) %>%
     na.omit
 ```
+</div>
 
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
+
+</div>
 
 Much of the code to fit any one of the four models is not particularly new nor challenging.  The only real difference shows up in $\texttt{model.matrix()}$.  Pay some attention to how R code changes the model specification.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ll <- function(beta, y, mX) {
     sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
@@ -50,13 +64,14 @@ beta_hat_ints <- optim(rexp(3), ll, method="L-BFGS-B", mX=X_ints, y=carn$SW)$par
 beta_hat_slps <- optim(rexp(3), ll, method="L-BFGS-B", mX=X_slps, y=carn$SW)$par
 beta_hat_ints_slps <- optim(rexp(4), ll, method="L-BFGS-B", mX=X_ints_slps, y=carn$SW)$par
 ```
+</div>
 
+</div>
 
 The code below uses the four vectors of estimated coefficients to make a faceted plot, where each panel corresponds to the respective model matrix.  Each panel is labelled to help you identify what your options are for modeling within the framework of multiple linear regression.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 y_hat <- apply(X, 1, function(row) {sum(beta_hat * row)})
 y_hat_ints <- apply(X_ints, 1, function(row) {sum(beta_hat_ints * row)})
@@ -76,14 +91,21 @@ ggplot(data=df, aes(x, y)) +
     labs(x="Birth weight (g)", y="Body weight (kg)") +
     scale_color_discrete(name="SuperFamily")
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal_models/multiple_linear_reg_6_1.png)
 
-
-{:.output .output_png}
-![png](../images/normal_models/multiple_linear_reg_5_1.png)
-
-
+</div>
+</div>
+</div>
 
 Notice that simple linear regression is as expected, just a single line that represents the estimated relationship between birth weight and body weight for animals of the Order Carnivora.  The panel labeled MLR_ints shows multiple linear regression, where the different Super Families share a common slope but have unique intercepts.  The panel labeled MLR_slps shows multiple linear regression, where the different Super Families share a common intercept but have unique slopes.  The panel labeled MLF_ints_slps shows multiple linear regression, where the different Super Families have unique intercepts and unique slopes.

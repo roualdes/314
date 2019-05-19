@@ -1,13 +1,11 @@
 ---
-redirect_from:
-  - "/"
 title: 'Home'
 prev_page:
   url: 
   title: ''
 next_page:
-  url: /duniform/introduction
-  title: 'Discrete Uniform Distribution'
+  url: https://github.com/roualdes/314
+  title: 'GitHub repository'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # MATH 314 Lecture Notes

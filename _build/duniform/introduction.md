@@ -1,8 +1,8 @@
 ---
 title: 'Discrete Uniform Distribution'
 prev_page:
-  url: /intro
-  title: 'Home'
+  url: https://github.com/roualdes/314
+  title: 'GitHub repository'
 next_page:
   url: /duniform/probability
   title: 'Random Variables and Probability'

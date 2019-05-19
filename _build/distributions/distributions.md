@@ -1,5 +1,7 @@
 ---
 interact_link: content/distributions/distributions.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Distributions, Mean, and Variance'
 prev_page:
   url: /distributions/introduction
@@ -46,13 +48,26 @@ referring to discrete random variables.
 
 Before providing a long list of some other common named distributions, we will discuss the mean and variance of a random variable.  These quantities describe a measure of center and a measure of spread of random variables.  Recall, statistics uses data to estimate population parameters.  The mean and variance of a random variable are two of the more commonly estimated quantities that describe a population.  With a data set in hand, the sample mean (add up all the data divide by the number of data points) is an approximation of the mean of a random variable.  With a data set in hand, the measure of spread called the variance is an approximation of the variance of a random variable.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(ggplot2)
 ```
+</div>
 
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
+
+</div>
 
 ## Mean of a Random Variable
 
@@ -75,24 +90,30 @@ $$uniform(x|a, b) = \frac{1}{b - a + 1} $$
 
 for $x \in \\{a, a+1, \ldots, b-1, b\\}$.  Notice that the random variable is only defined for integer values between $a$ and $b$ inclusive.  These values make up the **support** of the random variable. Think of the support as the values for which the probability density function is positive.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 x <- 1:6
 fx <- 1 / (6 - 1 + 1)
 df <- data.frame(x, fx)
 ggplot(df, aes(x, fx)) + geom_point() + labs(y='uniform(x|1, 6)')
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/distributions/distributions_7_1.png)
 
-
-{:.output .output_png}
-![png](../images/distributions/distributions_6_1.png)
-
-
+</div>
+</div>
+</div>
 
 ### Example
 
@@ -104,43 +125,53 @@ $$ \mathbb{E}(X) = \sum_{x = a}^b x * \text{uniform}(x|a,b) = \sum_{x = a}^b x *
 
 In R, we can apply this formula to $X \sim \text{Uniform}(1,6)$,
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 a <- 1; b <- 6
 x <- a:b
 fx <- 1 / (b - a + 1)
 sum(x * fx) # E(X)
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 3.5
 </div>
 
+</div>
+</div>
+</div>
 
 Notice that the we are simply weighting each value in the support of the random variable by the probability density function evaluated at each value in the support.  The expected value is to be thought of as the value you'd get by taking the sample mean of the outcomes produced by infinitely rolling a fair die.  Let's approximate this process in R,
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 flips <- 1e3
 die <- sample(1:6, flips, replace=TRUE)
 df <- data.frame(m = cumsum(die)/(1:flips), Flip = 1:flips)
 ggplot(df, aes(Flip, m)) + geom_line() + labs(y=expression(hat(bold(E))(X)), parse=TRUE)
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/distributions/distributions_12_1.png)
 
-
-{:.output .output_png}
-![png](../images/distributions/distributions_11_1.png)
-
-
+</div>
+</div>
+</div>
 
 **DEFINITION**.  Let $X \sim F$, where $F$ is the name of a distribution. The expected value of a random variable is
 
@@ -166,9 +197,8 @@ The standard deviation is another measure of spread, like the variance, but the 
 
 In R, we can apply this formula to $X \sim \text{Uniform}(1,6)$ by first calculating the expected value $\mathbb{E}(X)$,
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 a <- 1; b <- 6
 x <- a:b
@@ -177,19 +207,27 @@ m <- sum(x * fx)
 (v <- sum((x - m)^2 * fx)) # variance
 sqrt(v) # standard deviation
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 2.91666666666667
 </div>
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 1.70782512765993
 </div>
 
+</div>
+</div>
+</div>
 
 It takes some time to understand the fancy integral notation above.  There are a few ideas that you should keep in mind when working with the definitions of $\mathbb{E}(X)$ and $\mathbb{V}(X)$:
 

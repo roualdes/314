@@ -1,5 +1,7 @@
 ---
 interact_link: content/gamma/parameters.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Estimating Parameters'
 prev_page:
   url: /gamma/introduction
@@ -16,6 +18,19 @@ Pedagogically, the Exponential and Gamma distributions will provide us insight o
 
 # Exponential Distribution
 
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+library(ggplot2)
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
+
+</div>
+
 Let $X \sim \text{Exponential}(\beta)$.  Then $X$ has probability density function
 
 $$ \text{exponential}(x | \beta) = \beta\exp{(-\beta x)} $$
@@ -26,9 +41,8 @@ $$ \mathbb{E}(X) = \int_0^{\infty} x \, d\text{ Exponential}(x).$$
 
 Consider a random sample that measures days between rain events at the Winnipeg International Airport (Canada), from the R library DAAG {% cite Maindonald:2015 %}.  These data measure the time between rain events, and are thus necessarily positive as the density plot below shows.  The maximum likelihood estimate of the rate parameter is $\hat{\beta} = N / \sum_{n=1}^N X_N$.  The exponential density function with an estimated rate parameter $\hat{\beta}$ is drawn over the density plot. 
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(ggplot2)
 df <- read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/droughts.csv")
@@ -37,15 +51,22 @@ ggplot(data=df, aes(length)) +
     geom_density() +
     stat_function(fun=dexp, args=list(rate=beta), color='orange')
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/gamma/parameters_5_1.png)
 
-
-{:.output .output_png}
-![png](../images/gamma/parameters_4_1.png)
-
-
+</div>
+</div>
+</div>
 
 # Gamma Distribution
 
@@ -62,20 +83,26 @@ The second parameter $\alpha$ is called the shape parameter.  Because the shape 
 
 The computer maximized likelihood for the gamma density function applied to the same dataset above gives estimates $\hat{\alpha} = 0.472$ and $\hat{\beta} = 0.24$.  Below, the gamma density function with $(\hat{\alpha}, \hat{\beta})$ overlays the density plot for these data.  We see that the Gamma distribution fits these data better than the Exponential distribution.  This happens because the Gamma distribution has one more parameter than the Exponential distribution.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ggplot(data=df, aes(length)) +
     geom_density() +
     stat_function(fun=dgamma, args=list(shape=0.472, rate=.24), color='orange')
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/gamma/parameters_8_1.png)
 
-
-{:.output .output_png}
-![png](../images/gamma/parameters_7_1.png)
-
-
+</div>
+</div>
+</div>

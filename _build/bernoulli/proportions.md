@@ -1,5 +1,7 @@
 ---
 interact_link: content/bernoulli/proportions.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Estimating Proportions'
 prev_page:
   url: /bernoulli/introduction
@@ -26,60 +28,83 @@ At the mathematical level, the population is described by a function, and charac
 
 Since this class is both a introduction to R and a statistics course, we'll waste no time introducing R code.  Let's load two of the most common packages, read in a data set (which R calls a **dataframe**), and then make a plot.  For every analysis, big or small, that we perform in this class these three steps should be the very first.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 # library(readr)
 library(dplyr)
 library(ggplot2)
 ```
+</div>
 
+</div>
 
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
 
+</div>
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 df <- readr::read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 df %>%
     select('SuperFamily', 'Family') %>%
     sample_n(6)
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 <table>
 <thead><tr><th scope=col>SuperFamily</th><th scope=col>Family</th></tr></thead>
 <tbody>
-	<tr><td>Feliformia</td><td>Hyaenidae </td></tr>
-	<tr><td>Caniformia</td><td>Canidae   </td></tr>
-	<tr><td>Caniformia</td><td>Canidae   </td></tr>
+	<tr><td>Feliformia</td><td>Viverridae</td></tr>
 	<tr><td>Feliformia</td><td>Felidae   </td></tr>
-	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
+	<tr><td>Feliformia</td><td>Felidae   </td></tr>
 	<tr><td>Caniformia</td><td>Canidae   </td></tr>
+	<tr><td>Feliformia</td><td>Viverridae</td></tr>
+	<tr><td>Caniformia</td><td>Mustelidae</td></tr>
 </tbody>
 </table>
 
 </div>
 
+</div>
+</div>
+</div>
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ggplot() +
     geom_point(data=df, aes(SB, BW, color=SuperFamily), size=3)
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/bernoulli/proportions_8_1.png)
 
-
-{:.output .output_png}
-![png](../images/bernoulli/proportions_7_1.png)
-
-
+</div>
+</div>
+</div>
 
 If these data are truly a random sample (and we're to believe they are), then the proportions of the colors (not the numbers) depict a population parameter.  Here, $p$ might be the population proportion of animals from the order Carnivora that are in the Super Family Caniformia.  As we don't know what value $p$ takes on, we will estimate it with data.
 
@@ -93,9 +118,8 @@ $$ f(x | p) = p^x (1 - p)^{1-x} $$
 
 for $x \in \{0, 1\}$ and $p \in [0, 1]$.  Notice that $x$ only takes on a finite set of values.  When a random variable can take on only a countable number of values, it is called a **discrete** random variable. 
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 bernoulli <- function(x, p) {
     p^x * (1 - p)^(1 - x)
@@ -107,15 +131,22 @@ ggplot(df, aes(factor(x), f)) +
     geom_point(size=3) +
     labs(x = 'x', y = 'f(x)')
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/bernoulli/proportions_12_1.png)
 
-
-{:.output .output_png}
-![png](../images/bernoulli/proportions_11_1.png)
-
-
+</div>
+</div>
+</div>
 
 ### Example
 
@@ -123,22 +154,26 @@ Since $x$ only ever takes on two values $0$ or $1$, this matches perfectly with 
 
 Symbollically, we write $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots, N$.  The random variables $X_n$ correspond to the sequence $0$s and $1$s that tell us which observations belong to the Super Family Caniformia.  The population parameter $p$ is unwknown, but can be estimated with the data $X_n$.  Notice that for Bernoulli data, the sample (because it's applied to data) mean returns a **proportion** since at most the sum of $N$ $1$s is $N$.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(dplyr)
 carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv") %>%
     mutate(Caniformia = as.numeric(SuperFamily == 'Caniformia')) # interested in Canfiformia
 (phat <- round(mean(carnivora$Caniformia), 2))
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 0.51
 </div>
 
+</div>
+</div>
+</div>
 
 Much of this class involves interpretting **statistics** such as the one above.  We'd say based on our data, approximately $51$% of the animals in the Order Carnivora are in the Super Family Caniformia.
 

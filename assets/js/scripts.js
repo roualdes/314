@@ -13,6 +13,7 @@ const textbookId = 'js-textbook'
 const togglerActiveClass = 'is-active'
 const textbookActiveClass = 'js-show-sidebar'
 const mathRenderedClass = 'js-mathjax-rendered'
+const icon_path = document.location.origin + `${site_basename}assets`;
 
 const getToggler = () => document.getElementById(togglerId)
 const getTextbook = () => document.getElementById(textbookId)
@@ -106,7 +107,7 @@ const RIGHT_ARROW_KEYCODE = 39
 
 const getPrevUrl = () => document.getElementById('js-page__nav__prev').href
 const getNextUrl = () => document.getElementById('js-page__nav__next').href
-document.addEventListener('keydown', event => {
+const initPageNav = (event) => {
   const keycode = event.which
 
   if (keycode === LEFT_ARROW_KEYCODE) {
@@ -114,7 +115,16 @@ document.addEventListener('keydown', event => {
   } else if (keycode === RIGHT_ARROW_KEYCODE) {
     Turbolinks.visit(getNextUrl())
   }
-})
+};
+
+var keyboardListener = false;
+const initListener = () => {
+  if (keyboardListener === false) {
+    document.addEventListener('keydown', initPageNav)
+    keyboardListener = true;
+  }
+}
+initFunction(initListener);
 
 /**
  * [5] Right sidebar scroll highlighting
@@ -122,7 +132,7 @@ document.addEventListener('keydown', event => {
 
 highlightRightSidebar = function() {
   var position = document.querySelector('.c-textbook__page').scrollTop;
-  position = position + (window.innerHeight / 3);  // + Manual offset
+  position = position + (window.innerHeight / 4);  // + Manual offset
 
   // Highlight the "active" menu item
   document.querySelectorAll('.c-textbook__content h2, .c-textbook__content h3').forEach((header, index) => {

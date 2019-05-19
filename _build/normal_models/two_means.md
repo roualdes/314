@@ -2,6 +2,8 @@
 redirect_from:
   - "/normal-models/two-means"
 interact_link: content/normal_models/two_means.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Two Means'
 prev_page:
   url: /normal_models/simple_reg
@@ -24,58 +26,82 @@ Instead of a boxplot, we'll focus on two plots.  When there is a sufficiently sm
 
 The jittered scatterplot highlights a reasonable rule of thumb for visualization: display as much of the original data as possible, without cluttering the plot.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(ggplot2)
 carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 ```
+</div>
 
+</div>
 
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
 
+</div>
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ggplot(data=carnivora, aes(SuperFamily, SW)) + geom_jitter(width=.1)
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal_models/two_means_3_1.png)
 
-
-{:.output .output_png}
-![png](../images/normal_models/two_means_2_1.png)
-
-
+</div>
+</div>
+</div>
 
 The other plot we'll use when the y-axis variable is numeric and the x-axis variable is categorical is a violin plot.  A violin plot is a density plot turned vertical and one density plot is made for each level of the x-axis categorical variable.  Below is an example.  The violin plot should be used in addition to the jittered scatter plot, or whever the former plot is too cluttered to be meaningful.
 
 Both of these plots help the scientist visualize the location of the mean and variation for the y-axis variable, within each level of the x-axis categorical variable.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ggplot(data=carnivora, aes(SuperFamily, SW)) + geom_violin()
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal_models/two_means_5_1.png)
 
-
-{:.output .output_png}
-![png](../images/normal_models/two_means_4_1.png)
-
-
+</div>
+</div>
+</div>
 
 The two means model is the common name for estimating a mean of the y-axis variable, here body weight, for each level of the x-axis variable, here super family.  In reality, it's just estimating means by group when there are exactly two levels within the x-axis grouping variable.
 
 Before we move on, it's informative to see that this model is really doing nothing more than estimating means by group.  The code below, first carefully removes $\texttt{NA}$s, estimates group means using $\texttt{dplyr}$, and then estimates group means using our current model.  The current model produces identical numbers, but only through this intermediate number that doesn't quite make sense yet.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(dplyr)
 carn <- carnivora %>%
@@ -86,8 +112,10 @@ carn %>%
     group_by(SuperFamily) %>%
     summarise(mnSB = mean(SW))
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 <table>
@@ -100,6 +128,47 @@ carn %>%
 
 </div>
 
+</div>
+</div>
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```R
+# HIDDEN
+ll <- function(beta, y, mX) {
+    sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
+}
+X <- model.matrix( ~ SuperFamily, data=carn)
+
+(beta <- optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=carn$SW)$par)
+sum(beta)
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+<div markdown="0" class="output output_html">
+<ol class=list-inline>
+	<li>23.4442386143176</li>
+	<li>-6.84206338065863</li>
+</ol>
+
+</div>
+
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+<div markdown="0" class="output output_html">
+16.602175233659
+</div>
+
+</div>
+</div>
+</div>
 
 Model notation is based around the idea of an intercept, despite the fact that the word intercept is not well defined here.  What we mean by intercept in this context is the mean value of body weight, the y-axis variable, for the first level of the x-axis variable, here Caniformia.  In $\texttt{R}$, the first level will always be the alphabetically or numerically first level contained in the x-axis categorical variable.
 
@@ -120,9 +189,8 @@ Now, the "intercept" $\beta_0$ is Caniformia's mean body weight, and the "slope"
 
 The code to fit this model is very similar to the code for simple linear regression.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ll <- function(beta, y, mX) {
     sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
@@ -132,35 +200,44 @@ X <- model.matrix( ~ SuperFamily, data=carn)
 (beta <- optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=carn$SW)$par)
 sum(beta)
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 <ol class=list-inline>
-	<li>23.4442214234</li>
-	<li>-6.84204247330019</li>
+	<li>23.4442322987161</li>
+	<li>-6.8420557728053</li>
 </ol>
 
 </div>
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
-16.6021789500998
+16.6021765259108
 </div>
 
+</div>
+</div>
+</div>
 
 Notice that $X$ again has two columns.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 head(X)
 tail(X)
 ```
+</div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 <table>
@@ -177,7 +254,10 @@ tail(X)
 
 </div>
 
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 <table>
@@ -194,39 +274,48 @@ tail(X)
 
 </div>
 
+</div>
+</div>
+</div>
 
 The first column, as in simple linear regression, is called the intercept and is always $1$.  The second column is $0$ when an observation (row) represents an animal from the super family Caniformia, and is $1$ when an observation represents an animal from the super family Feliformia.  Notice then that the model uses both $\beta_0$ and $\beta_1$ to estimate the mean for members of the super family Feliformia.  This explains why $\beta_1$ is the offset for Feliformia relative to (the ever present) group mean $\beta_0$ for Caniformia.  In the world of data science, they say the variable $\texttt{SuperFamilyFeliformia}$ is one-hot encoded for the observations which are members of the super family Feliformia.  
 
 With this in mind, we can recover the two means of body weight for Caniformia and Feliformia.  Caniformia's estimated mean body weight is $\hat{\beta}_0$ and Feliformia's estimated mean body weight is $\hat{\beta}_0 + \hat{\beta}_1$.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 beta[1]
 sum(beta)
 ```
-
-
-
-<div markdown="0" class="output output_html">
-23.4442214234
 </div>
 
-
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
-16.6021789500998
+23.4442322987161
 </div>
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+<div markdown="0" class="output output_html">
+16.6021765259108
+</div>
+
+</div>
+</div>
+</div>
 
 The interpretation of each group's mean is the same as interpretting a single mean.
 
 Quantifying uncertainty in our estimates is carried out with the bootstrap method.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(boot)
 
@@ -240,13 +329,14 @@ b <- boot(cbind(carn$SW, X), R=999, breg)
 bci_beta0 <- boot.ci(b, conf=.9, type="perc", index=1)
 bci_beta1 <- boot.ci(b, conf=.9, type="perc", index=2)
 ```
+</div>
 
+</div>
 
 Plotting the bootstrap estimated sampling distributions for Feliformia's offset gives good idea of the similarlity between Caniformia and Feliformia.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 bdf <- as.data.frame(b$t)
 names(bdf) <- c('caniformia', 'feliformia_offset')
@@ -254,28 +344,38 @@ ggplot(data=bdf, aes(feliformia_offset)) +
     geom_density()
 quantile(bdf$feliformia_offset, probs=c(0.1, .5, .9))
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 <dl class=dl-horizontal>
 	<dt>10%</dt>
-		<dd>-19.7847136837903</dd>
+		<dd>-20.0943690908679</dd>
 	<dt>50%</dt>
-		<dd>-6.11791867824693</dd>
+		<dd>-6.30098640957269</dd>
 	<dt>90%</dt>
-		<dd>5.48009070530623</dd>
+		<dd>4.89842857233693</dd>
 </dl>
 
 </div>
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal_models/two_means_18_2.png)
 
-{:.output .output_png}
-![png](../images/normal_models/two_means_16_2.png)
-
-
+</div>
+</div>
+</div>
 
 The summary statistics, including the plot, above suggest that there's a reasonable chance that the mean body weight for Feliformia is roughly equal to that of Caniformia.  But be careful with this conclusion, because the violin plot above shows that there's some members of the super family Caniformia that are always heavier than some members of Feliformia.  Do you know which animals these are?

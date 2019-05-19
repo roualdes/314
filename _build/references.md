@@ -1,5 +1,7 @@
 ---
 interact_link: content/references.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'References'
 prev_page:
   url: /normal_models/multiple_linear_reg

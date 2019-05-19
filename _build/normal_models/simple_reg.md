@@ -2,6 +2,8 @@
 redirect_from:
   - "/normal-models/simple-reg"
 interact_link: content/normal_models/simple_reg.ipynb
+kernel_name: ir
+has_widgets: false
 title: 'Simple Linear Regression'
 prev_page:
   url: /normal_models/one_mean
@@ -23,18 +25,30 @@ We again focus on the expected value, not $\sigma$, but we will start dropping t
 
 The following code reads in the dataset, plots the $\texttt{mpgCity}$ variable against the $\texttt{weight}$ data, and calculates an estimate of the population mean dependent on the sampled cars' weights.  Here the estimated expected city MPG is formed by a linear combination of $\hat{\beta}_0, \hat{\beta}_1$ and $\texttt{weight}$.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(ggplot2)
 cars <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/cars.csv")
 ```
+</div>
 
+</div>
 
+<div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```R
+update_geom_defaults("point", list(colour = "blue"))
+update_geom_defaults("density", list(colour = "blue"))
+update_geom_defaults("path", list(colour = "blue"))
+old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```
+</div>
 
+</div>
 
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 ggplot() +
     geom_point(data=cars, aes(weight, mpgCity))
@@ -46,25 +60,35 @@ X <- model.matrix( ~ weight, data=cars)
 
 (beta <- optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=cars$mpgCity)$par)
 ```
+</div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
-
-
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
 <div markdown="0" class="output output_html">
 <ol class=list-inline>
-	<li>50.1430417155167</li>
-	<li>-0.00883260731796067</li>
+	<li>50.1430417155812</li>
+	<li>-0.00883260732427505</li>
 </ol>
 
 </div>
 
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
 
+{:.output_png}
+![png](../images/normal_models/simple_reg_3_2.png)
 
-{:.output .output_png}
-![png](../images/normal_models/simple_reg_2_2.png)
-
-
+</div>
+</div>
+</div>
 
 We write the estimated linear model as 
 
@@ -78,37 +102,38 @@ Be careful to not overly interpret these estimates as describing a causal relati
 
 Just like before, the estimates $\hat{\beta}_0, \hat{\beta}_1$ are simply one set of estimates based on one random sample.  The values we produced could be due to pure random chance.  To better understand our uncertainty in these estimates, we will calculate confidence intervals.  We will let the function $\texttt{boot::boot}$ do the random sampling for us, and for that we need write a function that accepts our data and a vector of indices.
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 library(boot)
 
 simple_reg <- function(data, idx) {
     y <- data[idx, 1]
     X <- data[idx, -1]
-    optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=y)$par
+    optim(rexp(2), ll, method="BFGS", mX=X, y=y)$par
 }
 
 b <- boot(cbind(cars$mpgCity, X), R=999, simple_reg)
 bci_beta0 <- boot.ci(b, conf=.9, type="perc", index=1)
 bci_beta1 <- boot.ci(b, conf=.9, type="perc", index=2)
 ```
+</div>
 
+</div>
 
 The $90\%$ confidence intervals for $\beta_0$ and $\beta_1$ are
 
-
-
-{:.input_area}
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
 ```R
 bci_beta0
 bci_beta1
 ```
+</div>
 
-
-
-{:.output .output_data_text}
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_data_text}
 ```
 BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 Based on 999 bootstrap replicates
@@ -118,13 +143,15 @@ boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 1)
 
 Intervals : 
 Level     Percentile     
-90%   (45.28, 55.33 )  
+90%   (45.16, 55.09 )  
 Calculations and Intervals on Original Scale
 ```
 
-
-
-{:.output .output_data_text}
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_data_text}
 ```
 BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 Based on 999 bootstrap replicates
@@ -134,10 +161,13 @@ boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 2)
 
 Intervals : 
 Level     Percentile     
-90%   (-0.0104, -0.0074 )  
+90%   (-0.0103, -0.0074 )  
 Calculations and Intervals on Original Scale
 ```
 
+</div>
+</div>
+</div>
 
 Some classes will make a big deal about the slope estimate not including $0$.  There's no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, is the true population slope equal to zero or isn't it.  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.
 
