@@ -21,6 +21,15 @@ will heavily use [R](https://cran.r-project.org/), but
 [RStudio](https://www.rstudio.com/) is the suggested interface to the
 language R.
 
+## Author
+
+Edward A. Roualdes  
+Asst. Professor of Statistics  
+Department of Mathematics and Statistics  
+California State University, Chico  
+
+I acknowledge and am mindful that Chico State stands on lands that were originally occupied by the first people of this area, the Mechoopda. I would like to thank the Mechoopda and other native peoples for providing us the opportunity to obtain an education on their ancestral lands.
+
 ## License
 
 The contents of this book are licensed under the
