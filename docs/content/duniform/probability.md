@@ -58,7 +58,7 @@ letter or numbers.
 Consider another random variable, also named $X$.  Let $X \sim U(0,
 1)$ be a discrete Uniform random variable on the numbers $0$ and $1$.
 Note that this could reasonably represent a fair coin, since we are
-willing to drop the events $\{H, T\}$ from our notation.  Next, we
+willing to drop the events $\{T, H\}$ from our notation.  Next, we
 will consider what the following mathematical statements means, in
 an operational sense, $P(X \in \\{ H \\}) = 1/2$.
 
@@ -85,6 +85,7 @@ to produce head.
 ## Probability in practice
 
 Statistic attempts to approximate probabilities defined with respect to random variables.  The most common approximation strategy, relative to the theoretical definition of probability above, is to simply drop the limit.  Let's define an approximation $\hat{P}(X \in E)$ to $P(X \in E)$ above.
+
 $$ \hat{P}(X \in E) = \sum_{n=1}^N \frac{1(X_n \in E)}{N}$$
 
 In practice, we might let $X$ represent a coin.  If we are interested in the event of flipping a heads, then we might flip this coin $N$ times and add up the total number of heads and divide by the total number of experiments.  Take the time to notice that this is exactly what the $\hat{P}$ notation is saying mathematically.

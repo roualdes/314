@@ -29,9 +29,9 @@
   "headline":
     "Random Variables and Probability",
   "datePublished":
-    "2019-08-06T09:29:55-07:00",
+    "2019-08-06T09:42:16-07:00",
   "dateModified":
-    "2019-08-06T09:29:55-07:00",
+    "2019-08-06T09:42:16-07:00",
   "description":
     "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
   "author": {
@@ -1092,7 +1092,7 @@ letter or numbers.</p>
 <p>Consider another random variable, also named $X$.  Let $X \sim U(0,
 1)$ be a discrete Uniform random variable on the numbers $0$ and $1$.
 Note that this could reasonably represent a fair coin, since we are
-willing to drop the events ${H, T}$ from our notation.  Next, we
+willing to drop the events ${T, H}$ from our notation.  Next, we
 will consider what the following mathematical statements means, in
 an operational sense, $P(X \in \{ H \}) = 1/2$.</p>
 
@@ -1118,8 +1118,9 @@ to produce head.</p>
 
 <h2 id="probability-in-practice">Probability in practice</h2>
 
-<p>Statistic attempts to approximate probabilities defined with respect to random variables.  The most common approximation strategy, relative to the theoretical definition of probability above, is to simply drop the limit.  Let’s define an approximation $\hat{P}(X \in E)$ to $P(X \in E)$ above.
-<script type="math/tex">\hat{P}(X \in E) = \sum_{n=1}^N \frac{1(X_n \in E)}{N}</script></p>
+<p>Statistic attempts to approximate probabilities defined with respect to random variables.  The most common approximation strategy, relative to the theoretical definition of probability above, is to simply drop the limit.  Let’s define an approximation $\hat{P}(X \in E)$ to $P(X \in E)$ above.</p>
+
+<script type="math/tex; mode=display">\hat{P}(X \in E) = \sum_{n=1}^N \frac{1(X_n \in E)}{N}</script>
 
 <p>In practice, we might let $X$ represent a coin.  If we are interested in the event of flipping a heads, then we might flip this coin $N$ times and add up the total number of heads and divide by the total number of experiments.  Take the time to notice that this is exactly what the $\hat{P}$ notation is saying mathematically.</p>
 
