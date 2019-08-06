@@ -29,9 +29,9 @@
   "headline":
     "Random Variables and Probability",
   "datePublished":
-    "2019-07-14T08:50:24-07:00",
+    "2019-08-06T09:29:55-07:00",
   "dateModified":
-    "2019-07-14T08:50:24-07:00",
+    "2019-08-06T09:29:55-07:00",
   "description":
     "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
   "author": {
@@ -1040,32 +1040,44 @@ rolling a $1$ is $1/6$.  Throughout this section, don’t let this
 intuition go.  Rather expand upon it to the more detailed
 descriptions below.</p>
 
+<p>In this section we’ll use some new words.  As a warm up, let’s introduce a few new words based on the easy to think about dice example.</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Experiment_(probability_theory)"><strong>Experiment</strong></a>: An occurrence with an uncertain outcome that we can observe. 
+For example, rolling a die.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Outcome_(probability)"><strong>Outcome</strong></a>: The result of an experiment; one particular state of the world. Sometimes called a “case.”<br />
+For example: $4$.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Sample_space"><strong>Sample Space</strong></a>: The set of all possible outcomes for the experiment.<br />
+For example, $\{1, 2, 3, 4, 5, 6\}$.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Event_(probability_theory)"><strong>Event</strong></a>: A subset of possible outcomes that together have some property we are interested in.<br />
+For example, the event “even die roll” is the set of outcomes $\{2, 4, 6\}$.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Probability_theory"><strong>Probability</strong></a>: As <a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace</a> said, the probability of an event with respect to a sample space is the number of favorable cases (outcomes from the sample space that are in the event) divided by the total number of cases in the sample space. (This assumes that all outcomes in the sample space are equally likely.) Since it is a ratio, probability will always be a number between 0 (representing an impossible event) and $1$ (representing a certain event).<br />
+For example, the probability of an even die roll is $3/6 = 1/2$.</li>
+</ul>
+
+<p>The specific definitions aboves come from Peter Norvig’s <a href="https://nbviewer.jupyter.org/url/norvig.com/ipython/Probability.ipynb">A Concrete Introduction to Probability (using Python)</a>, which is a great resource if you want more information about the basics of probability.</p>
+
 <h2 id="random-variable">Random Variable</h2>
 
-<p>A <strong>random variable</strong> is a function from an <strong>event</strong> to a
-numerical value.  Note that the randomness is not, per se, part of the
-random variable.  The randomness is instead found in the underlying
+<p>A <strong>random variable</strong> is a function from abritrary sets of the <strong>sample space</strong> to a numerical value.  Despite the name, the randomness is not, per se, part of the variable.  The randomness is instead found in the underlying
 process that the random variable is meant to quantify.</p>
 
-<p>A die is especially easy to think about, but
-for clarity let’s imagine a die labeled with the letters $A, B, C,
+<p>A die is especially easy to think, because it maps so well to a random variable.  But for the sake of clarity, let’s imagine a die labeled with the letters $A, B, C,
 D, E, F$ instead of the numbers $1, 2, 3, 4, 5, 6$.  As far the
-events go, rolling an $A$ will still happen with probability $1/6$.
+events go, rolling an $A$ will still happen with probability $1/6$; there’s only one $A$ and $6$ possible outcomes, hence $1/6$.
 This special die helps us separate the distinct pieces
 of random variables.  With this special die, we have events – any value of
 interest that a die might turn up – and values produced by the random
-variable associated with those events.  In notation, we might write
+variable associated with those events.  In mathematical notation, we might write
 $X(A) = 1$, $X(B) = 2, \ldots, X(F) = 6$.</p>
 
-<p>In mathematical statistics, we read $X \sim Uniform(\{A, B, C,
-D, E, F\})$, the random variable $X$ follows a
+<p>In mathematical statistics, we read $X \sim Uniform(\{A, B, C, D, E, F\})$, the random variable $X$ follows a
 <strong>discrete</strong> Uniform distribution on the set $\{A, B, C, D, E, F\}$.
 If you’re content to keep numbers on your die to enable cleaner
 notation we read $X \sim \text{Uniform}(1, 6)$, the random
-variable $X$ follows a <strong>discrete</strong> Uniform distribution on the set
+variable $X$ follows a discrete Uniform distribution on the set
 $\{1, 2, 3, 4, 5, 6\}$.  Notice that the notation $\text{Uniform}(1,
-6)$ implies the integer values in between $1$ and $6$.  The latter
-notation is more common.</p>
+6)$ implies the integer values from $1$ to $6$, inclusive.  The notation $X \sim \text{Uniform}(1, 6)$ is more common.</p>
 
 <p>In fact, it’s common to drop the argument to the random variable,
 which is really a function, entirely.  More often interest lies in the
@@ -1092,7 +1104,7 @@ event.  This book will focus on an empirical version of probability
 that goes as follows.</p>
 
 <p>The probability of an event $E$ is the limiting relative frequency of
-the occurrences of $E$ over the number of trials,</p>
+the occurrences of $E$ over the number of experiments $N$,</p>
 
 <script type="math/tex; mode=display">P(X \in E) = \lim_{N \rightarrow \infty} \sum_{n=1}^N \frac{1(X_n \in E)}{N},</script>
 
@@ -1103,6 +1115,13 @@ repeatability) an infinite number of times.  In terms of a fair coin,
 $P(X \in \{H\}) = 1/2$ implies that we believe that flipping a fair
 coin an infinite number of times would witness one half of the flips
 to produce head.</p>
+
+<h2 id="probability-in-practice">Probability in practice</h2>
+
+<p>Statistic attempts to approximate probabilities defined with respect to random variables.  The most common approximation strategy, relative to the theoretical definition of probability above, is to simply drop the limit.  Let’s define an approximation $\hat{P}(X \in E)$ to $P(X \in E)$ above.
+<script type="math/tex">\hat{P}(X \in E) = \sum_{n=1}^N \frac{1(X_n \in E)}{N}</script></p>
+
+<p>In practice, we might let $X$ represent a coin.  If we are interested in the event of flipping a heads, then we might flip this coin $N$ times and add up the total number of heads and divide by the total number of experiments.  Take the time to notice that this is exactly what the $\hat{P}$ notation is saying mathematically.</p>
 
               <nav class="c-page__nav">
   

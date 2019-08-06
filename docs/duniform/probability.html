@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
   <title>Random Variables and Probability</title>
-  <meta name="description" content="Random Variables and Probability">
+  <meta name="description" content="Peter Norvig, 12 Feb 2016">
 
   <link rel="canonical" href="/duniform/probability.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
@@ -16,7 +16,7 @@
   <meta property="og:url"         content="/duniform/probability.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Random Variables and Probability" />
-<meta property="og:description" content="Random Variables and Probability" />
+<meta property="og:description" content="Peter Norvig, 12 Feb 2016" />
 <meta property="og:image"       content="" />
 
 
@@ -29,11 +29,11 @@
   "headline":
     "Random Variables and Probability",
   "datePublished":
-    "2019-07-14T08:50:24-07:00",
+    "2019-08-06T09:29:55-07:00",
   "dateModified":
-    "2019-07-14T08:50:24-07:00",
+    "2019-08-06T09:29:55-07:00",
   "description":
-    "Random Variables and Probability",
+    "Peter Norvig, 12 Feb 2016",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -1028,81 +1028,1943 @@ initFunction(initQuery);
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="random-variables-and-probability">Random Variables and Probability</h1>
+              <div style="text-align: right">Peter Norvig, 12 Feb 2016</div>
 
-<h2 id="dice">Dice</h2>
+<h1 id="a-concrete-introduction-to-probability-using-python">A Concrete Introduction to Probability (using Python)</h1>
 
-<p>Die are easy to think about, because we’ve all rolled a die before and
-we all think we know what we mean when we say the probability of
-rolling a $1$ is $1/6$.  Throughout this section, don’t let this
-intuition go.  Rather expand upon it to the more detailed
-descriptions below.</p>
+<p>This notebook covers the basics of probability theory, with Python 3 implementations. (You should have some background in <a href="http://www.dartmouth.edu/~chance/teaching_aids/books_articles/probability_book/pdf.html">probability</a> and <a href="https://www.python.org/about/gettingstarted/">Python</a>.)</p>
 
-<h2 id="random-variable">Random Variable</h2>
+<p>In 1814, Pierre-Simon Laplace <a href="https://en.wikipedia.org/wiki/Classical_definition_of_probability">wrote</a>:</p>
 
-<p>A <strong>random variable</strong> is a function from an <strong>event</strong> to a
-numerical value.  Note that the randomness is not, per se, part of the
-random variable.  The randomness is instead found in the underlying
-process that the random variable is meant to quantify.</p>
+<blockquote>
+  <p><em>Probability … is thus simply a fraction whose numerator is the number of favorable cases and whose denominator is the number of all the cases possible … when nothing leads us to expect that any one of these cases should occur more than any other.</em></p>
+</blockquote>
 
-<p>A die is especially easy to think about, but
-for clarity let’s imagine a die labeled with the letters $A, B, C,
-D, E, F$ instead of the numbers $1, 2, 3, 4, 5, 6$.  As far the
-events go, rolling an $A$ will still happen with probability $1/6$.
-This special die helps us separate the distinct pieces
-of random variables.  With this special die, we have events – any value of
-interest that a die might turn up – and values produced by the random
-variable associated with those events.  In notation, we might write
-$X(A) = 1$, $X(B) = 2, \ldots, X(F) = 6$.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/AduC_197_Laplace_%28P.S.%2C_marquis_de%2C_1749-1827%29.JPG/180px-AduC_197_Laplace_%28P.S.%2C_marquis_de%2C_1749-1827%29.JPG" alt="Laplace" /></p>
+<center><a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace</a><br />1814</center>
 
-<p>In mathematical statistics, we read $X \sim Uniform(\{A, B, C,
-D, E, F\})$, the random variable $X$ follows a
-<strong>discrete</strong> Uniform distribution on the set $\{A, B, C, D, E, F\}$.
-If you’re content to keep numbers on your die to enable cleaner
-notation we read $X \sim \text{Uniform}(1, 6)$, the random
-variable $X$ follows a <strong>discrete</strong> Uniform distribution on the set
-$\{1, 2, 3, 4, 5, 6\}$.  Notice that the notation $\text{Uniform}(1,
-6)$ implies the integer values in between $1$ and $6$.  The latter
-notation is more common.</p>
+<p>Laplace really nailed it, way back then! If you want to untangle a probability problem, all you have to do is be methodical about defining exactly what the cases are, and then careful in counting the number of favorable and total cases. We’ll start being methodical by defining some vocabulary:</p>
 
-<p>In fact, it’s common to drop the argument to the random variable,
-which is really a function, entirely.  More often interest lies in the
-probability of events.  For example, we might be interested in the
-probability that either $A, B,$ or $C$ turn up.  Let $E = \{1, 2, 3\}$
-be the event that an $A, B$, or $C$ turns up in one roll.  We read
-$P(X \in E)$ what is the probability that we roll one of $A, B,$ or
-$C$.  At a certain point, the argument to $X$ just gets in the way
-since the notation $P(X \in E)$ equally applies to a die labeled with
-letter or numbers.</p>
+<ul>
+  <li><strong>[Experiment](https://en.wikipedia.org/wiki/Experiment_(probability_theory%29):</strong>
+An occurrence with an uncertain outcome that we can observe.
+<br /><em>For example, rolling a die.</em></li>
+  <li><strong>[Outcome](https://en.wikipedia.org/wiki/Outcome_(probability%29):</strong>
+The result of an experiment; one particular state of the world. What Laplace calls a “case.”
+<br /><em>For example:</em> <code class="highlighter-rouge">4</code>.</li>
+  <li><strong><a href="https://en.wikipedia.org/wiki/Sample_space">Sample Space</a>:</strong>
+The set of all possible outcomes for the experiment. 
+<br /><em>For example,</em> <code class="highlighter-rouge">{1, 2, 3, 4, 5, 6}</code>.</li>
+  <li><strong>[Event](https://en.wikipedia.org/wiki/Event_(probability_theory%29):</strong>
+A subset of possible outcomes that together have some property we are interested in.
+<br /><em>For example, the event “even die roll” is the set of outcomes</em> <code class="highlighter-rouge">{2, 4, 6}</code>.</li>
+  <li><strong><a href="https://en.wikipedia.org/wiki/Probability_theory">Probability</a>:</strong>
+As Laplace said, the probability of an event with respect to a sample space is the number of favorable cases (outcomes from the sample space that are in the event) divided by the total number of cases in the sample space. (This assumes that all outcomes in the sample space are equally likely.) Since it is a ratio, probability will always be a number between 0 (representing an impossible event) and 1 (representing a certain event).
+<br /><em>For example, the probability of an even die roll is 3/6 = 1/2.</em></li>
+</ul>
 
-<p>Consider another random variable, also named $X$.  Let $X \sim U(0,
-1)$ be a discrete Uniform random variable on the numbers $0$ and $1$.
-Note that this could reasonably represent a fair coin, since we are
-willing to drop the events ${H, T}$ from our notation.  Next, we
-will consider what the following mathematical statements means, in
-an operational sense, $P(X \in \{ H \}) = 1/2$.</p>
+<p>This notebook will develop all these concepts; I also have a <a href="http://nbviewer.jupyter.org/url/norvig.com/ipython/ProbabilityParadox.ipynb">second part</a> that covers  paradoxes in Probability Theory.</p>
 
-<h2 id="probability">Probability</h2>
+<h1 id="code-for-p">Code for <code class="highlighter-rouge">P</code></h1>
 
-<p>Retired professor <a href="https://web.ma.utexas.edu/users/mks/statmistakes/probability.html">M. K. Smith</a>
-provides a nice survey of the various notions of the probability of an
-event.  This book will focus on an empirical version of probability
-that goes as follows.</p>
+<p><code class="highlighter-rouge">P</code> is the traditional name for the Probability function:</p>
 
-<p>The probability of an event $E$ is the limiting relative frequency of
-the occurrences of $E$ over the number of trials,</p>
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
 
-<script type="math/tex; mode=display">P(X \in E) = \lim_{N \rightarrow \infty} \sum_{n=1}^N \frac{1(X_n \in E)}{N},</script>
+<span class="k">def</span> <span class="nf">P</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span> 
+    <span class="s">"The probability of an event, given a sample space of equiprobable outcomes."</span>
+    <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">event</span> <span class="o">&amp;</span> <span class="n">space</span><span class="p">),</span> 
+                    <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </div>
 
-<p>where $1(X \in E)$ takes on the value $1$ any time the random variable
-$X$ is in the event $E$ and $0$ otherwise.  We interpret probability
-as if the process that produces $X$ were repeated (thus assuming
-repeatability) an infinite number of times.  In terms of a fair coin,
-$P(X \in \{H\}) = 1/2$ implies that we believe that flipping a fair
-coin an infinite number of times would witness one half of the flips
-to produce head.</p>
+</div>
+
+<p>Read this as implementing Laplace’s quote directly: <em>“Probability is thus simply a fraction whose numerator is the number of favorable cases and whose denominator is the number of all the cases possible.”</em></p>
+
+<h1 id="warm-up-problem-die-roll">Warm-up Problem: Die Roll</h1>
+
+<p>What’s the probability of rolling an even number with a single six-sided fair die?</p>
+
+<p>We can define the sample space <code class="highlighter-rouge">D</code> and the event <code class="highlighter-rouge">even</code>, and compute the probability:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">D</span>    <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">}</span>
+<span class="n">even</span> <span class="o">=</span> <span class="p">{</span>   <span class="mi">2</span><span class="p">,</span>    <span class="mi">4</span><span class="p">,</span>    <span class="mi">6</span><span class="p">}</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">even</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(1, 2)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>It is good to confirm what we already knew.</p>
+
+<p>You may ask: Why does the definition of <code class="highlighter-rouge">P</code> use <code class="highlighter-rouge">len(event &amp; space)</code> rather than <code class="highlighter-rouge">len(event)</code>? Because I don’t want to count outcomes that were specified in <code class="highlighter-rouge">event</code> but aren’t actually in the sample space. Consider:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">even</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">}</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">even</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(1, 2)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Here, <code class="highlighter-rouge">len(event)</code> and <code class="highlighter-rouge">len(space)</code> are both 6, so if just divided, then <code class="highlighter-rouge">P</code> would be 1, which is not right.
+The favorable cases are the <em>intersection</em> of the event and the space, which in Python is <code class="highlighter-rouge">(event &amp; space)</code>.
+Also note that I use <code class="highlighter-rouge">Fraction</code> rather than regular division because I want exact answers like 1/3, not 0.3333333333333333.</p>
+
+<h1 id="urn-problems">Urn Problems</h1>
+
+<p>Around 1700, Jacob Bernoulli wrote about removing colored balls from an urn in his landmark treatise <em><a href="https://en.wikipedia.org/wiki/Ars_Conjectandi">Ars Conjectandi</a></em>, and ever since then, explanations of probability have relied on <a href="https://www.google.com/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=probability%20ball%20urn">urn problems</a>. (You’d think the urns would be empty by now.)</p>
+
+<p><img src="http://www2.stetson.edu/~efriedma/periodictable/jpg/Bernoulli-Jacob.jpg" alt="Jacob Bernoulli" /></p>
+<center><a href="https://en.wikipedia.org/wiki/Jacob_Bernoulli">Jacob Bernoulli</a><br />1700</center>
+
+<p>For example, here is a three-part problem <a href="http://mathforum.org/library/drmath/view/69151.html">adapted</a>  from mathforum.org:</p>
+
+<blockquote>
+  <p>An urn contains 23 balls: 8 white, 6 blue, and 9 red.  We select six balls at random (each possible selection is equally likely). What is the probability of each of these possible outcomes:</p>
+</blockquote>
+
+<blockquote>
+  <ol>
+    <li>all balls are red</li>
+    <li>3 are blue, 2 are white, and 1 is red</li>
+    <li>exactly 4 balls are white</li>
+  </ol>
+</blockquote>
+
+<p>So, an outcome is a set of 6 balls, and the sample space is the set of all possible 6 ball combinations. We’ll solve each of the 3 parts using our <code class="highlighter-rouge">P</code> function, and also using basic arithmetic; that is, <em>counting</em>. Counting is a bit tricky because:</p>
+<ul>
+  <li>We have multiple balls of the same color.</li>
+  <li>An outcome is a <em>set</em> of balls, where order doesn’t matter, not a <em>sequence</em>, where order matters.</li>
+</ul>
+
+<p>To account for the first issue, I’ll have 8 different white balls labelled <code class="highlighter-rouge">'W1'</code> through <code class="highlighter-rouge">'W8'</code>, rather than having eight balls all labelled <code class="highlighter-rouge">'W'</code>.  That makes it clear that selecting <code class="highlighter-rouge">'W1'</code> is different from selecting <code class="highlighter-rouge">'W2'</code>.</p>
+
+<p>The second issue is handled automatically by the <code class="highlighter-rouge">P</code> function, but if I want to do calculations by hand, I will sometimes first count the number of <em>permutations</em> of balls, then get the number of <em>combinations</em> by dividing the number of permutations by <em>c</em>!, where <em>c</em> is the number of balls in a combination. For example, if I want to choose 2 white balls from the 8 available, there are 8 ways to choose a first white ball and 7 ways to choose a second, and therefore 8 × 7 = 56 permutations of two white balls. But there are only 56 / 2 = 28 combinations, because <code class="highlighter-rouge">(W1, W2)</code> is the same combination as <code class="highlighter-rouge">(W2, W1)</code>.</p>
+
+<p>We’ll start by defining the contents of the urn:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="s">"The set of ways of concatenating one item from collection A with one from B."</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> 
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">A</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">B</span><span class="p">}</span>
+
+<span class="n">urn</span> <span class="o">=</span> <span class="n">cross</span><span class="p">(</span><span class="s">'W'</span><span class="p">,</span> <span class="s">'12345678'</span><span class="p">)</span> <span class="o">|</span> <span class="n">cross</span><span class="p">(</span><span class="s">'B'</span><span class="p">,</span> <span class="s">'123456'</span><span class="p">)</span> <span class="o">|</span> <span class="n">cross</span><span class="p">(</span><span class="s">'R'</span><span class="p">,</span> <span class="s">'123456789'</span><span class="p">)</span> 
+
+<span class="n">urn</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'B1',
+ 'B2',
+ 'B3',
+ 'B4',
+ 'B5',
+ 'B6',
+ 'R1',
+ 'R2',
+ 'R3',
+ 'R4',
+ 'R5',
+ 'R6',
+ 'R7',
+ 'R8',
+ 'R9',
+ 'W1',
+ 'W2',
+ 'W3',
+ 'W4',
+ 'W5',
+ 'W6',
+ 'W7',
+ 'W8'}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">len</span><span class="p">(</span><span class="n">urn</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>23
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Now we can define the sample space, <code class="highlighter-rouge">U6</code>, as the set of all 6-ball combinations.  We use <code class="highlighter-rouge">itertools.combinations</code> to generate the combinations, and then join each combination into a string:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="k">def</span> <span class="nf">combos</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="s">"All combinations of n items; each combo as a concatenated str."</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">combo</span><span class="p">)</span> 
+            <span class="k">for</span> <span class="n">combo</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">n</span><span class="p">)}</span>
+
+<span class="n">U6</span> <span class="o">=</span> <span class="n">combos</span><span class="p">(</span><span class="n">urn</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">U6</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100947
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>I don’t want to print all 100,947 members of the sample space; let’s just peek at a random sample of them:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">U6</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['R7 W3 B1 R4 B3 W2',
+ 'R7 R3 B1 W4 R5 W6',
+ 'B5 B4 B6 W1 R3 R2',
+ 'W3 B1 R4 W8 R9 W5',
+ 'W7 B6 W1 R3 R9 B3',
+ 'W3 W1 R8 R2 R1 W5',
+ 'B5 R7 R4 W8 R2 W6',
+ 'W7 W1 R3 W4 R5 B3',
+ 'B4 R7 B2 B1 W6 W2',
+ 'W7 B1 W4 W8 W6 W2']
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Is 100,947 really the right number of ways of choosing 6 out of 23 items, or  “23 choose 6”, as  mathematicians <a href="https://en.wikipedia.org/wiki/Combination">call it</a>?  Well, we can choose any of 23 for the first item, any of 22 for the second, and so on down to 18 for the sixth. But we don’t care about the ordering of the six items, so we divide the product by 6! (the number of permutations of 6 things) giving us:</p>
+
+<script type="math/tex; mode=display">23 ~\mbox{choose}~ 6 = \frac{23 \cdot 22 \cdot 21 \cdot 20 \cdot 19 \cdot 18}{6!} = 100947</script>
+
+<p>Note that $23 \cdot 22 \cdot 21 \cdot 20 \cdot 19 \cdot 18 = 23! \;/\; 17!$, so, generalizing, we can write:</p>
+
+<script type="math/tex; mode=display">n ~\mbox{choose}~ c = \frac{n!}{(n - c)! \cdot c!}</script>
+
+<p>And we can translate that to code and verify that 23 choose 6 is 100,947:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span>
+
+<span class="k">def</span> <span class="nf">choose</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="s">"Number of ways to choose c items from a list of n items."</span>
+    <span class="k">return</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">choose</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100947
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Now we’re ready to answer the 4 problems:</p>
+
+<h3 id="urn-problem-1-whats-the-probability-of-selecting-6-red-balls">Urn Problem 1: what’s the probability of selecting 6 red balls?</h3>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">red6</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">U6</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">'R'</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">}</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">red6</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(4, 4807)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Let’s investigate a bit more. How many ways of getting 6 red balls are there?</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">len</span><span class="p">(</span><span class="n">red6</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>84
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Why are there 84 ways?  Because there are 9 red balls in the urn, and we are asking how many ways we can choose 6 of them:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">choose</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>84
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>So the probabilty of 6 red balls is then just 9 choose 6 divided by the size of the sample space:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">red6</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">choose</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> 
+                        <span class="nb">len</span><span class="p">(</span><span class="n">U6</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h3 id="urn-problem-2-what-is-the-probability-of-3-blue-2-white-and-1-red">Urn Problem 2: what is the probability of 3 blue, 2 white, and 1 red?</h3>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">b3w2r1</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">U6</span> <span class="k">if</span>
+          <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">'B'</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">'W'</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">'R'</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">}</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">b3w2r1</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(240, 4807)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>We can get the same answer by counting how many ways we can choose 3 out of 6 blues, 2 out of 8 whites, and 1 out of 9 reds, and dividing by the number of possible selections:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">b3w2r1</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">choose</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">choose</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">choose</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> 
+                          <span class="nb">len</span><span class="p">(</span><span class="n">U6</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Here we don’t need to divide by any factorials, because <code class="highlighter-rouge">choose</code> has already accounted for that.</p>
+
+<p>We can get the same answer by figuring: “there are 6 ways to pick the first blue, 5 ways to pick the second blue, and 4 ways to pick the third; then 8 ways to pick the first white and 7 to pick the second; then 9 ways to pick a red. But the order <code class="highlighter-rouge">'B1, B2, B3'</code> should count as the same as <code class="highlighter-rouge">'B2, B3, B1'</code> and all the other orderings; so divide by 3! to account for the permutations of blues, by 2! to account for the permutations of whites, and by 100947 to get a probability:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">P</span><span class="p">(</span><span class="n">b3w2r1</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">7</span><span class="p">)</span> <span class="o">*</span> <span class="mi">9</span><span class="p">,</span> 
+                           <span class="n">factorial</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">U6</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h3 id="urn-problem-3-what-is-the-probability-of-exactly-4-white-balls">Urn Problem 3: What is the probability of exactly 4 white balls?</h3>
+
+<p>We can interpret this as choosing 4 out of the 8 white balls, and 2 out of the 15 non-white balls. Then we can solve it the same three ways:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w4</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">U6</span> <span class="k">if</span>
+      <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">'W'</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">}</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">w4</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(350, 4807)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">w4</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">choose</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">choose</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                      <span class="nb">len</span><span class="p">(</span><span class="n">U6</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">w4</span><span class="p">,</span> <span class="n">U6</span><span class="p">)</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">((</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="mi">14</span><span class="p">),</span>
+                      <span class="n">factorial</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">U6</span><span class="p">))</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h1 id="revised-version-of-p-with-more-general-events">Revised Version of <code class="highlighter-rouge">P</code>, with more general events</h1>
+
+<p>To calculate the probability of an even die roll, I originally said</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>even = {2, 4, 6}
+</code></pre></div></div>
+
+<p>But that’s inelegant—I had to explicitly enumerate all the even numbers from one to six. If I ever wanted to deal with a twelve or twenty-sided die, I would have to go back and change  <code class="highlighter-rouge">even</code>.  I would prefer to define <code class="highlighter-rouge">even</code> once and for all like this:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">even</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Now in order to make <code class="highlighter-rouge">P(even, D)</code> work, I’ll have to modify <code class="highlighter-rouge">P</code> to accept an event as either
+a <em>set</em> of outcomes (as before), or a <em>predicate</em> over outcomes—a function that returns true for an outcome that is in the event:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">P</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span> 
+    <span class="s">"""The probability of an event, given a sample space of equiprobable outcomes.
+    event can be either a set of outcomes, or a predicate (true for outcomes in the event)."""</span>
+    <span class="k">if</span> <span class="n">is_predicate</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">such_that</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">event</span> <span class="o">&amp;</span> <span class="n">space</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">))</span>
+
+<span class="n">is_predicate</span> <span class="o">=</span> <span class="nb">callable</span>
+
+<span class="k">def</span> <span class="nf">such_that</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="n">collection</span><span class="p">):</span> 
+    <span class="s">"The subset of elements in the collection for which the predicate is true."</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">collection</span> <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>Here we see how <code class="highlighter-rouge">such_that</code>, the new <code class="highlighter-rouge">even</code> predicate, and the new <code class="highlighter-rouge">P</code> work:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">such_that</span><span class="p">(</span><span class="n">even</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{2, 4, 6}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">even</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(1, 2)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">D12</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">}</span>
+
+<span class="n">such_that</span><span class="p">(</span><span class="n">even</span><span class="p">,</span> <span class="n">D12</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{2, 4, 6, 8, 10, 12}
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">even</span><span class="p">,</span> <span class="n">D12</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(1, 2)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Note: <code class="highlighter-rouge">such_that</code> is just like the built-in function <code class="highlighter-rouge">filter</code>, except <code class="highlighter-rouge">such_that</code> returns a set.</p>
+
+<p>We can now define more interesting events using predicates; for example we can determine the probability that the sum of a three-dice roll is prime (using a definition of <code class="highlighter-rouge">is_prime</code> that is efficient enough for small <code class="highlighter-rouge">n</code>):</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">D3</span> <span class="o">=</span> <span class="p">{(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span> <span class="k">for</span> <span class="n">d1</span> <span class="ow">in</span> <span class="n">D</span> <span class="k">for</span> <span class="n">d2</span> <span class="ow">in</span> <span class="n">D</span> <span class="k">for</span> <span class="n">d3</span> <span class="ow">in</span> <span class="n">D</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">prime_sum</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span> <span class="k">return</span> <span class="n">is_prime</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">outcome</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">prime_sum</span><span class="p">,</span> <span class="n">D3</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(73, 216)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h1 id="card-problems">Card Problems</h1>
+
+<p>Consider dealing a hand of five playing cards. We can define <code class="highlighter-rouge">deck</code> as a set of 52 cards, and <code class="highlighter-rouge">Hands</code> as the sample space of all combinations of 5 cards:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">suits</span> <span class="o">=</span> <span class="s">'SHDC'</span>
+<span class="n">ranks</span> <span class="o">=</span> <span class="s">'A23456789TJQK'</span>
+<span class="n">deck</span>  <span class="o">=</span> <span class="n">cross</span><span class="p">(</span><span class="n">ranks</span><span class="p">,</span> <span class="n">suits</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>52
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hands</span> <span class="o">=</span> <span class="n">combos</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">Hands</span><span class="p">)</span> <span class="o">==</span> <span class="n">choose</span><span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">Hands</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['AH 6D 5D TS 4H',
+ 'JC AD AH 7S QC',
+ '6C 7S 3H 9C KH',
+ '6D 5C QH TH QS',
+ '6C 3D 5D KH 5S']
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Now we can answer questions like the probability of being dealt a flush (5 cards of the same suit):</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="n">hand</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">hand</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">suit</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span> <span class="k">for</span> <span class="n">suit</span> <span class="ow">in</span> <span class="n">suits</span><span class="p">)</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">flush</span><span class="p">,</span> <span class="n">Hands</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(33, 16660)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Or the probability of four of a kind:</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">four_kind</span><span class="p">(</span><span class="n">hand</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">hand</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span> <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">ranks</span><span class="p">)</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">four_kind</span><span class="p">,</span> <span class="n">Hands</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(1, 4165)
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<h1 id="fermat-and-pascal-gambling-triangles-and-the-birth-of-probability">Fermat and Pascal: Gambling, Triangles, and the Birth of Probability</h1>
+
+<table>
+<tr><td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Pierre_de_Fermat2.png/140px-Pierre_de_Fermat2.png" /><center><a href="https://en.wikipedia.org/wiki/Pierre_de_Fermat">Pierre de Fermat</a><br />1654
+<td><img src="https://www.umass.edu/wsp/images/pascal.jpg" /><center><a href="https://en.wikipedia.org/wiki/Blaise_Pascal">Blaise Pascal]</a><br />1654
+&lt;/table&gt;
+
+Consider a gambling game consisting of tossing a coin. Player H wins the game if 10 heads come up, and T wins if 10 tails come up. If the game is interrupted when H has 8 heads and T has 7 tails, how should the pot of money (which happens to be 100 Francs) be split?
+In 1654, Blaise Pascal and Pierre de Fermat corresponded on this problem, with Fermat [writing](http://mathforum.org/isaac/problems/prob1.html):
+
+&gt;Dearest Blaise,
+
+&gt;As to the problem of how to divide the 100 Francs, I think I have found a solution that you will find to be fair. Seeing as I needed only two points to win the game, and you needed 3, I think we can establish that after four more tosses of the coin, the game would have been over. For, in those four tosses, if you did not get the necessary 3 points for your victory, this would imply that I had in fact gained the necessary 2 points for my victory. In a similar manner, if I had not achieved the necessary 2 points for my victory, this would imply that you had in fact achieved at least 3 points and had therefore won the game. Thus, I believe the following list of possible endings to the game is exhaustive. I have denoted 'heads' by an 'h', and tails by a 't.' I have starred the outcomes that indicate a win for myself.
+
+    h h h h *       h h h t *       h h t h *       h h t t *
+    h t h h *       h t h t *       h t t h *       h t t t
+    t h h h *       t h h t *       t h t h *       t h t t
+    t t h h *       t t h t         t t t h         t t t t
+
+&gt;I think you will agree that all of these outcomes are equally likely. Thus I believe that we should divide the stakes by the ration 11:5 in my favor, that is, I should receive (11/16)*100 = 68.75 Francs, while you should receive 31.25 Francs.
+
+&gt;I hope all is well in Paris,
+
+&gt;Your friend and colleague,
+
+&gt;Pierre
+
+Pascal agreed with this solution, and [replied](http://mathforum.org/isaac/problems/prob2.html) with a generalization that made use of his previous invention, Pascal's Triangle. There's even [a book](https://smile.amazon.com/Unfinished-Game-Pascal-Fermat-Seventeenth-Century/dp/0465018963?sa-no-redirect=1) about it.
+
+We can solve the problem with the tools we have:
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">win_unfinished_game</span><span class="p">(</span><span class="n">Hneeds</span><span class="p">,</span> <span class="n">Tneeds</span><span class="p">):</span>
+    <span class="s">"The probability that H will win the unfinished game, given the number of points needed by H and T to win."</span>
+    <span class="k">def</span> <span class="nf">Hwins</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span> <span class="k">return</span> <span class="n">outcome</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">'h'</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">Hneeds</span>
+    <span class="k">return</span> <span class="n">P</span><span class="p">(</span><span class="n">Hwins</span><span class="p">,</span> <span class="n">continuations</span><span class="p">(</span><span class="n">Hneeds</span><span class="p">,</span> <span class="n">Tneeds</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">continuations</span><span class="p">(</span><span class="n">Hneeds</span><span class="p">,</span> <span class="n">Tneeds</span><span class="p">):</span>
+    <span class="s">"All continuations of a game where H needs `Hneeds` points to win and T needs `Tneeds`."</span>
+    <span class="n">rounds</span> <span class="o">=</span> <span class="p">[</span><span class="s">'ht'</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Hneeds</span> <span class="o">+</span> <span class="n">Tneeds</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">rounds</span><span class="p">))</span>
+</code></pre></div>                </div>
+              </div>
+
+            </div>
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">continuations</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{('h', 'h', 'h', 'h'),
+ ('h', 'h', 'h', 't'),
+ ('h', 'h', 't', 'h'),
+ ('h', 'h', 't', 't'),
+ ('h', 't', 'h', 'h'),
+ ('h', 't', 'h', 't'),
+ ('h', 't', 't', 'h'),
+ ('h', 't', 't', 't'),
+ ('t', 'h', 'h', 'h'),
+ ('t', 'h', 'h', 't'),
+ ('t', 'h', 't', 'h'),
+ ('t', 'h', 't', 't'),
+ ('t', 't', 'h', 'h'),
+ ('t', 't', 'h', 't'),
+ ('t', 't', 't', 'h'),
+ ('t', 't', 't', 't')}
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">win_unfinished_game</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fraction(11, 16)
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+Our answer agrees with Pascal and Fermat; we're in good company!
+
+# Non-Equiprobable Outcomes: Probability Distributions
+
+So far, we have made the assumption that every outcome in a sample space is equally likely. In real life, we often get outcomes that are not equiprobable. For example, the probability of a child being a girl is not exactly 1/2, and the probability is slightly different for a second child. An [article](http://people.kzoo.edu/barth/math105/moreboys.pdf) gives the following counts for two-child families in Denmark, where `GB` means a family where the first child is a girl and the second a boy:
+
+    GG: 121801    GB: 126840
+    BG: 127123    BB: 135138
+    
+We will introduce three more definitions:
+
+* [Frequency](https://en.wikipedia.org/wiki/Frequency_%28statistics%29): a number describing how often an outcome occurs. Can be a count like 121801, or a ratio like 0.515.
+
+* [Distribution](http://mathworld.wolfram.com/StatisticalDistribution.html): A mapping from outcome to frequency for each outcome in a sample space. 
+
+* [Probability Distribution](https://en.wikipedia.org/wiki/Probability_distribution): A distribution that has been *normalized* so that the sum of the frequencies is 1.
+
+We define `ProbDist` to take the same kinds of arguments that `dict` does: either a mapping or an iterable of `(key, val)` pairs, and/or optional keyword arguments. 
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ProbDist</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="s">"A Probability Distribution; an {outcome: probability} mapping."</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="p">(),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c"># Make probabilities sum to 1.0; assert no negative probabilities</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">outcome</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">outcome</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="p">[</span><span class="n">outcome</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</code></pre></div>                </div>
+              </div>
+
+            </div>
+
+We also need to modify the functions `P` and `such_that` to accept either a sample space  or a probability distribution as the second argument.
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">P</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span> 
+    <span class="s">"""The probability of an event, given a sample space of equiprobable outcomes. 
+    event: a collection of outcomes, or a predicate that is true of outcomes in the event. 
+    space: a set of outcomes or a probability distribution of {outcome: frequency} pairs."""</span>
+    <span class="k">if</span> <span class="n">is_predicate</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">such_that</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">space</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">ProbDist</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">space</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">space</span> <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">event</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">event</span> <span class="o">&amp;</span> <span class="n">space</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">space</span><span class="p">))</span>
+    
+<span class="k">def</span> <span class="nf">such_that</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="n">space</span><span class="p">):</span> 
+    <span class="s">"""The outcomes in the sample pace for which the predicate is true.
+    If space is a set, return a subset {outcome,...};
+    if space is a ProbDist, return a ProbDist {outcome: frequency,...};
+    in both cases only with outcomes where predicate(element) is true."""</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="n">ProbDist</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ProbDist</span><span class="p">({</span><span class="n">o</span><span class="p">:</span><span class="n">space</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">space</span> <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">o</span><span class="p">)})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">space</span> <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">o</span><span class="p">)}</span>
+</code></pre></div>                </div>
+              </div>
+
+            </div>
+
+Here is the probability distribution for Danish two-child families:
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DK</span> <span class="o">=</span> <span class="n">ProbDist</span><span class="p">(</span><span class="n">GG</span><span class="o">=</span><span class="mi">121801</span><span class="p">,</span> <span class="n">GB</span><span class="o">=</span><span class="mi">126840</span><span class="p">,</span>
+              <span class="n">BG</span><span class="o">=</span><span class="mi">127123</span><span class="p">,</span> <span class="n">BB</span><span class="o">=</span><span class="mi">135138</span><span class="p">)</span>
+<span class="n">DK</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'BB': 0.2645086533229465,
+ 'BG': 0.24882071317004043,
+ 'GB': 0.24826679089140383,
+ 'GG': 0.23840384261560926}
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+And here are some predicates that will allow us to answer some questions:
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">first_girl</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span>  <span class="k">return</span> <span class="n">outcome</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">'G'</span>
+<span class="k">def</span> <span class="nf">first_boy</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span>   <span class="k">return</span> <span class="n">outcome</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">'B'</span>
+<span class="k">def</span> <span class="nf">second_girl</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span> <span class="k">return</span> <span class="n">outcome</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">'G'</span>
+<span class="k">def</span> <span class="nf">second_boy</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span>  <span class="k">return</span> <span class="n">outcome</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">'B'</span>
+<span class="k">def</span> <span class="nf">two_girls</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span>   <span class="k">return</span> <span class="n">outcome</span>    <span class="o">==</span> <span class="s">'GG'</span>
+</code></pre></div>                </div>
+              </div>
+
+            </div>
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">first_girl</span><span class="p">,</span> <span class="n">DK</span><span class="p">)</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.4866706335070131
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">second_girl</span><span class="p">,</span> <span class="n">DK</span><span class="p">)</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.4872245557856497
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+The above says that the probability of a girl is somewhere between 48% and 49%, but that it is slightly different between the first or second child.
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">second_girl</span><span class="p">,</span> <span class="n">such_that</span><span class="p">(</span><span class="n">first_girl</span><span class="p">,</span> <span class="n">DK</span><span class="p">)),</span> <span class="n">P</span><span class="p">(</span><span class="n">second_girl</span><span class="p">,</span> <span class="n">such_that</span><span class="p">(</span><span class="n">first_boy</span><span class="p">,</span> <span class="n">DK</span><span class="p">))</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(0.4898669165584115, 0.48471942072973107)
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">second_boy</span><span class="p">,</span> <span class="n">such_that</span><span class="p">(</span><span class="n">first_girl</span><span class="p">,</span> <span class="n">DK</span><span class="p">)),</span> <span class="n">P</span><span class="p">(</span><span class="n">second_boy</span><span class="p">,</span> <span class="n">such_that</span><span class="p">(</span><span class="n">first_boy</span><span class="p">,</span> <span class="n">DK</span><span class="p">))</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(0.5101330834415885, 0.5152805792702689)
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+The above says that the sex of the second child is more likely to be the same as the first child, by about 1/2 a percentage point.
+
+# More Urn Problems: M&amp;Ms and Bayes
+
+Here's another urn problem (or "bag" problem) [from](http://allendowney.blogspot.com/2011/10/my-favorite-bayess-theorem-problems.html) prolific Python/Probability author [Allen Downey ](http://allendowney.blogspot.com/):
+
+&gt; The blue M&amp;M was introduced in 1995.  Before then, the color mix in a bag of plain M&amp;Ms was (30% Brown, 20% Yellow, 20% Red, 10% Green, 10% Orange, 10% Tan).  Afterward it was (24% Blue , 20% Green, 16% Orange, 14% Yellow, 13% Red, 13% Brown). 
+A friend of mine has two bags of M&amp;Ms, and he tells me that one is from 1994 and one from 1996.  He won't tell me which is which, but he gives me one M&amp;M from each bag.  One is yellow and one is green.  What is the probability that the yellow M&amp;M came from the 1994 bag?
+
+To solve this problem, we'll first represent probability distributions for each bag: `bag94` and `bag96`:
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bag94</span> <span class="o">=</span> <span class="n">ProbDist</span><span class="p">(</span><span class="n">brown</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">yellow</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">red</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">orange</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">tan</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">bag96</span> <span class="o">=</span> <span class="n">ProbDist</span><span class="p">(</span><span class="n">blue</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">orange</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">yellow</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">red</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">brown</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</code></pre></div>                </div>
+              </div>
+
+            </div>
+
+Next, define `MM` as the joint distribution&mdash;the sample space for picking one M&amp;M from each bag. The outcome `'yellow green'` means that a yellow M&amp;M was selected from the 1994 bag and a green one from the 1996 bag.
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">joint</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">''</span><span class="p">):</span>
+    <span class="s">"""The joint distribution of two independent probability distributions. 
+    Result is all entries of the form {a+sep+b: P(a)*P(b)}"""</span>
+    <span class="k">return</span> <span class="n">ProbDist</span><span class="p">({</span><span class="n">a</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="n">b</span><span class="p">:</span> <span class="n">A</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">A</span>
+                    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">B</span><span class="p">})</span>
+
+<span class="n">MM</span> <span class="o">=</span> <span class="n">joint</span><span class="p">(</span><span class="n">bag94</span><span class="p">,</span> <span class="n">bag96</span><span class="p">,</span> <span class="s">' '</span><span class="p">)</span>
+<span class="n">MM</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'brown blue': 0.07199999999999997,
+ 'brown brown': 0.038999999999999986,
+ 'brown green': 0.05999999999999997,
+ 'brown orange': 0.04799999999999998,
+ 'brown red': 0.038999999999999986,
+ 'brown yellow': 0.04199999999999998,
+ 'green blue': 0.02399999999999999,
+ 'green brown': 0.012999999999999996,
+ 'green green': 0.019999999999999993,
+ 'green orange': 0.015999999999999993,
+ 'green red': 0.012999999999999996,
+ 'green yellow': 0.013999999999999995,
+ 'orange blue': 0.02399999999999999,
+ 'orange brown': 0.012999999999999996,
+ 'orange green': 0.019999999999999993,
+ 'orange orange': 0.015999999999999993,
+ 'orange red': 0.012999999999999996,
+ 'orange yellow': 0.013999999999999995,
+ 'red blue': 0.04799999999999998,
+ 'red brown': 0.025999999999999992,
+ 'red green': 0.03999999999999999,
+ 'red orange': 0.03199999999999999,
+ 'red red': 0.025999999999999992,
+ 'red yellow': 0.02799999999999999,
+ 'tan blue': 0.02399999999999999,
+ 'tan brown': 0.012999999999999996,
+ 'tan green': 0.019999999999999993,
+ 'tan orange': 0.015999999999999993,
+ 'tan red': 0.012999999999999996,
+ 'tan yellow': 0.013999999999999995,
+ 'yellow blue': 0.04799999999999998,
+ 'yellow brown': 0.025999999999999992,
+ 'yellow green': 0.03999999999999999,
+ 'yellow orange': 0.03199999999999999,
+ 'yellow red': 0.025999999999999992,
+ 'yellow yellow': 0.02799999999999999}
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+First we'll look at the "One is yellow and one is green" part:
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">yellow_and_green</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span> <span class="k">return</span> <span class="s">'yellow'</span> <span class="ow">in</span> <span class="n">outcome</span> <span class="ow">and</span> <span class="s">'green'</span> <span class="ow">in</span> <span class="n">outcome</span>
+
+<span class="n">such_that</span><span class="p">(</span><span class="n">yellow_and_green</span><span class="p">,</span> <span class="n">MM</span><span class="p">)</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'green yellow': 0.25925925925925924, 'yellow green': 0.7407407407407408}
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+Now we can answer the question: given that we got a yellow and a green (but don't know which comes from which bag), what is the probability that the yellow came from the 1994 bag?
+
+<div class="cell code_cell">
+              <div class="input_area">
+                <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">yellow94</span><span class="p">(</span><span class="n">outcome</span><span class="p">):</span> <span class="k">return</span> <span class="n">outcome</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'yellow'</span><span class="p">)</span>
+
+<span class="n">P</span><span class="p">(</span><span class="n">yellow94</span><span class="p">,</span> <span class="n">such_that</span><span class="p">(</span><span class="n">yellow_and_green</span><span class="p">,</span> <span class="n">MM</span><span class="p">))</span>
+</code></pre></div>                </div>
+              </div>
+
+              <div class="output_wrapper">
+                <div class="output_subarea">
+
+                  <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.7407407407407408
+</code></pre></div>                  </div>
+
+                </div>
+              </div>
+            </div>
+
+So there is a 74% chance that the yellow comes from the 1994 bag.
+
+Answering this question was straightforward: just like all the other probability problems, we simply create a sample space, and use `P` to pick out the probability of the event in question, given what we know about the outcome.
+But in a sense it is curious that we were able to solve this problem with the same methodology as the others: this problem comes from a section titled **My favorite Bayes's Theorem Problems**, so one would expect that we'd need to invoke Bayes Theorem to solve it.  The computation above shows that that is not necessary. 
+
+![Bayes](http://img1.ph.126.net/xKZAzeOv_mI8a4Lwq7PHmw==/2547911489202312541.jpg)
+<center><a href="https://en.wikipedia.org/wiki/Thomas_Bayes">Rev. Thomas Bayes</a><br />1701-1761
+</center>
+
+Of course, we *could* solve it using Bayes Theorem. Why is Bayes Theorem recommended? Because we are asked about the probability of an event given the evidence, which is not immediately available; however the probability of the evidence given the event is.  
+
+Before we see the colors of the M&amp;Ms, there are two hypotheses, `A` and `B`, both with equal probability:
+
+    A: first M&amp;M from 94 bag, second from 96 bag
+    B: first M&amp;M from 96 bag, second from 94 bag
+    P(A) = P(B) = 0.5
+    
+Then we get some evidence:
+    
+    E: first M&amp;M yellow, second green
+    
+We want to know the probability of hypothesis `A`, given the evidence:
+    
+    P(A | E)
+    
+That's not easy to calculate (except by enumerating the sample space). But Bayes Theorem says:
+    
+    P(A | E) = P(E | A) * P(A) / P(E)
+    
+The quantities on the right-hand-side are easier to calculate:
+    
+    P(E | A) = 0.20 * 0.20 = 0.04
+    P(E | B) = 0.10 * 0.14 = 0.014
+    P(A)     = 0.5
+    P(B)     = 0.5
+    P(E)     = P(E | A) * P(A) + P(E | B) * P(B) 
+             = 0.04     * 0.5  + 0.014    * 0.5   =   0.027
+    
+And we can get a final answer:
+    
+    P(A | E) = P(E | A) * P(A) / P(E) 
+             = 0.04     * 0.5  / 0.027 
+             = 0.7407407407
+             
+You have a choice: Bayes Theorem allows you to do less calculation at the cost of more algebra; that is a great trade-off if you are working with pencil and paper. Enumerating the state space allows you to do less algebra at the cost of more calculation; often a good trade-off if you have a computer. But regardless of the approach you use, it is important to understand Bayes theorem and how it works.
+
+There is one important question that Allen Downey does not address: *would you  eat twenty-year-old M&amp;Ms*?
+&#128552;
+
+# Newton's Answer to a Problem by Pepys
+
+<table>
+<tr><td><img src="http://scienceworld.wolfram.com/biography/pics/Newton.jpg" /><center><a href="https://en.wikipedia.org/wiki/Isaac_Newton">Isaac Newton</a><br />1693</center>
+<td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Samuel_Pepys_portrait.jpg/148px-Samuel_Pepys_portrait.jpg" /><center><a href="https://en.wikipedia.org/wiki/Samuel_Pepys">Samuel Pepys</a><br />1693</center>
+&lt;/table&gt;
+
+[This paper](http://fermatslibrary.com/s/isaac-newton-as-a-probabilist) explains how  Samuel Pepys wrote to Isaac Newton in 1693 to pose the problem:
+
+&gt; Which of the following three propositions has the greatest chance of success? 
+  1. Six fair dice are tossed independently and at least one “6” appears. 
+  2. Twelve fair dice are tossed independently and at least two “6”s appear. 
+  3. Eighteen fair dice are tossed independently and at least three “6”s appear.
+  
+Newton was able to answer the question correctly (although his reasoning was not quite right); let's see how we can do. Since we're only interested in whether a die comes up as "6" or not, we can define a single die and the joint distribution over *n* dice as follows:
+
+<div class="cell code_cell">
+                      <div class="input_area">
+                        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">die</span> <span class="o">=</span> <span class="n">ProbDist</span><span class="p">({</span><span class="s">'6'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">,</span> <span class="s">'-'</span><span class="p">:</span><span class="mi">5</span><span class="o">/</span><span class="mi">6</span><span class="p">})</span>
+
+<span class="k">def</span> <span class="nf">dice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">die</span><span class="p">):</span>
+    <span class="s">"Joint probability from tossing n dice."</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">die</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">joint</span><span class="p">(</span><span class="n">die</span><span class="p">,</span> <span class="n">dice</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">die</span><span class="p">))</span>
+</code></pre></div>                        </div>
+                      </div>
+
+                    </div>
+
+<div class="cell code_cell">
+                      <div class="input_area">
+                        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dice</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">die</span><span class="p">)</span>
+</code></pre></div>                        </div>
+                      </div>
+
+                      <div class="output_wrapper">
+                        <div class="output_subarea">
+
+                          <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'---': 0.5787037037037037,
+ '--6': 0.11574074074074073,
+ '-6-': 0.11574074074074073,
+ '-66': 0.023148148148148143,
+ '6--': 0.11574074074074073,
+ '6-6': 0.023148148148148143,
+ '66-': 0.023148148148148143,
+ '666': 0.0046296296296296285}
+</code></pre></div>                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+Now we are ready to determine which proposition is more likely to have the required number of sixes:
+
+<div class="cell code_cell">
+                      <div class="input_area">
+                        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">at_least</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span> <span class="k">return</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">k</span>
+</code></pre></div>                        </div>
+                      </div>
+
+                    </div>
+
+<div class="cell code_cell">
+                      <div class="input_area">
+                        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">at_least</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">'6'</span><span class="p">),</span> <span class="n">dice</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">die</span><span class="p">))</span>
+</code></pre></div>                        </div>
+                      </div>
+
+                      <div class="output_wrapper">
+                        <div class="output_subarea">
+
+                          <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.6651020233196161
+</code></pre></div>                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+<div class="cell code_cell">
+                      <div class="input_area">
+                        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">at_least</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">'6'</span><span class="p">),</span> <span class="n">dice</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">die</span><span class="p">))</span>
+</code></pre></div>                        </div>
+                      </div>
+
+                      <div class="output_wrapper">
+                        <div class="output_subarea">
+
+                          <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.6186673737323009
+</code></pre></div>                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+<div class="cell code_cell">
+                      <div class="input_area">
+                        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">P</span><span class="p">(</span><span class="n">at_least</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s">'6'</span><span class="p">),</span> <span class="n">dice</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="n">die</span><span class="p">))</span>
+</code></pre></div>                        </div>
+                      </div>
+
+                      <div class="output_wrapper">
+                        <div class="output_subarea">
+
+                          <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.5973456859478227
+</code></pre></div>                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+We reach the same conclusion Newton did, that the best chance is rolling six dice.
+
+<hr />
+
+# Simulation
+
+Sometimes it is inconvenient to explicitly define a sample space. Perhaps the sample space is infinite, or perhaps it is just very large and complicated, and we feel more confident in writing a program to *simulate* one pass through all the complications, rather than try to *enumerate* the complete sample space. *Random sampling* from the simulation
+can give an accurate estimate of the probability.
+
+# Simulating Monopoly
+
+![](http://buckwolf.org/a.abcnews.com/images/Entertainment/ho_hop_go_050111_t.jpg)<center>[Mr. Monopoly](https://en.wikipedia.org/wiki/Rich_Uncle_Pennybags)<br />1940&mdash;
+
+Consider [problem 84](https://projecteuler.net/problem=84) from the excellent [Project Euler](https://projecteuler.net), which asks for the probability that a player in the game Monopoly ends a roll on each of the squares on the board.  To answer this we need to take into account die rolls, chance and community chest cards, and going to jail (from the "go to jail" space, from a card, or from rolling doubles three times in a row). We do not need to take into account anything about buying or selling properties or exchanging money or winning or losing the game, because these don't change a player's location. We will assume that a player in jail will always pay to get out of jail immediately. 
+
+A game of Monopoly can go on forever, so the sample space is infinite. But even if we limit the sample space to say, 1000 rolls, there are $21^{1000}$ such sequences of rolls (and even more possibilities when we consider drawing cards). So it is infeasible to explicitly represent the sample space.
+
+But it is fairly straightforward to implement a simulation and run it for, say, 400,000 rolls (so the average square will be landed on 10,000 times).  Here is the code for a simulation:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">deque</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c"># The board: a list of the names of the 40 squares</span>
+<span class="c"># As specified by https://projecteuler.net/problem=84</span>
+<span class="n">board</span> <span class="o">=</span> <span class="s">"""GO   A1 CC1 A2  T1 R1 B1  CH1 B2 B3
+           JAIL C1 U1  C2  C3 R2 D1  CC2 D2 D3 
+           FP   E1 CH2 E2  E3 R3 F1  F2  U2 F3 
+           G2J  G1 G2  CC3 G3 R4 CH3 H1  T2 H2"""</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">monopoly</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+    <span class="s">"""Simulate given number of steps of Monopoly game, 
+    yielding the number of the current square after each step."""</span>
+    <span class="n">goto</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># start at GO</span>
+    <span class="n">CC_deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">(</span><span class="s">'GO JAIL'</span> <span class="o">+</span> <span class="mi">14</span> <span class="o">*</span> <span class="s">' ?'</span><span class="p">)</span>
+    <span class="n">CH_deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">(</span><span class="s">'GO JAIL C1 E3 H2 R1 R R U -3'</span> <span class="o">+</span> <span class="mi">6</span> <span class="o">*</span> <span class="s">' ?'</span><span class="p">)</span>
+    <span class="n">doubles</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">jail</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">'JAIL'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="n">goto</span><span class="p">(</span><span class="n">here</span> <span class="o">+</span> <span class="n">d1</span> <span class="o">+</span> <span class="n">d2</span><span class="p">)</span>
+        <span class="n">doubles</span> <span class="o">=</span> <span class="p">(</span><span class="n">doubles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">d1</span> <span class="o">==</span> <span class="n">d2</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">doubles</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">board</span><span class="p">[</span><span class="n">here</span><span class="p">]</span> <span class="o">==</span> <span class="s">'G2J'</span><span class="p">:</span>  
+            <span class="n">goto</span><span class="p">(</span><span class="n">jail</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">board</span><span class="p">[</span><span class="n">here</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'CC'</span><span class="p">):</span>
+            <span class="n">do_card</span><span class="p">(</span><span class="n">CC_deck</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">board</span><span class="p">[</span><span class="n">here</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'CH'</span><span class="p">):</span>
+            <span class="n">do_card</span><span class="p">(</span><span class="n">CH_deck</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">here</span>         
+
+<span class="k">def</span> <span class="nf">goto</span><span class="p">(</span><span class="n">square</span><span class="p">):</span>
+    <span class="s">"Update the global variable 'here' to be square."</span>
+    <span class="k">global</span> <span class="n">here</span>
+    <span class="n">here</span> <span class="o">=</span> <span class="n">square</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+                   
+<span class="k">def</span> <span class="nf">Deck</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+    <span class="s">"Make a shuffled deck of cards, given a space-delimited string."</span>
+    <span class="n">cards</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">deque</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>         
+
+<span class="k">def</span> <span class="nf">do_card</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
+    <span class="s">"Take the top card from deck and do what it says."</span>
+    <span class="k">global</span> <span class="n">here</span>
+    <span class="n">card</span> <span class="o">=</span> <span class="n">deck</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>             <span class="c"># The top card</span>
+    <span class="n">deck</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>            <span class="c"># Move top card to bottom of deck</span>
+    <span class="k">if</span> <span class="n">card</span> <span class="o">==</span> <span class="s">'R'</span> <span class="ow">or</span> <span class="n">card</span> <span class="o">==</span> <span class="s">'U'</span><span class="p">:</span> 
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">board</span><span class="p">[</span><span class="n">here</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">card</span><span class="p">):</span>
+            <span class="n">goto</span><span class="p">(</span><span class="n">here</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>     <span class="c"># Advance to next railroad or utility</span>
+    <span class="k">elif</span> <span class="n">card</span> <span class="o">==</span> <span class="s">'-3'</span><span class="p">:</span>
+        <span class="n">goto</span><span class="p">(</span><span class="n">here</span> <span class="o">-</span> <span class="mi">3</span><span class="p">)</span>         <span class="c"># Go back 3 spaces</span>
+    <span class="k">elif</span> <span class="n">card</span> <span class="o">!=</span> <span class="s">'?'</span><span class="p">:</span>
+        <span class="n">goto</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">card</span><span class="p">))</span><span class="c"># Go to destination named on card</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+And the results:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">monopoly</span><span class="p">(</span><span class="mi">400000</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+I'll show a histogram of the squares, with a dotted red line at the average:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">avg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">/</span> <span class="mi">40</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">39</span><span class="p">],</span> <span class="p">[</span><span class="n">avg</span><span class="p">,</span> <span class="n">avg</span><span class="p">],</span> <span class="s">'r--'</span><span class="p">);</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <p class="output_png"><img src="../images/duniform/probability_97_0.png" alt="png" /></p>
+
+                          </div>
+                        </div>
+                      </div>
+
+Another way to see the results:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ProbDist</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'A1': 0.0211675,
+ 'A2': 0.021105,
+ 'B1': 0.022485,
+ 'B2': 0.0233825,
+ 'B3': 0.0231025,
+ 'C1': 0.02732,
+ 'C2': 0.0240925,
+ 'C3': 0.02433,
+ 'CC1': 0.0187875,
+ 'CC2': 0.0258225,
+ 'CC3': 0.02384,
+ 'CH1': 0.00864,
+ 'CH2': 0.010405,
+ 'CH3': 0.008545,
+ 'D1': 0.028305,
+ 'D2': 0.0294775,
+ 'D3': 0.03062,
+ 'E1': 0.0285925,
+ 'E2': 0.0273425,
+ 'E3': 0.0317775,
+ 'F1': 0.027155,
+ 'F2': 0.02686,
+ 'F3': 0.0261775,
+ 'FP': 0.0289025,
+ 'G1': 0.0269675,
+ 'G2': 0.0258,
+ 'G3': 0.0249025,
+ 'GO': 0.0305975,
+ 'H1': 0.0219575,
+ 'H2': 0.0261525,
+ 'JAIL': 0.0621475,
+ 'R1': 0.03009,
+ 'R2': 0.028755,
+ 'R3': 0.030435,
+ 'R4': 0.024545,
+ 'T1': 0.023715,
+ 'T2': 0.02204,
+ 'U1': 0.0257525,
+ 'U2': 0.0279075}
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+There is one square far above average: `JAIL`, at a little over 6%. There are four squares far below average: the three chance squares, `CH1`, `CH2`, and `CH3`, at around 1% (because 10 of the 16 chance cards send the player away from the square), and the "Go to Jail" square, square number 30 on the plot, which has a frequency of 0 because you can't end a turn there. The other squares are around 2% to 3% each, which you would expect, because 100% / 40 = 2.5%.
+
+# The Central Limit Theorem / Strength in Numbers Theorem
+
+So far, we have talked of an *outcome* as being a single state of the world. But it can be useful to break that state of the world down into components. We call these components **random variables**. For example, when we consider an experiment in which we roll two dice and observe their sum, we could model the situation with two random variables, one for each die. (Our representation of outcomes has been doing that implicitly all along, when we concatenate two parts of a string, but the concept of a random variable makes it official.)
+
+The **Central Limit Theorem** states that if you have a collection of random variables and sum them up, then the larger the collection, the closer the sum will be to a *normal distribution* (also called a *Gaussian distribution* or a *bell-shaped curve*). The theorem applies in all but a few pathological cases. 
+
+As an example, let's take 5 random variables reprsenting the per-game scores of 5 basketball players, and then sum them together to form the team score. Each random variable/player is represented as a function; calling the function returns a single sample from the distribution:
+
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">gauss</span><span class="p">,</span> <span class="n">triangular</span><span class="p">,</span> <span class="n">choice</span><span class="p">,</span> <span class="n">vonmisesvariate</span><span class="p">,</span> <span class="n">uniform</span>
+
+<span class="k">def</span> <span class="nf">SC</span><span class="p">():</span> <span class="k">return</span> <span class="n">posint</span><span class="p">(</span><span class="n">gauss</span><span class="p">(</span><span class="mf">15.1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">triangular</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span> <span class="c"># 30.1</span>
+<span class="k">def</span> <span class="nf">KT</span><span class="p">():</span> <span class="k">return</span> <span class="n">posint</span><span class="p">(</span><span class="n">gauss</span><span class="p">(</span><span class="mf">10.2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">triangular</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span> <span class="c"># 22.1</span>
+<span class="k">def</span> <span class="nf">DG</span><span class="p">():</span> <span class="k">return</span> <span class="n">posint</span><span class="p">(</span><span class="n">vonmisesvariate</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">3.08</span><span class="p">)</span> <span class="c"># 14.0</span>
+<span class="k">def</span> <span class="nf">HB</span><span class="p">():</span> <span class="k">return</span> <span class="n">posint</span><span class="p">(</span><span class="n">gauss</span><span class="p">(</span><span class="mf">6.7</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span> <span class="k">if</span> <span class="n">choice</span><span class="p">((</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">))</span> <span class="k">else</span> <span class="n">gauss</span><span class="p">(</span><span class="mf">16.7</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span> <span class="c"># 11.7</span>
+<span class="k">def</span> <span class="nf">OT</span><span class="p">():</span> <span class="k">return</span> <span class="n">posint</span><span class="p">(</span><span class="n">triangular</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span> <span class="o">+</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c"># 37.0</span>
+
+<span class="k">def</span> <span class="nf">posint</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="s">"Positive integer"</span><span class="p">;</span> <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+And here is a function to sample a random variable *k* times, show a histogram of the results, and return the mean:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">statistics</span> <span class="kn">import</span> <span class="n">mean</span>
+
+<span class="k">def</span> <span class="nf">repeated_hist</span><span class="p">(</span><span class="n">rv</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="s">"Repeat rv() k times and make a histogram of the results."</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">rv</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+The two top-scoring players have scoring distributions that are slightly skewed from normal:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">repeated_hist</span><span class="p">(</span><span class="n">SC</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>30.09618
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <p class="output_png"><img src="../images/duniform/probability_106_1.png" alt="png" /></p>
+
+                          </div>
+                        </div>
+                      </div>
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">repeated_hist</span><span class="p">(</span><span class="n">KT</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>22.1383
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <p class="output_png"><img src="../images/duniform/probability_107_1.png" alt="png" /></p>
+
+                          </div>
+                        </div>
+                      </div>
+
+The next two players have bi-modal distributions; some games they score a lot, some games not:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">repeated_hist</span><span class="p">(</span><span class="n">DG</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>14.02429
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <p class="output_png"><img src="../images/duniform/probability_109_1.png" alt="png" /></p>
+
+                          </div>
+                        </div>
+                      </div>
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">repeated_hist</span><span class="p">(</span><span class="n">HB</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>11.70888
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <p class="output_png"><img src="../images/duniform/probability_110_1.png" alt="png" /></p>
+
+                          </div>
+                        </div>
+                      </div>
+
+The fifth "player" (actually the sum of all the other players on the team) looks like this:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">repeated_hist</span><span class="p">(</span><span class="n">OT</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>36.31564
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <p class="output_png"><img src="../images/duniform/probability_112_1.png" alt="png" /></p>
+
+                          </div>
+                        </div>
+                      </div>
+
+Now we define the team score to be the sum of the five players, and look at the distribution:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">GSW</span><span class="p">():</span> <span class="k">return</span> <span class="n">SC</span><span class="p">()</span> <span class="o">+</span> <span class="n">KT</span><span class="p">()</span> <span class="o">+</span> <span class="n">DG</span><span class="p">()</span> <span class="o">+</span> <span class="n">HB</span><span class="p">()</span> <span class="o">+</span> <span class="n">OT</span><span class="p">()</span>
+
+<span class="n">repeated_hist</span><span class="p">(</span><span class="n">GSW</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>114.31262
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <p class="output_png"><img src="../images/duniform/probability_114_1.png" alt="png" /></p>
+
+                          </div>
+                        </div>
+                      </div>
+
+Sure enough, this looks very much like a normal distribution. The Central Limit Theorem appears to hold in this case. But I have to say "Central Limit" is not a very evocative name, so I propose we re-name this as the **Strength in Numbers Theorem**, to indicate the fact that if you have a lot of numbers, you tend to get the expected result.
+
+# Conclusion
+
+We've had an interesting tour and met some giants of the field: Laplace, Bernoulli, Fermat, Pascal, Bayes, Newton, ... even Mr. Monopoly and The Count.
+
+![The Count](http://img2.oncoloring.com/count-dracula-number-thir_518b77b54ba6c-p.gif)
+<center><a href="https://en.wikipedia.org/wiki/Count_von_Count">The Count</a><br />1972&mdash;</center>
+
+The conclusion is: be explicit about what the problem says, and then methodical about defining the sample space, and finally be careful in counting the number of outcomes in the numerator and denominator. Easy as 1-2-3. 
+
+<hr />
+
+# Appendix: Continuous Sample Spaces
+
+Everything up to here has been about discrete, finite sample spaces, where we can *enumerate* all the possible outcomes. 
+
+But I was asked about *continuous* sample spaces, such as the space of real numbers. The principles are the same: probability is still the ratio of the favorable cases to all the cases, but now instead of *counting* cases, we have to (in general) compute integrals to compare the sizes of cases. 
+Here we will cover a simple example, which we first solve approximately by simulation, and then exactly by calculation.
+
+## The Hot New Game Show Problem: Simulation
+
+Oliver Roeder posed [this problem](http://fivethirtyeight.com/features/can-you-win-this-hot-new-game-show/) in the 538 *Riddler* blog:
+
+&gt;Two players go on a hot new game show called *Higher Number Wins.* The two go into separate booths, and each presses a button, and a random number between zero and one appears on a screen. (At this point, neither knows the other’s number, but they do know the numbers are chosen from a standard uniform distribution.) They can choose to keep that first number, or to press the button again to discard the first number and get a second random number, which they must keep. Then, they come out of their booths and see the final number for each player on the wall. The lavish grand prize — a case full of gold bullion — is awarded to the player who kept the higher number. Which number is the optimal cutoff for players to discard their first number and choose another? Put another way, within which range should they choose to keep the first number, and within which range should they reject it and try their luck with a second number?
+
+We'll use this notation:
+- **A**, **B**: the two players.
+- *A*, *B*: the cutoff values they choose: the lower bound of the range of first numbers they will accept.
+- *a*, *b*: the actual random numbers that appear on the screen.
+
+For example, if player **A** chooses a cutoff of *A* = 0.6, that means that **A** would accept any first number greater than 0.6, and reject any number below that cutoff. The question is: What cutoff, *A*, should player **A** choose to maximize the chance of winning, that is, maximize P(*a* &gt; *b*)?
+
+First, simulate the number that a player with a given cutoff gets (note that `random.random()` returns a float sampled uniformly from the interval [0..1]):
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="n">cutoff</span><span class="p">):</span>
+    <span class="s">"Play the game with given cutoff, returning the first or second random number."</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">first</span> <span class="k">if</span> <span class="n">first</span> <span class="o">&gt;</span> <span class="n">cutoff</span> <span class="k">else</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">number</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.643051044503982
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+Now compare the numbers returned with a cutoff of *A* versus a cutoff of *B*, and repeat for a large number of trials; this gives us an estimate of the probability that cutoff *A* is better than cutoff *B*:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Pwin</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">30000</span><span class="p">):</span>
+    <span class="s">"The probability that cutoff A wins against cutoff B."</span>
+    <span class="n">Awins</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">number</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">number</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> 
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Awins</span> <span class="o">/</span> <span class="n">trials</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Pwin</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                        <div class="output_wrapper">
+                          <div class="output_subarea">
+
+                            <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.49946666666666667
+</code></pre></div>                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+Now define a function, `top`, that considers a collection of possible cutoffs, estimate the probability for each cutoff playing against each other cutoff, and returns a list with the `N` top cutoffs (the ones that defeated the most number of opponent cutoffs), and the number of opponents they defeat: 
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">cutoffs</span><span class="p">):</span>
+    <span class="s">"Return the N best cutoffs and the number of opponent cutoffs they beat."</span>
+    <span class="n">winners</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">A</span> <span class="k">if</span> <span class="n">Pwin</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="n">B</span>
+                      <span class="k">for</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">cutoffs</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">winners</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span>
+
+<span class="o">%</span><span class="n">time</span> <span class="n">top</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+We get a good idea of the top cutoffs, but they are close to each other, so we can't quite be sure which is best, only that the best is somewhere around 0.60. We could get a better estimate by increasing the number of trials, but that would consume more time.
+
+## The Hot New Game Show Problem: Exact Calculation
+
+More promising is the possibility of making `Pwin(A, B)` an exact calculation. But before we get to `Pwin(A, B)`, let's solve a simpler problem: assume that both players **A** and **B** have chosen a cutoff, and have each received a number above the cutoff. What is the probability that **A** gets the higher number? We'll call this `Phigher(A, B)`. We can think of this as a two-dimensional sample space of points in the (*a*, *b*) plane, where *a* ranges from the cutoff *A* to 1 and *b* ranges from the cutoff B to 1. Here is a diagram of that two-dimensional sample space, with the cutoffs *A*=0.5 and *B*=0.6:
+
+&lt;img src="http://norvig.com/ipython/probability2da.jpg" width=413&gt;
+
+The total area of the sample space is 0.5 &times; 0.4 = 0.20, and in general it is (1 - *A*) &middot; (1 - *B*). What about the favorable cases, where **A** beats **B**? That corresponds to the shaded triangle below:
+
+&lt;img src="http://norvig.com/ipython/probability2d.jpg" width=413&gt;
+
+The area of a triangle is 1/2 the base times the height, or in this case, 0.4<sup>2</sup> / 2 = 0.08, and in general, (1 - *B*)<sup>2</sup> / 2. So in general we have:
+
+    Phigher(A, B) = favorable / total
+    favorable     = ((1 - B) ** 2) / 2 
+    total         = (1 - A) * (1 - B)
+    Phigher(A, B) = (((1 - B) ** 2) / 2) / ((1 - A) * (1 - B))
+    Phigher(A, B) = (1 - B) / (2 * (1 - A))
+    
+And in this specific case we have:
+
+     A = 0.5; B = 0.6
+     favorable         = 0.4 ** 2 / 2 = 0.08
+     total             = 0.5 * 0.4    = 0.20
+     Phigher(0.5, 0.6) = 0.08 / 0.20  = 0.4
+
+But note that this only works when the cutoff *A* &le; *B*; when *A* &gt; *B*, we need to reverse things. That gives us the code:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Phigher</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="s">"Probability that a sample from [A..1] is higher than one from [B..1]."</span>
+    <span class="k">if</span> <span class="n">A</span> <span class="o">&lt;=</span> <span class="n">B</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">B</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">A</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">Phigher</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Phigher</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+We're now ready to tackle the full game. There are four cases to consider, depending on whether **A** and **B** gets a first number that is above or below their cutoff choices:
+
+| first *a* | first *b* | P(*a*, *b*) | P(A wins &vert; *a*, *b*) |  Comment |
+|:-----:|:-----:| ----------- | ------------- | ------------ |
+| *a* &gt; *A* | *b* &gt; *B* | (1 - *A*) &middot; (1 - *B*) | Phigher(*A*, *B*) | Both above cutoff; both keep first numbers |
+| *a* &lt; *A* | *b* &lt; *B* | *A* &middot; *B* | Phigher(0, 0)  | Both below cutoff, both get new numbers from [0..1] |
+| *a* &gt; *A* | *b* &lt; *B* | (1 - *A*) &middot;  *B* | Phigher(*A*, 0) | **A** keeps number; **B** gets new number from [0..1] |
+| *a* &lt; *A* | *b* &gt; *B* | *A* &middot; (1 - *B*) | Phigher(0, *B*) | **A** gets new number from [0..1]; **B** keeps number |
+
+For example, the first row of this table says that the event of both first numbers being above their respective cutoffs has probability (1 - *A*) &middot; (1 - *B*), and if this does occur, then the probability of **A** winning is Phigher(*A*, *B*).
+We're ready to replace the old simulation-based `Pwin` with a new calculation-based version:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Pwin</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="s">"With what probability does cutoff A win against cutoff B?"</span>
+    <span class="k">return</span> <span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">A</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">B</span><span class="p">)</span> <span class="o">*</span> <span class="n">Phigher</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>  <span class="c"># both above cutoff</span>
+            <span class="o">+</span> <span class="n">A</span> <span class="o">*</span> <span class="n">B</span>       <span class="o">*</span> <span class="n">Phigher</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c"># both below cutoff</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">A</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span>   <span class="o">*</span> <span class="n">Phigher</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c"># A above, B below</span>
+            <span class="o">+</span> <span class="n">A</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">B</span><span class="p">)</span>   <span class="o">*</span> <span class="n">Phigher</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">B</span><span class="p">))</span> <span class="c"># A below, B above</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+That was a lot of algebra. Let's define a few tests to check for obvious errors:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">Phigher</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">==</span> <span class="n">Phigher</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span> <span class="o">==</span> <span class="n">Phigher</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.5</span>
+    <span class="k">assert</span> <span class="n">Pwin</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">==</span> <span class="n">Pwin</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.5</span>
+    <span class="k">assert</span> <span class="n">Phigher</span><span class="p">(</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.6</span>
+    <span class="k">assert</span> <span class="n">Phigher</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.4</span>
+    <span class="k">return</span> <span class="s">'ok'</span>
+
+<span class="n">test</span><span class="p">()</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+Let's repeat the calculation with our new, exact `Pwin`:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">top</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+It is good to see that the simulation and the exact calculation are in rough agreement; that gives me more confidence in both of them. We see here that 0.62 defeats all the other cutoffs, and 0.61 defeats all cutoffs except 0.62. The great thing about the exact calculation code is that it runs fast, regardless of how much accuracy we want. We can zero in on the range around 0.6:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">top</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.500</span><span class="p">,</span> <span class="mf">0.700</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+This says 0.618 is best, better than 0.620. We can get even more accuracy:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">top</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.61700</span><span class="p">,</span> <span class="mf">0.61900</span><span class="p">,</span> <span class="mf">0.00001</span><span class="p">))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+So 0.61803 is best. Does that number [look familiar](https://en.wikipedia.org/wiki/Golden_ratio)? Can you prove that it is what I think it is?
+
+To understand the strategic possibilities, it is helpful to draw a 3D plot of `Pwin(A, B)` for values of *A* and *B* between 0 and 1:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d.axes3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+
+<span class="k">def</span> <span class="nf">map2</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="s">"Map fn to corresponding elements of 2D arrays A and B."</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">Arow</span><span class="p">,</span> <span class="n">Brow</span><span class="p">))</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">Arow</span><span class="p">,</span> <span class="n">Brow</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)]</span>
+
+<span class="n">cutoffs</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+<span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">cutoffs</span><span class="p">,</span> <span class="n">cutoffs</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">'3d'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'A'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'B'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s">'Pwin(A, B)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">map2</span><span class="p">(</span><span class="n">Pwin</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">));</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+What does this [Pringle of Probability](http://fivethirtyeight.com/features/should-you-shoot-free-throws-underhand/) show us? The highest win percentage for **A**, the peak of the surface, occurs when *A* is around 0.5 and *B* is 0 or 1. We can confirm that, finding the maximum `Pwin(A, B)` for many different cutoff values of `A` and `B`:
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cutoffs</span> <span class="o">=</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span>    <span class="mf">1.00</span><span class="p">,</span>    <span class="mf">0.01</span><span class="p">))</span> <span class="o">|</span> 
+           <span class="nb">set</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.500</span><span class="p">,</span>   <span class="mf">0.700</span><span class="p">,</span>   <span class="mf">0.001</span><span class="p">))</span> <span class="o">|</span> 
+           <span class="nb">set</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.61700</span><span class="p">,</span> <span class="mf">0.61900</span><span class="p">,</span> <span class="mf">0.00001</span><span class="p">)))</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">max</span><span class="p">([</span><span class="n">Pwin</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">cutoffs</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">cutoffs</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+So **A** could win 62.5% of the time if only **B** would chose a cutoff of 0. But, unfortunately for **A**, a rational player **B** is not going to do that. We can ask what happens if the game is changed so that player **A** has to declare a cutoff first, and then player **B** gets to respond with a cutoff, with full knowledge of **A**'s choice. In other words, what cutoff should **A** choose to maximize `Pwin(A, B)`, given that **B** is going to take that knowledge and pick a cutoff that minimizes `Pwin(A, B)`? 
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">([</span><span class="n">Pwin</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">cutoffs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">cutoffs</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+And what if we run it the other way around, where **B** chooses a cutoff first, and then **A** responds?
+
+<div class="cell code_cell">
+                        <div class="input_area">
+                          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">([</span><span class="n">Pwin</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span> <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">cutoffs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">cutoffs</span><span class="p">)</span>
+</code></pre></div>                          </div>
+                        </div>
+
+                      </div>
+
+In both cases, the rational choice for both players in a cutoff of 0.61803, which corresponds to the  "saddle point" in the middle of the plot. This is a *stable equilibrium*; consider fixing *B* = 0.61803, and notice that if *A* changes to any other value, we slip off the saddle to the right or left, resulting in a worse win probability for **A**. Similarly, if we fix *A* = 0.61803, then if *B* changes to another value, we ride up the saddle to a higher win percentage for **A**, which is worse for **B**. So neither player will want to move from the saddle point.
+
+The moral for continuous spaces is the same as for discrete spaces: be careful about defining your space; count/measure carefully, and let your code take care of the rest.
+</center></td></td></tr></table></center></td></center></td></tr></table>
 
               <nav class="c-page__nav">
   
