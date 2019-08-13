@@ -2,7 +2,7 @@
 redirect_from:
   - "/normal-models/k-means"
 interact_link: content/normal_models/k_means.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
 title: 'k Means'
 prev_page:
@@ -29,7 +29,7 @@ Let's plot our data and add the mean as a new layer, now that we're getting good
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
+```python
 library(ggplot2)
 carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 ```
@@ -38,12 +38,16 @@ carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/ca
 </div>
 
 <div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+<div class="input_area" markdown="1">
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+from scipy.optimize import minimize
+from scipy.stats import norm as normal
+import patsy
+
+bp.LaTeX()
 ```
 </div>
 
@@ -51,23 +55,58 @@ old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(dplyr)
-carn <- carnivora %>%
-    select(Family, SW) %>%
-    filter(Family %in% c("Canidae", "Felidae", "Mustelidae", "Viverridae")) %>%
-    droplevels
+```python
+carnivora = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
+carn = carnivora[carnivora['Family'].isin(["Canidae", "Felidae", "Mustelidae", "Viverridae"])]
+```
+</div>
 
-ggplot(carn, aes(Family, SW)) + 
-    geom_jitter(width=.1) +
-    stat_summary(fun.y="mean", color="orange", geom="point", size=2)
+</div>
 
-
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+np.asarray([1, 1, 2])
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+array([1, 1, 2])
+```
+
+
+</div>
+</div>
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+for i, (name, gdf) in enumerate(carn.groupby("Family")):
+    y = gdf['SW']
+    bp.jitter(np.repeat(i, y.size), y, jitter_y=0)
+    bp.point(np.asarray([i]), y.mean(), color=bp.cat_color[1], size=1.5)
+    
+families = np.unique(carn['Family'])
+bp.xticks(range(len(families)), labels=families, size=14)
+bp.labels(x='Family', y='Body weight (kg)', size=18)
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x119b4eb70>
+```
+
 
 </div>
 </div>
@@ -75,7 +114,7 @@ ggplot(carn, aes(Family, SW)) +
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/normal_models/k_means_3_1.png)
+![png](../images/normal_models/k_means_5_1.png)
 
 </div>
 </div>
@@ -83,52 +122,50 @@ ggplot(carn, aes(Family, SW)) +
 
 From the plot above, it seems like Felidae has the greatest mean weight, but it also seems like there is the most variation in Felidae.
 
+### Example
+Adapt the code above, along with the violin plot code from the two means section to make a violin plot for the four families above.
+
 Code to fit our model above looks quite similar to our previous efforts in Sections Simple Linear Regression and Two Means.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ll <- function(beta, y, mX) {
-    sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
-}
-X <- model.matrix( ~ Family, data=carn)
+```python
+def ll(beta, yX):
+    y = yX[:, 0]
+    X = yX[:, -4:]
+    yhat = np.full(y.shape, np.nan)
+    for r in range(X.shape[0]):
+        yhat[r] = np.sum(beta * X[r,:])
+    d = y - yhat
+    return np.sum(d * d)
 
-(beta <- optim(rexp(4), ll, method="L-BFGS-B", mX=X, y=carn$SW)$par)
+pX = patsy.dmatrix("~ C(Family)", data=carn)
+yX = np.c_[carn["SW"], np.asarray(pX)]
+
+beta = minimize(ll, normal.rvs(loc=10, size=4), args=(yX))["x"]
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-<ol class=list-inline>
-	<li>9.51138533203115</li>
-	<li>26.9476260330641</li>
-	<li>-4.91586012253812</li>
-	<li>-6.70018683975312</li>
-</ol>
-
 </div>
 
-</div>
-</div>
-</div>
-
-The same trick is taking place in our model.  The "intercept" is really the first level's mean, Canidae.  Each coefficient after that is a level-specific offset relative to the Canidae's mean.  To find, say, Mustelidae's mean, you have to add $\hat{\beta}_0$ to $\hat{\beta}_2$.
+The same trick is taking place in our model.  The "intercept" is really the first level's mean, Canidae.  Each coefficient after that is a level-specific offset relative to Canidae's mean.  To find, say, Mustelidae's mean, you have to add $\hat{\beta}_0$ to $\hat{\beta}_2$.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-beta[1] + beta[3]
+```python
+np.round(beta[0] + beta[2], 3)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
-4.59552520949303
-</div>
+
+{:.output_data_text}
+```
+4.596
+```
+
 
 </div>
 </div>
@@ -138,28 +175,28 @@ These estimates are still no different than group means.  Don't be discouraged, 
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-carn %>%
-    group_by(Family) %>%
-    summarise(mnSW = mean(SW))
+```python
+(carn
+ .groupby("Family")
+ ["SW"]
+ .agg("mean"))
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
-<table>
-<thead><tr><th scope=col>Family</th><th scope=col>mnSW</th></tr></thead>
-<tbody>
-	<tr><td>Canidae   </td><td> 9.511111 </td></tr>
-	<tr><td>Felidae   </td><td>36.458947 </td></tr>
-	<tr><td>Mustelidae</td><td> 4.595667 </td></tr>
-	<tr><td>Viverridae</td><td> 2.811250 </td></tr>
-</tbody>
-</table>
 
-</div>
+{:.output_data_text}
+```
+Family
+Canidae        9.511111
+Felidae       36.458947
+Mustelidae     4.595667
+Viverridae     2.811250
+Name: SW, dtype: float64
+```
+
 
 </div>
 </div>
@@ -169,19 +206,86 @@ Quantifying uncertainty in our estimates is carried out with the bootstrap metho
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(boot)
+```python
+N = carn['SW'].size
+R = 999
+betas = np.full((R, 4), np.nan)
 
-breg <- function(data, idx) {
-    y <- data[idx, 1]
-    X <- data[idx, -1]
-    optim(rexp(4), ll, method="L-BFGS-B", mX=X, y=y)$par
-}
-
-b <- boot(cbind(carn$SW, X), R=999, breg)
-bci_beta0 <- boot.ci(b, conf=.95, type="perc", index=1)
-bci_beta1 <- boot.ci(b, conf=.95, type="perc", index=2)
+for r in range(R):
+    idx = np.random.choice(N, N)
+    betas[r, :] = minimize(ll, normal.rvs(size=4), args=(yX[idx, :]))["x"]
 ```
 </div>
 
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+beta_p = np.percentile(betas, [10, 90], axis=0)
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+axs = bp.subplots(1, 4)
+
+ylab = lambda i: "Density" if i < 1 else ""
+xlab = lambda i: f"$\\beta_{ {i} }$"
+for a in range(len(axs)):
+    bp.current_axis(axs[a])
+    bp.density(betas[:, a])
+    bp.percentile_h(betas[:, a], y=0)
+    bp.rug(beta_p[:, a])
+    bp.labels(x=xlab(a), y=ylab(a), size=18)
+    
+bp.tight_layout()
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x11eb6a9b0>
+```
+
+
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../images/normal_models/k_means_15_1.png)
+
+</div>
+</div>
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+beta_p
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+array([[ 6.99005835, 14.09121455, -7.75871771, -9.32626222],
+       [12.17099575, 41.13387438, -1.93307932, -4.08192669]])
+```
+
+
+</div>
+</div>
 </div>

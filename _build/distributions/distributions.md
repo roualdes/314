@@ -1,23 +1,39 @@
 ---
 interact_link: content/distributions/distributions.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
-title: 'Distributions, Mean, and Variance'
+title: 'Distributions'
 prev_page:
-  url: /distributions/introduction
-  title: 'Distributions'
+  url: /bernoulli/proportions
+  title: 'Bernoulli Distribution'
 next_page:
-  url: /gamma/introduction
+  url: /gamma/parameters
   title: 'Gamma Distribution'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# Distributions, Mean, and Variance
+# Distributions
+
+## Introduction
+
+This section will begin to formalize the connection between random variables, probability density functions, and population parameters.  We generally use language like the random variable $X$ follows a named distribution, which has a probability density function defined by, possibly many, parameters.  Hence, the word distribution in some sense is just the name the binds random variables, probability density functions, and parameters together.
+
+## Warm Up
+
+Before we look at two common named population parameters, let's introduce a few new words that we'll use throughout this section.
+
+- **support**: The set of values a random variable might assume, and equally the set of values a random variable's probability density function is defined over.  
+For example, the support of $X \sim \text{Uniform}(1, 6)$ is the integers from $1$ to $6$ inclusive.
+- **expected value**: A population-level measure of center for a random variable.  
+For example, $3.5$ for a fair die.
+- **variance**: A population-level measure of variability for a random variable.
+- **standard deviation**: The square root of the variance.
+
 
 ## Random Variables
 
 A random variable is a function from a set of all possible outcomes,
-named the **sample space**, to exactly one real number.  We often
+named the sample space, to exactly one real number.  We often
 assume that random variables follow named distributions, e.g. $Y \sim
 \text{Uniform}(a, b)$ where $a < b$, or $X \sim \text{Bernoulli}(p)$ where $p
 \in [0, 1]$.  Named distributions are common because they often
@@ -39,7 +55,7 @@ restricted to countable outcomes.  Discrete random variables are
 restrictued to countable outcomes and continous random variables are
 the extension to uncountable outcomes.  Discrete random variables take
 on non-negative mass or probability at single points in the
-**support** of the random variable, and thus have probability mass
+support of the random variable, and thus have probability mass
 functions.  On the other hand, continuous random variables have
 probability density functions, since zero mass occurs at distinct
 points in the support of the random variable.  These lecture notes
@@ -50,20 +66,11 @@ Before providing a long list of some other common named distributions, we will d
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(ggplot2)
-```
-</div>
-
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+bp.LaTeX()
 ```
 </div>
 
@@ -92,16 +99,25 @@ for $x \in \\{a, a+1, \ldots, b-1, b\\}$.  Notice that the random variable is on
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-x <- 1:6
-fx <- 1 / (6 - 1 + 1)
-df <- data.frame(x, fx)
-ggplot(df, aes(x, fx)) + geom_point() + labs(y='uniform(x|1, 6)')
+```python
+x = np.arange(1, 7)
+fx = 1 / (6 - 1 + 1)
+df = pd.DataFrame({'x': x, 'f': fx})
+
+bp.point(df['x'], df['f'])
+bp.labels(x='$x$', y='uniform$(x|1,6)$', size=18)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x12271b5f8>
+```
+
 
 </div>
 </div>
@@ -109,7 +125,7 @@ ggplot(df, aes(x, fx)) + geom_point() + labs(y='uniform(x|1, 6)')
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/distributions/distributions_7_1.png)
+![png](../images/distributions/distributions_4_1.png)
 
 </div>
 </div>
@@ -127,10 +143,10 @@ In R, we can apply this formula to $X \sim \text{Uniform}(1,6)$,
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-a <- 1; b <- 6
-x <- a:b
-fx <- 1 / (b - a + 1)
+```python
+a = 1; b = 6
+x = np.arange(1, 6 + 1)
+fx = 1 / (b - a + 1)
 sum(x * fx) # E(X)
 ```
 </div>
@@ -138,9 +154,12 @@ sum(x * fx) # E(X)
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
+
+{:.output_data_text}
+```
 3.5
-</div>
+```
+
 
 </div>
 </div>
@@ -150,16 +169,28 @@ Notice that the we are simply weighting each value in the support of the random 
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-flips <- 1e3
-die <- sample(1:6, flips, replace=TRUE)
-df <- data.frame(m = cumsum(die)/(1:flips), Flip = 1:flips)
-ggplot(df, aes(Flip, m)) + geom_line() + labs(y=expression(hat(bold(E))(X)), parse=TRUE)
+```python
+N = int(1e3)
+die = np.random.choice(x, size=N)
+flips = np.arange(1, N + 1)
+df = pd.DataFrame({'flip': flips,
+                   'm': np.cumsum(die)/flips})
+
+bp.line(df['flip'], df['m'])
+bp.line_h(y=3.5, color='black')
+bp.labels(x='flip', y='$\hat{E}(X)$', size=18)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x124dee278>
+```
+
 
 </div>
 </div>
@@ -167,7 +198,7 @@ ggplot(df, aes(Flip, m)) + geom_line() + labs(y=expression(hat(bold(E))(X)), par
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/distributions/distributions_12_1.png)
+![png](../images/distributions/distributions_9_1.png)
 
 </div>
 </div>
@@ -195,11 +226,11 @@ The standard deviation is another measure of spread, like the variance, but the 
 
 ### Example
 
-In R, we can apply this formula to $X \sim \text{Uniform}(1,6)$ by first calculating the expected value $\mathbb{E}(X)$,
+In Python, we can apply this formula to $X \sim \text{Uniform}(1,6)$ by first calculating the expected value $\mathbb{E}(X)$,
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
+```python
 a <- 1; b <- 6
 x <- a:b
 fx <- 1 / (b - a + 1)
@@ -228,6 +259,48 @@ sqrt(v) # standard deviation
 </div>
 </div>
 </div>
+
+### Example
+
+Assume $X \sim \text{Bernoulli}(p)$.  If you work through the math for the variance, then you end up at an equation that we can almost make sense of.
+
+$$ \mathbb{V}(X) = p(1 - p) $$
+
+Let's plot this.
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+p = np.linspace(0, 1, 101)
+fp = p * (1 - p)
+bp.curve(p, fp)
+bp.labels(x='$p$', y='$f(p)$', size=18)
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x125393128>
+```
+
+
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../images/distributions/distributions_16_1.png)
+
+</div>
+</div>
+</div>
+
+We can infer that the variance is maximized at p = 0.5; the math isn't too difficult, try.  This says that for a coin has the most variability (e.g. bounces back and forth between heads and tails the most) when it is a fair coin.  This makes sense.  An extremely biased coin, say $p = 0.001$ will very often come up tails, and rarely fall on heads.
 
 It takes some time to understand the fancy integral notation above.  There are a few ideas that you should keep in mind when working with the definitions of $\mathbb{E}(X)$ and $\mathbb{V}(X)$:
 

@@ -2,7 +2,7 @@
 redirect_from:
   - "/normal-models/two-means"
 interact_link: content/normal_models/two_means.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
 title: 'Two Means'
 prev_page:
@@ -28,21 +28,13 @@ The jittered scatterplot highlights a reasonable rule of thumb for visualization
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(ggplot2)
-carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
-```
-</div>
-
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+from scipy.optimize import minimize
+from scipy.stats import norm as normal
+import patsy
 ```
 </div>
 
@@ -50,13 +42,34 @@ old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ggplot(data=carnivora, aes(SuperFamily, SW)) + geom_jitter(width=.1)
+```python
+carnivora = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+for i, (name, gdf) in enumerate(carnivora.groupby('SuperFamily')):
+    y = gdf['SW']
+    bp.jitter(np.repeat(i, y.size), y, jitter_y=0)
+
+bp.xticks([0, 1], labels=np.unique(carnivora['SuperFamily']), size=14)
+bp.labels(x='Super family', y='Body weight (kg)', size=18)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x11ddd27b8>
+```
+
 
 </div>
 </div>
@@ -76,13 +89,25 @@ Both of these plots help the scientist visualize the location of the mean and va
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ggplot(data=carnivora, aes(SuperFamily, SW)) + geom_violin()
+```python
+for i, (name, gdf) in enumerate(carnivora.groupby('SuperFamily')):
+    y = gdf['SW']
+    bp.violin(i, y)
+
+bp.xticks([0, 1], labels=np.unique(carnivora['SuperFamily']), size=14)
+bp.labels(x='Super family', y='Body weight (kg)', size=18)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x11b2a64a8>
+```
+
 
 </div>
 </div>
@@ -102,69 +127,26 @@ Before we move on, it's informative to see that this model is really doing nothi
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(dplyr)
-carn <- carnivora %>%
-    select(SuperFamily, SW) %>%
-    na.omit
-
-carn %>%
-    group_by(SuperFamily) %>%
-    summarise(mnSB = mean(SW))
+```python
+(carnivora
+ .groupby('SuperFamily')
+ ['SW']
+ .agg('mean'))
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
-<table>
-<thead><tr><th scope=col>SuperFamily</th><th scope=col>mnSB</th></tr></thead>
-<tbody>
-	<tr><td>Caniformia</td><td>23.44421  </td></tr>
-	<tr><td>Feliformia</td><td>16.60218  </td></tr>
-</tbody>
-</table>
 
-</div>
-
-</div>
-</div>
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area" markdown="1">
-```R
-# HIDDEN
-ll <- function(beta, y, mX) {
-    sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
-}
-X <- model.matrix( ~ SuperFamily, data=carn)
-
-(beta <- optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=carn$SW)$par)
-sum(beta)
+{:.output_data_text}
 ```
-</div>
+SuperFamily
+Caniformia    23.444211
+Feliformia    16.602182
+Name: SW, dtype: float64
+```
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-<ol class=list-inline>
-	<li>23.4442386143176</li>
-	<li>-6.84206338065863</li>
-</ol>
-
-</div>
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-16.602175233659
-</div>
 
 </div>
 </div>
@@ -177,7 +159,7 @@ For the body weight data, $\texttt{SW}$, we assume
 $$ Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
 \mu = \beta_0 + \beta_1 * Feliformia.$$
 
-There are three pieces to this model that deserve special attention.  The first thing to notice is that the structure of the model looks identical to simple linear regression.  This similarity will allow us to unify these two models in coming sections of these lecture notes.  The difference between simple linear regression and this model rests on the (statistical) type of the x-axis variable, which brings us to the other pieces that deserve special attention.  
+There are three pieces to this model that deserve special attention.  The first thing to notice is that the structure of the model looks identical to simple linear regression.  This similarity will allow us to unify these two models in coming sections of these course notes.  The difference between simple linear regression and this model rests on the (statistical) type of the x-axis variable, which brings us to the other pieces that deserve special attention.  
 
 The second point to note is that Feliformia is not a numerical variable, like in simple linear regression.  In the world of statistics, Feliformia in this context is called an indicator variable.  Indicator variables only ever take on two values, $0$ and $1$.  Feliformia will be $1$ when predicting or calculating the mean body weight for an animal from the super family Feliformia, and $0$ otherwise.
 
@@ -191,121 +173,130 @@ The code to fit this model is very similar to the code for simple linear regress
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ll <- function(beta, y, mX) {
-    sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
-}
-X <- model.matrix( ~ SuperFamily, data=carn)
+```python
+def ll(beta, yX):
+    y = yX[:, 0]
+    X = yX[:, -2:]
+    yhat = np.full(y.shape, np.nan)
+    for r in range(X.shape[0]):
+        yhat[r] = np.sum(beta * X[r,:])
+    d = y - yhat
+    return np.sum(d * d)
 
-(beta <- optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=carn$SW)$par)
-sum(beta)
+pX = patsy.dmatrix("~ C(SuperFamily)", data=carnivora)
+yX = np.c_[carnivora['SW'], np.asarray(pX)]
+
+beta = minimize(ll, normal.rvs(loc=50, size=2), args=(yX))['x']
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-<ol class=list-inline>
-	<li>23.4442322987161</li>
-	<li>-6.8420557728053</li>
-</ol>
-
-</div>
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-16.6021765259108
-</div>
-
-</div>
-</div>
 </div>
 
 Notice that $X$ again has two columns.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-head(X)
-tail(X)
+```python
+pX
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
-<table>
-<thead><tr><th scope=col>(Intercept)</th><th scope=col>SuperFamilyFeliformia</th></tr></thead>
-<tbody>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-</tbody>
-</table>
+
+{:.output_data_text}
+```
+DesignMatrix with shape (112, 2)
+  Intercept  C(SuperFamily)[T.Feliformia]
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+  [82 rows omitted]
+  Terms:
+    'Intercept' (column 0)
+    'C(SuperFamily)' (column 1)
+  (to view full data, use np.asarray(this_obj))
+```
+
 
 </div>
+</div>
+</div>
 
+The first column, as in simple linear regression, is called the intercept and is always $1$.  The second column is $0$ when an observation (row) represents an animal from the super family Caniformia, and is $1$ when an observation represents an animal from the super family Feliformia.  Notice then that the model uses both $\beta_0$ and $\beta_1$ to estimate the mean for members of the super family Feliformia.  This explains why $\beta_1$ is the offset for Feliformia relative to (the ever present) group mean $\beta_0$ for Caniformia.  In the world of data science, they say the variable $\texttt{Feliformia}$ is [one-hot encoded](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html) for the observations which are members of the super family Feliformia.  
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+print(yX[:5, -2:]) # first 5 rows as seen inside ll()
+print(yX[-5:, -2:]) # last 5 rows as seen inside ll()
+```
 </div>
-</div>
+
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-<table>
-<thead><tr><th></th><th scope=col>(Intercept)</th><th scope=col>SuperFamilyFeliformia</th></tr></thead>
-<tbody>
-	<tr><th scope=row>107</th><td>1</td><td>1</td></tr>
-	<tr><th scope=row>108</th><td>1</td><td>1</td></tr>
-	<tr><th scope=row>109</th><td>1</td><td>1</td></tr>
-	<tr><th scope=row>110</th><td>1</td><td>1</td></tr>
-	<tr><th scope=row>111</th><td>1</td><td>1</td></tr>
-	<tr><th scope=row>112</th><td>1</td><td>1</td></tr>
-</tbody>
-</table>
-
-</div>
-
+{:.output_stream}
+```
+[[1. 0.]
+ [1. 0.]
+ [1. 0.]
+ [1. 0.]
+ [1. 0.]]
+[[1. 1.]
+ [1. 1.]
+ [1. 1.]
+ [1. 1.]
+ [1. 1.]]
+```
 </div>
 </div>
 </div>
-
-The first column, as in simple linear regression, is called the intercept and is always $1$.  The second column is $0$ when an observation (row) represents an animal from the super family Caniformia, and is $1$ when an observation represents an animal from the super family Feliformia.  Notice then that the model uses both $\beta_0$ and $\beta_1$ to estimate the mean for members of the super family Feliformia.  This explains why $\beta_1$ is the offset for Feliformia relative to (the ever present) group mean $\beta_0$ for Caniformia.  In the world of data science, they say the variable $\texttt{SuperFamilyFeliformia}$ is one-hot encoded for the observations which are members of the super family Feliformia.  
 
 With this in mind, we can recover the two means of body weight for Caniformia and Feliformia.  Caniformia's estimated mean body weight is $\hat{\beta}_0$ and Feliformia's estimated mean body weight is $\hat{\beta}_0 + \hat{\beta}_1$.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-beta[1]
-sum(beta)
+```python
+print(beta[0])
+print(sum(beta))
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-23.4442322987161
-</div>
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-16.6021765259108
-</div>
-
+{:.output_stream}
+```
+23.44420985025349
+16.60218337331331
+```
 </div>
 </div>
 </div>
@@ -316,55 +307,55 @@ Quantifying uncertainty in our estimates is carried out with the bootstrap metho
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(boot)
+```python
+N = carnivora['SW'].size
+R = 999
+betas = np.full((R, 2), np.nan)
 
-breg <- function(data, idx) {
-    y <- data[idx, 1]
-    X <- data[idx, -1]
-    optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=y)$par
-}
-
-b <- boot(cbind(carn$SW, X), R=999, breg)
-bci_beta0 <- boot.ci(b, conf=.9, type="perc", index=1)
-bci_beta1 <- boot.ci(b, conf=.9, type="perc", index=2)
+for r in range(R):
+    idx = np.random.choice(N, N)
+    betas[r, :] = minimize(ll, normal.rvs(loc=20, size=2), args=(yX[idx, :]))['x']
 ```
 </div>
 
 </div>
-
-Plotting the bootstrap estimated sampling distributions for Feliformia's offset gives good idea of the similarlity between Caniformia and Feliformia.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-bdf <- as.data.frame(b$t)
-names(bdf) <- c('caniformia', 'feliformia_offset')
-ggplot(data=bdf, aes(feliformia_offset)) +
-    geom_density()
-quantile(bdf$feliformia_offset, probs=c(0.1, .5, .9))
+```python
+beta_p = np.percentile(betas, [10, 90], axis=0)
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+axs = bp.subplots(1, 2)
+
+ylab = lambda x: "Density" if x < 1 else ""
+xlab = lambda x: f"$\\beta_{ {x} }$"
+for a in range(len(axs)):
+    bp.current_axis(axs[a])
+    bp.density(betas[:, a])
+    bp.percentile_h(betas[:, a], y=0)
+    bp.rug(beta_p[:, a])
+    bp.labels(x=xlab(a), y=ylab(a), size=18)
+    
+bp.tight_layout()
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
-<dl class=dl-horizontal>
-	<dt>10%</dt>
-		<dd>-20.0943690908679</dd>
-	<dt>50%</dt>
-		<dd>-6.30098640957269</dd>
-	<dt>90%</dt>
-		<dd>4.89842857233693</dd>
-</dl>
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x11dd31eb8>
+```
 
-</div>
 
 </div>
 </div>
@@ -372,10 +363,12 @@ quantile(bdf$feliformia_offset, probs=c(0.1, .5, .9))
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/normal_models/two_means_18_2.png)
+![png](../images/normal_models/two_means_19_1.png)
 
 </div>
 </div>
 </div>
 
-The summary statistics, including the plot, above suggest that there's a reasonable chance that the mean body weight for Feliformia is roughly equal to that of Caniformia.  But be careful with this conclusion, because the violin plot above shows that there's some members of the super family Caniformia that are always heavier than some members of Feliformia.  Do you know which animals these are?
+Plotting the bootstrap estimated sampling distributions for Feliformia's offset gives good idea of the similarlity between Caniformia and Feliformia.
+
+The summary statistics above, including the plots, suggest that there's a reasonable chance that the mean body weight for Feliformia is roughly equal to that of Caniformia.  But be careful with this conclusion, because the violin plot above shows that there's some members of the super family Caniformia that are always heavier than some members of Feliformia.  Do you know which animals these are?

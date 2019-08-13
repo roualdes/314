@@ -1,35 +1,28 @@
 ---
 interact_link: content/gamma/parameters.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
-title: 'Estimating Parameters'
+title: 'Gamma Distribution'
 prev_page:
-  url: /gamma/introduction
-  title: 'Gamma Distribution'
+  url: /distributions/distributions
+  title: 'Distributions'
 next_page:
-  url: /normal/introduction
+  url: /normal/means
   title: 'Normal Distribution'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# Estimating Parameters
+# Gamma Distribution
+
+## Introduction
+
+In this chapter we'll introduce the Exponential Distribution a one parameter distribution that is a special case of the Gamma distribution and, of course, the Gamma distribution.  The Gamma distribution is used to model random durations of time until a next event.  What each event is, really only depends on the context of the process being modeled.  A general example might be time until the end of the life of someone or something.  The Gamma distribution is also used to model random volumes, e.g. rainfall.
+
+## Estimating Parameters
 
 Pedagogically, the Exponential and Gamma distributions will provide us insight on the difference between the likelihood estimate of population parameters and estimates of the mean of a random variable.
 
-# Exponential Distribution
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-library(ggplot2)
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
-```
-</div>
-
-</div>
+## Exponential Distribution
 
 Let $X \sim \text{Exponential}(\beta)$.  Then $X$ has probability density function
 
@@ -43,18 +36,51 @@ Consider a random sample that measures days between rain events at the Winnipeg 
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(ggplot2)
-df <- read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/droughts.csv")
-beta <- 1 / mean(df$length)
-ggplot(data=df, aes(length)) +
-    geom_density() +
-    stat_function(fun=dexp, args=list(rate=beta), color='orange')
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+from scipy.stats import expon as exponential, gamma
+bp.LaTeX()
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+df = pd.read_csv("https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/droughts.csv")
+beta = 1 / df['length'].mean()
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+# true PDF evaluated at estimate of β
+x = np.linspace(df['length'].min(), df['length'].max(), 101)
+fx = exponential.pdf(x, scale=1 / beta)
+bp.curve(x, fx, color='tab:orange')
+
+# estimation of the density itself
+bp.density(df['length'])
+
+bp.labels(x='length', y='density', size=18)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x121d9c8d0>
+```
+
 
 </div>
 </div>
@@ -62,7 +88,7 @@ ggplot(data=df, aes(length)) +
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/gamma/parameters_5_1.png)
+![png](../images/gamma/parameters_3_1.png)
 
 </div>
 </div>
@@ -85,15 +111,26 @@ The computer maximized likelihood for the gamma density function applied to the 
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ggplot(data=df, aes(length)) +
-    geom_density() +
-    stat_function(fun=dgamma, args=list(shape=0.472, rate=.24), color='orange')
+```python
+gx = gamma.pdf(x, a=0.472, scale=1 / beta)
+bp.curve(x, gx, color='tab:orange')
+
+# estimate of density itself
+bp.density(df['length'])
+
+bp.labels(x='length', y='density', size=18)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x121e17c88>
+```
+
 
 </div>
 </div>
@@ -101,7 +138,7 @@ ggplot(data=df, aes(length)) +
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/gamma/parameters_8_1.png)
+![png](../images/gamma/parameters_6_1.png)
 
 </div>
 </div>

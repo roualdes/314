@@ -2,7 +2,7 @@
 redirect_from:
   - "/normal-models/simple-reg"
 interact_link: content/normal_models/simple_reg.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
 title: 'Simple Linear Regression'
 prev_page:
@@ -27,21 +27,15 @@ The following code reads in the dataset, plots the $\texttt{mpgCity}$ variable a
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(ggplot2)
-cars <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/cars.csv")
-```
-</div>
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+from scipy.optimize import minimize
+from scipy.stats import norm as normal
+import patsy
 
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+cars = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/cars.csv")
 ```
 </div>
 
@@ -49,34 +43,20 @@ old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ggplot() +
-    geom_point(data=cars, aes(weight, mpgCity))
-
-ll <- function(beta, y, mX) {
-    sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
-}
-X <- model.matrix( ~ weight, data=cars)
-
-(beta <- optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=cars$mpgCity)$par)
+```python
+bp.scatter(cars['weight'], cars['mpgCity'])
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
-<ol class=list-inline>
-	<li>50.1430417155812</li>
-	<li>-0.00883260732427505</li>
-</ol>
+{:.output_data_text}
+```
+<matplotlib.collections.PathCollection at 0x124a35b70>
+```
 
-</div>
 
 </div>
 </div>
@@ -84,10 +64,31 @@ X <- model.matrix( ~ weight, data=cars)
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/normal_models/simple_reg_3_2.png)
+![png](../images/normal_models/simple_reg_2_1.png)
 
 </div>
 </div>
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+def ll(beta, yX):
+    y = yX[:, 0]
+    X = yX[:, -2:]
+    yhat = np.full(y.shape, np.nan)
+    for r in range(X.shape[0]):
+        yhat[r] = np.sum(beta * X[r,:])
+    d = y - yhat
+    return np.sum(d * d)
+
+pX = patsy.dmatrix("~ weight", data=cars)
+yX = np.c_[cars['mpgCity'].values, np.asarray(pX)]
+
+beta_hat = minimize(ll, normal.rvs(size=2), args=(yX))['x']
+```
+</div>
+
 </div>
 
 We write the estimated linear model as 
@@ -104,72 +105,96 @@ Just like before, the estimates $\hat{\beta}_0, \hat{\beta}_1$ are simply one se
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(boot)
+```python
+N = cars['mpgCity'].size
+R = 999
+betas = np.full((R, 2), np.nan)
 
-simple_reg <- function(data, idx) {
-    y <- data[idx, 1]
-    X <- data[idx, -1]
-    optim(rexp(2), ll, method="BFGS", mX=X, y=y)$par
-}
-
-b <- boot(cbind(cars$mpgCity, X), R=999, simple_reg)
-bci_beta0 <- boot.ci(b, conf=.9, type="perc", index=1)
-bci_beta1 <- boot.ci(b, conf=.9, type="perc", index=2)
+for r in range(R):
+    idx = np.random.choice(N, N)
+    betas[r, :] = minimize(ll, normal.rvs(size=2), args=(yX[idx, :]))['x']
 ```
 </div>
 
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+beta_p = np.percentile(betas, [10, 90], axis=0)
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+axs = bp.subplots(1, 2)
+
+bp.current_axis(axs[0])
+bp.density(betas[:, 0])
+bp.percentile_h(betas[:, 0], y=0)
+bp.rug(beta_p[:, 0])
+bp.labels(x='Intercept', y='Density')
+
+bp.current_axis(axs[1])
+bp.density(betas[:, 1])
+bp.percentile_h(betas[:, 1], y=0)
+bp.rug(beta_p[:, 1])
+bp.labels(x='Slope', y='Density')
+
+bp.tight_layout()
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x124fb9710>
+```
+
+
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../images/normal_models/simple_reg_8_1.png)
+
+</div>
+</div>
 </div>
 
 The $90\%$ confidence intervals for $\beta_0$ and $\beta_1$ are
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-bci_beta0
-bci_beta1
+```python
+np.round(beta_p, 3)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
 {:.output_data_text}
 ```
-BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-Based on 999 bootstrap replicates
-
-CALL : 
-boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 1)
-
-Intervals : 
-Level     Percentile     
-90%   (45.16, 55.09 )  
-Calculations and Intervals on Original Scale
+array([[ 4.6007e+01, -1.0000e-02],
+       [ 5.3851e+01, -8.0000e-03]])
 ```
 
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-{:.output_data_text}
-```
-BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-Based on 999 bootstrap replicates
-
-CALL : 
-boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 2)
-
-Intervals : 
-Level     Percentile     
-90%   (-0.0103, -0.0074 )  
-Calculations and Intervals on Original Scale
-```
 
 </div>
 </div>
 </div>
 
-Some classes will make a big deal about the slope estimate not including $0$.  There's no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, is the true population slope equal to zero or isn't it.  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.
+Some classes will make a big deal about the slope estimate not including $0$.  There's no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, "is the true population slope equal to zero or isn't it?"  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.
 
 Increasingly, statisticians are warning against such binary decision making; e.g. ["It’s time to talk about ditching statistical significance"](https://www.nature.com/articles/d41586-019-00874-8), ["Moving to a World Beyond 'p < 0.05'"](https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913), or ["Scientists rise up against statistical significance"](https://www.nature.com/articles/d41586-019-00857-9).
 

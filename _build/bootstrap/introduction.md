@@ -2,7 +2,7 @@
 title: 'Bootstrap'
 prev_page:
   url: /normal/means
-  title: 'Estimating Means'
+  title: 'Normal Distribution'
 next_page:
   url: /bootstrap/confidence_intervals
   title: 'Confidence Intervals'

@@ -29,9 +29,9 @@
   "headline":
     "Two Means",
   "datePublished":
-    "2019-08-06T09:42:16-07:00",
+    "2019-08-12T17:47:24-07:00",
   "dateModified":
-    "2019-08-06T09:42:16-07:00",
+    "2019-08-12T17:47:24-07:00",
   "description":
     "Two Means",
   "author": {
@@ -491,7 +491,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/duniform/introduction.html"
+          href="/duniform/probability.html"
         >
           
             1.
@@ -500,37 +500,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/duniform/probability.html"
-                >
-                  
-                    1.1
-                  
-                  Random Variables and Probability
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -545,7 +514,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/bernoulli/introduction.html"
+          href="/bernoulli/proportions.html"
         >
           
             2.
@@ -554,56 +523,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/bernoulli/proportions.html"
-                >
-                  
-                    2.1
-                  
-                  Estimating Proportions
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/bernoulli/summary.html"
-                >
-                  
-                    2.2
-                  
-                  Summary
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -618,7 +537,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/distributions/introduction.html"
+          href="/distributions/distributions.html"
         >
           
             3.
@@ -627,37 +546,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/distributions/distributions.html"
-                >
-                  
-                    3.1
-                  
-                  Distributions, Mean, and Variance
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -672,7 +560,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/gamma/introduction.html"
+          href="/gamma/parameters.html"
         >
           
             4.
@@ -681,37 +569,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/gamma/parameters.html"
-                >
-                  
-                    4.1
-                  
-                  Estimating Parameters
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -726,7 +583,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/normal/introduction.html"
+          href="/normal/means.html"
         >
           
             5.
@@ -734,37 +591,6 @@ initFunction(initQuery);
           Normal Distribution
         </a>
 
-        
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/normal/means.html"
-                >
-                  
-                    5.1
-                  
-                  Estimating Means
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
         
       </li>
 
@@ -1053,32 +879,41 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">carnivora</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv"</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
-  </div>
-
-</div>
-
-<div class="cell code_cell">
-  <div class="input_area hidecode">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"point"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"density"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"path"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">old</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">theme_set</span><span class="p">(</span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">)))</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">bplot</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span> <span class="k">as</span> <span class="n">normal</span>
+<span class="kn">import</span> <span class="nn">patsy</span>
+</code></pre></div>    </div>
   </div>
 
 </div>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">carnivora</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">.1</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">carnivora</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">gdf</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">carnivora</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'SuperFamily'</span><span class="p">)):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s">'SW'</span><span class="p">]</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">jitter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">y</span><span class="p">,</span> <span class="n">jitter_y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">carnivora</span><span class="p">[</span><span class="s">'SuperFamily'</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Super family'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Body weight (kg)'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+</code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11ddd27b8&gt;
+</code></pre></div>      </div>
 
     </div>
   </div>
@@ -1097,12 +932,20 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">carnivora</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_violin</span><span class="p">()</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">gdf</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">carnivora</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'SuperFamily'</span><span class="p">)):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s">'SW'</span><span class="p">]</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">violin</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">carnivora</span><span class="p">[</span><span class="s">'SuperFamily'</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Super family'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Body weight (kg)'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+</code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11b2a64a8&gt;
+</code></pre></div>      </div>
 
     </div>
   </div>
@@ -1121,67 +964,21 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
-</span><span class="n">carn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">carnivora</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">select</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">SW</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">na.omit</span><span class="w">
-
-</span><span class="n">carn</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">group_by</span><span class="p">(</span><span class="n">SuperFamily</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
-    </span><span class="n">summarise</span><span class="p">(</span><span class="n">mnSB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">SW</span><span class="p">))</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">carnivora</span>
+ <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'SuperFamily'</span><span class="p">)</span>
+ <span class="p">[</span><span class="s">'SW'</span><span class="p">]</span>
+ <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s">'mean'</span><span class="p">))</span>
+</code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output output_html">
-<table>
-<thead><tr>&lt;th scope=col&gt;SuperFamily&lt;/th&gt;&lt;th scope=col&gt;mnSB&lt;/th&gt;</tr></thead>
-<tbody>
-	<tr><td>Caniformia</td><td>23.44421  </td></tr>
-	<tr><td>Feliformia</td><td>16.60218  </td></tr>
-</tbody>
-</table>
-
-</div>
-
-    </div>
-  </div>
-</div>
-
-<div class="cell code_cell">
-  <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># HIDDEN</span><span class="w">
-</span><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">mX</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)}))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
-
-</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="p">)</span><span class="w">
-</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
-  </div>
-
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output output_html">
-&lt;ol class=list-inline&gt;
-	<li>23.4442386143176</li>
-	<li>-6.84206338065863</li>
-&lt;/ol&gt;
-
-</div>
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output output_html">
-16.602175233659
-</div>
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SuperFamily
+Caniformia    23.444211
+Feliformia    16.602182
+Name: SW, dtype: float64
+</code></pre></div>      </div>
 
     </div>
   </div>
@@ -1194,7 +991,7 @@ initFunction(initQuery);
 <script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
 \mu = \beta_0 + \beta_1 * Feliformia.</script>
 
-<p>There are three pieces to this model that deserve special attention.  The first thing to notice is that the structure of the model looks identical to simple linear regression.  This similarity will allow us to unify these two models in coming sections of these lecture notes.  The difference between simple linear regression and this model rests on the (statistical) type of the x-axis variable, which brings us to the other pieces that deserve special attention.</p>
+<p>There are three pieces to this model that deserve special attention.  The first thing to notice is that the structure of the model looks identical to simple linear regression.  This similarity will allow us to unify these two models in coming sections of these course notes.  The difference between simple linear regression and this model rests on the (statistical) type of the x-axis variable, which brings us to the other pieces that deserve special attention.</p>
 
 <p>The second point to note is that Feliformia is not a numerical variable, like in simple linear regression.  In the world of statistics, Feliformia in this context is called an indicator variable.  Indicator variables only ever take on two values, $0$ and $1$.  Feliformia will be $1$ when predicting or calculating the mean body weight for an animal from the super family Feliformia, and $0$ otherwise.</p>
 
@@ -1208,118 +1005,118 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">mX</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)}))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">SuperFamily</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">carn</span><span class="p">)</span><span class="w">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ll</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">yX</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">yX</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">yX</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">yhat</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">r</span><span class="p">,:])</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">yhat</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
 
-</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="p">)</span><span class="w">
-</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
+<span class="n">pX</span> <span class="o">=</span> <span class="n">patsy</span><span class="o">.</span><span class="n">dmatrix</span><span class="p">(</span><span class="s">"~ C(SuperFamily)"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">carnivora</span><span class="p">)</span>
+<span class="n">yX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">carnivora</span><span class="p">[</span><span class="s">'SW'</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pX</span><span class="p">)]</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">yX</span><span class="p">))[</span><span class="s">'x'</span><span class="p">]</span>
+</code></pre></div>    </div>
   </div>
 
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output output_html">
-&lt;ol class=list-inline&gt;
-	<li>23.4442322987161</li>
-	<li>-6.8420557728053</li>
-&lt;/ol&gt;
-
-</div>
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output output_html">
-16.6021765259108
-</div>
-
-    </div>
-  </div>
 </div>
 
 <p>Notice that $X$ again has two columns.</p>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
-</span><span class="n">tail</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pX</span>
+</code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output output_html">
-<table>
-<thead><tr>&lt;th scope=col&gt;(Intercept)&lt;/th&gt;&lt;th scope=col&gt;SuperFamilyFeliformia&lt;/th&gt;</tr></thead>
-<tbody>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-	<tr><td>1</td><td>0</td></tr>
-</tbody>
-</table>
-
-</div>
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DesignMatrix with shape (112, 2)
+  Intercept  C(SuperFamily)[T.Feliformia]
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+          1                             0
+  [82 rows omitted]
+  Terms:
+    'Intercept' (column 0)
+    'C(SuperFamily)' (column 1)
+  (to view full data, use np.asarray(this_obj))
+</code></pre></div>      </div>
 
     </div>
   </div>
+</div>
+
+<p>The first column, as in simple linear regression, is called the intercept and is always $1$.  The second column is $0$ when an observation (row) represents an animal from the super family Caniformia, and is $1$ when an observation represents an animal from the super family Feliformia.  Notice then that the model uses both $\beta_0$ and $\beta_1$ to estimate the mean for members of the super family Feliformia.  This explains why $\beta_1$ is the offset for Feliformia relative to (the ever present) group mean $\beta_0$ for Caniformia.  In the world of data science, they say the variable $\texttt{Feliformia}$ is <a href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html">one-hot encoded</a> for the observations which are members of the super family Feliformia.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">yX</span><span class="p">[:</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">:])</span> <span class="c"># first 5 rows as seen inside ll()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">yX</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">:])</span> <span class="c"># last 5 rows as seen inside ll()</span>
+</code></pre></div>    </div>
+  </div>
+
   <div class="output_wrapper">
     <div class="output_subarea">
-
-      <div class="output output_html">
-<table>
-<thead><tr><th></th>&lt;th scope=col&gt;(Intercept)&lt;/th&gt;&lt;th scope=col&gt;SuperFamilyFeliformia&lt;/th&gt;</tr></thead>
-<tbody>
-	<tr>&lt;th scope=row&gt;107&lt;/th&gt;<td>1</td><td>1</td></tr>
-	<tr>&lt;th scope=row&gt;108&lt;/th&gt;<td>1</td><td>1</td></tr>
-	<tr>&lt;th scope=row&gt;109&lt;/th&gt;<td>1</td><td>1</td></tr>
-	<tr>&lt;th scope=row&gt;110&lt;/th&gt;<td>1</td><td>1</td></tr>
-	<tr>&lt;th scope=row&gt;111&lt;/th&gt;<td>1</td><td>1</td></tr>
-	<tr>&lt;th scope=row&gt;112&lt;/th&gt;<td>1</td><td>1</td></tr>
-</tbody>
-</table>
-
-</div>
-
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[1. 0.]
+ [1. 0.]
+ [1. 0.]
+ [1. 0.]
+ [1. 0.]]
+[[1. 1.]
+ [1. 1.]
+ [1. 1.]
+ [1. 1.]
+ [1. 1.]]
+</code></pre></div>      </div>
     </div>
   </div>
 </div>
-
-<p>The first column, as in simple linear regression, is called the intercept and is always $1$.  The second column is $0$ when an observation (row) represents an animal from the super family Caniformia, and is $1$ when an observation represents an animal from the super family Feliformia.  Notice then that the model uses both $\beta_0$ and $\beta_1$ to estimate the mean for members of the super family Feliformia.  This explains why $\beta_1$ is the offset for Feliformia relative to (the ever present) group mean $\beta_0$ for Caniformia.  In the world of data science, they say the variable $\texttt{SuperFamilyFeliformia}$ is one-hot encoded for the observations which are members of the super family Feliformia.</p>
 
 <p>With this in mind, we can recover the two means of body weight for Caniformia and Feliformia.  Caniformia’s estimated mean body weight is $\hat{\beta}_0$ and Feliformia’s estimated mean body weight is $\hat{\beta}_0 + \hat{\beta}_1$.</p>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">beta</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w">
-</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">beta</span><span class="p">))</span>
+</code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
-
-      <div class="output output_html">
-23.4442322987161
-</div>
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output output_html">
-16.6021765259108
-</div>
-
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>23.44420985025349
+16.60218337331331
+</code></pre></div>      </div>
     </div>
   </div>
 </div>
@@ -1330,66 +1127,63 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">boot</span><span class="p">)</span><span class="w">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="n">carnivora</span><span class="p">[</span><span class="s">'SW'</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mi">999</span>
+<span class="n">betas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">R</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
 
-</span><span class="n">breg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w">
-    </span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">]</span><span class="w">
-    </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot</span><span class="p">(</span><span class="n">cbind</span><span class="p">(</span><span class="n">carn</span><span class="o">$</span><span class="n">SW</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="o">=</span><span class="m">999</span><span class="p">,</span><span class="w"> </span><span class="n">breg</span><span class="p">)</span><span class="w">
-</span><span class="n">bci_beta0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
-</span><span class="n">bci_beta1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">betas</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">yX</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]))[</span><span class="s">'x'</span><span class="p">]</span>
+</code></pre></div>    </div>
   </div>
 
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">beta_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">betas</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">axs</span> <span class="o">=</span> <span class="n">bp</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ylab</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">"Density"</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s">""</span>
+<span class="n">xlab</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="s">"$</span><span class="se">\\</span><span class="s">beta_{ {x} }$"</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axs</span><span class="p">)):</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">current_axis</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="n">a</span><span class="p">])</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">percentile_h</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="n">a</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">beta_p</span><span class="p">[:,</span> <span class="n">a</span><span class="p">])</span>
+    <span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xlab</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">ylab</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    
+<span class="n">bp</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11dd31eb8&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../images/normal_models/two_means_19_1.png" alt="png" /></p>
+
+    </div>
+  </div>
 </div>
 
 <p>Plotting the bootstrap estimated sampling distributions for Feliformia’s offset gives good idea of the similarlity between Caniformia and Feliformia.</p>
 
-<div class="cell code_cell">
-  <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bdf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.data.frame</span><span class="p">(</span><span class="n">b</span><span class="o">$</span><span class="n">t</span><span class="p">)</span><span class="w">
-</span><span class="nf">names</span><span class="p">(</span><span class="n">bdf</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'caniformia'</span><span class="p">,</span><span class="w"> </span><span class="s1">'feliformia_offset'</span><span class="p">)</span><span class="w">
-</span><span class="n">ggplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">bdf</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">feliformia_offset</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_density</span><span class="p">()</span><span class="w">
-</span><span class="n">quantile</span><span class="p">(</span><span class="n">bdf</span><span class="o">$</span><span class="n">feliformia_offset</span><span class="p">,</span><span class="w"> </span><span class="n">probs</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="m">.5</span><span class="p">,</span><span class="w"> </span><span class="m">.9</span><span class="p">))</span><span class="w">
-</span></code></pre></div>    </div>
-  </div>
-
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output output_html">
-&lt;dl class=dl-horizontal&gt;
-	<dt>10%</dt>
-		<dd>-20.0943690908679</dd>
-	<dt>50%</dt>
-		<dd>-6.30098640957269</dd>
-	<dt>90%</dt>
-		<dd>4.89842857233693</dd>
-&lt;/dl&gt;
-
-</div>
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <p class="output_png"><img src="../images/normal_models/two_means_18_2.png" alt="png" /></p>
-
-    </div>
-  </div>
-</div>
-
-<p>The summary statistics, including the plot, above suggest that there’s a reasonable chance that the mean body weight for Feliformia is roughly equal to that of Caniformia.  But be careful with this conclusion, because the violin plot above shows that there’s some members of the super family Caniformia that are always heavier than some members of Feliformia.  Do you know which animals these are?</p>
+<p>The summary statistics above, including the plots, suggest that there’s a reasonable chance that the mean body weight for Feliformia is roughly equal to that of Caniformia.  But be careful with this conclusion, because the violin plot above shows that there’s some members of the super family Caniformia that are always heavier than some members of Feliformia.  Do you know which animals these are?</p>
 
               <nav class="c-page__nav">
   

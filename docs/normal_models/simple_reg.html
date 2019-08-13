@@ -29,9 +29,9 @@
   "headline":
     "Simple Linear Regression",
   "datePublished":
-    "2019-08-06T09:42:16-07:00",
+    "2019-08-12T17:47:24-07:00",
   "dateModified":
-    "2019-08-06T09:42:16-07:00",
+    "2019-08-12T17:47:24-07:00",
   "description":
     "Simple Linear Regression",
   "author": {
@@ -491,7 +491,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/duniform/introduction.html"
+          href="/duniform/probability.html"
         >
           
             1.
@@ -500,37 +500,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/duniform/probability.html"
-                >
-                  
-                    1.1
-                  
-                  Random Variables and Probability
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -545,7 +514,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/bernoulli/introduction.html"
+          href="/bernoulli/proportions.html"
         >
           
             2.
@@ -554,56 +523,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/bernoulli/proportions.html"
-                >
-                  
-                    2.1
-                  
-                  Estimating Proportions
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/bernoulli/summary.html"
-                >
-                  
-                    2.2
-                  
-                  Summary
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -618,7 +537,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/distributions/introduction.html"
+          href="/distributions/distributions.html"
         >
           
             3.
@@ -627,37 +546,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/distributions/distributions.html"
-                >
-                  
-                    3.1
-                  
-                  Distributions, Mean, and Variance
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -672,7 +560,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/gamma/introduction.html"
+          href="/gamma/parameters.html"
         >
           
             4.
@@ -681,37 +569,6 @@ initFunction(initQuery);
         </a>
 
         
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/gamma/parameters.html"
-                >
-                  
-                    4.1
-                  
-                  Estimating Parameters
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
-        
       </li>
 
       
@@ -726,7 +583,7 @@ initFunction(initQuery);
       
       <li class="c-sidebar__chapter">
         <a class="c-sidebar__entry "
-          href="/normal/introduction.html"
+          href="/normal/means.html"
         >
           
             5.
@@ -734,37 +591,6 @@ initFunction(initQuery);
           Normal Distribution
         </a>
 
-        
-
-          
-          
-          
-          
-
-          
-
-          <ul class="c-sidebar__sections u-hidden-visually">
-            
-              
-              
-
-              <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
-                  href="/normal/means.html"
-                >
-                  
-                    5.1
-                  
-                  Estimating Means
-                </a>
-
-                
-                
-
-              </li>
-              
-            
-          </ul>
         
       </li>
 
@@ -1052,63 +878,60 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
-</span><span class="n">cars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/roualdes/data/master/cars.csv"</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
-  </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">bplot</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span> <span class="k">as</span> <span class="n">normal</span>
+<span class="kn">import</span> <span class="nn">patsy</span>
 
-</div>
-
-<div class="cell code_cell">
-  <div class="input_area hidecode">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"point"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"density"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">update_geom_defaults</span><span class="p">(</span><span class="s2">"path"</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">))</span><span class="w">
-</span><span class="n">old</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">theme_set</span><span class="p">(</span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">)))</span><span class="w">
-</span></code></pre></div>    </div>
+<span class="n">cars</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"https://raw.githubusercontent.com/roualdes/data/master/cars.csv"</span><span class="p">)</span>
+</code></pre></div>    </div>
   </div>
 
 </div>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
-    </span><span class="n">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">mpgCity</span><span class="p">))</span><span class="w">
-
-</span><span class="n">ll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nf">sum</span><span class="p">((</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">mX</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="nf">sum</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">row</span><span class="p">)}))</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">weight</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">)</span><span class="w">
-
-</span><span class="p">(</span><span class="n">beta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bp</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s">'weight'</span><span class="p">],</span> <span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">])</span>
+</code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.collections.PathCollection at 0x124a35b70&gt;
+</code></pre></div>      </div>
 
     </div>
   </div>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output output_html">
-&lt;ol class=list-inline&gt;
-	<li>50.1430417155812</li>
-	<li>-0.00883260732427505</li>
-&lt;/ol&gt;
+      <p class="output_png"><img src="../images/normal_models/simple_reg_2_1.png" alt="png" /></p>
 
+    </div>
+  </div>
 </div>
 
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ll</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">yX</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">yX</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">yX</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">yhat</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">r</span><span class="p">,:])</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">yhat</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
 
-      <p class="output_png"><img src="../images/normal_models/simple_reg_3_2.png" alt="png" /></p>
+<span class="n">pX</span> <span class="o">=</span> <span class="n">patsy</span><span class="o">.</span><span class="n">dmatrix</span><span class="p">(</span><span class="s">"~ weight"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">)</span>
+<span class="n">yX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pX</span><span class="p">)]</span>
 
-    </div>
+<span class="n">beta_hat</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">yX</span><span class="p">))[</span><span class="s">'x'</span><span class="p">]</span>
+</code></pre></div>    </div>
   </div>
+
 </div>
 
 <p>We write the estimated linear model as</p>
@@ -1125,66 +948,83 @@ initFunction(initQuery);
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">boot</span><span class="p">)</span><span class="w">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mi">999</span>
+<span class="n">betas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">R</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
 
-</span><span class="n">simple_reg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w">
-    </span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="m">-1</span><span class="p">]</span><span class="w">
-    </span><span class="n">optim</span><span class="p">(</span><span class="n">rexp</span><span class="p">(</span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BFGS"</span><span class="p">,</span><span class="w"> </span><span class="n">mX</span><span class="o">=</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span><span class="o">$</span><span class="n">par</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot</span><span class="p">(</span><span class="n">cbind</span><span class="p">(</span><span class="n">cars</span><span class="o">$</span><span class="n">mpgCity</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">R</span><span class="o">=</span><span class="m">999</span><span class="p">,</span><span class="w"> </span><span class="n">simple_reg</span><span class="p">)</span><span class="w">
-</span><span class="n">bci_beta0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
-</span><span class="n">bci_beta1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">boot.ci</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">conf</span><span class="o">=</span><span class="m">.9</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s2">"perc"</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
-</span></code></pre></div>    </div>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">betas</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">yX</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]))[</span><span class="s">'x'</span><span class="p">]</span>
+</code></pre></div>    </div>
   </div>
 
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">beta_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">betas</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">axs</span> <span class="o">=</span> <span class="n">bp</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">current_axis</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">percentile_h</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">beta_p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Intercept'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Density'</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">current_axis</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">percentile_h</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">beta_p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Slope'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Density'</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x124fb9710&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../images/normal_models/simple_reg_8_1.png" alt="png" /></p>
+
+    </div>
+  </div>
 </div>
 
 <p>The $90\%$ confidence intervals for $\beta_0$ and $\beta_1$ are</p>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bci_beta0</span><span class="w">
-</span><span class="n">bci_beta1</span><span class="w">
-</span></code></pre></div>    </div>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="o">.</span><span class="nb">round</span><span class="p">(</span><span class="n">beta_p</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-Based on 999 bootstrap replicates
 
-CALL : 
-boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 1)
-
-Intervals : 
-Level     Percentile     
-90%   (45.16, 55.09 )  
-Calculations and Intervals on Original Scale
-</code></pre></div>      </div>
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-Based on 999 bootstrap replicates
-
-CALL : 
-boot.ci(boot.out = b, conf = 0.9, type = "perc", index = 2)
-
-Intervals : 
-Level     Percentile     
-90%   (-0.0103, -0.0074 )  
-Calculations and Intervals on Original Scale
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 4.6007e+01, -1.0000e-02],
+       [ 5.3851e+01, -8.0000e-03]])
 </code></pre></div>      </div>
 
     </div>
   </div>
 </div>
 
-<p>Some classes will make a big deal about the slope estimate not including $0$.  There’s no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, is the true population slope equal to zero or isn’t it.  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.</p>
+<p>Some classes will make a big deal about the slope estimate not including $0$.  There’s no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, “is the true population slope equal to zero or isn’t it?”  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.</p>
 
 <p>Increasingly, statisticians are warning against such binary decision making; e.g. <a href="https://www.nature.com/articles/d41586-019-00874-8">“It’s time to talk about ditching statistical significance”</a>, <a href="https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913">“Moving to a World Beyond ‘p &lt; 0.05’”</a>, or <a href="https://www.nature.com/articles/d41586-019-00857-9">“Scientists rise up against statistical significance”</a>.</p>
 

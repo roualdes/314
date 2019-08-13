@@ -2,7 +2,7 @@
 redirect_from:
   - "/normal-models/one-mean"
 interact_link: content/normal_models/one_mean.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
 title: 'One Mean'
 prev_page:
@@ -28,21 +28,13 @@ The following code reads in the dataset, plots the $\texttt{mpgCity}$ data, and 
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(ggplot2)
-cars <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/cars.csv")
-```
-</div>
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+from scipy.optimize import minimize
 
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+bp.LaTeX()
 ```
 </div>
 
@@ -50,21 +42,43 @@ old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-# -1 * simplified log-likelihood for normal model
-ll <- function(mu, y) {
-    sum((y - mu)^2)
-}
-mu_hat <- optim(rexp(1), ll, method="L-BFGS-B", y=cars$mpgCity)$par
+```python
+cars = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/cars.csv")
+```
+</div>
 
-ggplot() + 
-    geom_density(data=cars, aes(mpgCity)) +
-    geom_rug(data=data.frame(mu=mu_hat), aes(mu))
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+def ll(mu, y):
+    d = y - mu
+    return np.sum(d * d)
+
+mu_hat = minimize(ll, 10, args=(cars['mpgCity']), method="BFGS")['x']
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+bp.density(cars['mpgCity'])
+bp.rug(mu_hat)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+[<matplotlib.lines.Line2D at 0x120ae35c0>]
+```
+
 
 </div>
 </div>
@@ -72,7 +86,7 @@ ggplot() +
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/normal_models/one_mean_3_1.png)
+![png](../images/normal_models/one_mean_4_1.png)
 
 </div>
 </div>
@@ -84,40 +98,19 @@ The following code uses the library $\texttt{boot}$ to perform the random sampli
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(boot)
+```python
+R = 999
+N = cars['mpgCity'].size
+mus = np.full((R, 1), np.nan)
 
-sample_mean <- function(data, idx) {
-    optim(rexp(1), ll, method="L-BFGS-B", x=data[idx])$par
-}
-
-b <- boot(cars$mpgCity, R=999, sample_mean)
-(bci <- boot.ci(b, conf=.9, type="perc"))
+for r in range(R):
+    idx = np.random.choice(N, N)
+    mus[r] = minimize(ll, 10, args=(cars['mpgCity'][idx]), method="BFGS")['x']
+    
+mu_p = np.percentile(mus, [10, 90])
 ```
 </div>
 
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-{:.output_traceback_line}
-```
-
-    Error in fn(par, ...): unused argument (x = data[idx])
-    Traceback:
-
-
-    1. boot(cars$mpgCity, R = 999, sample_mean)
-
-    2. statistic(data, original, ...)
-
-    3. optim(rexp(1), ll, method = "L-BFGS-B", x = data[idx])   # at line 4 of file <text>
-
-    4. (function (par) 
-     . fn(par, ...))(0.869116980540466)
-
-
-```
-</div>
-</div>
 </div>
 
 The standard conclusion from this goes as follows.  We are $90\%$ confident that the true population mean city MPG for cars from $1993$ is between $21.9$ and $24.8$.
@@ -126,14 +119,34 @@ Notice though this confidence interval carries with it a number of assumptions. 
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ggplot() + 
-    geom_density(data=cars, aes(mpgCity)) +
-    geom_rug(data=data.frame(ci=c(mu_hat, bci$percent[4:5]), bounds=c(F, T, T)), aes(ci, color=bounds)) +
-    guides(color=FALSE)
+```python
+bp.density(mus)
+bp.rug(mu_p, color='black')
+bp.rug(np.percentile(mus, [50]))
+bp.labels(x='Mean MPG city', y='Density', size=18)
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x1258c62e8>
+```
+
+
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+{:.output_png}
+![png](../images/normal_models/one_mean_8_1.png)
+
+</div>
+</div>
 </div>
 
 When interpreting the estimated mean, and the lower and upper bound of the confidence interval, it's important to remember that these statistics are referring to the population mean, not specific data points.  Specifically, it is **not** the case that $90\%$ of all observed data (within this sample nor any future sample) will fall within this interval.  

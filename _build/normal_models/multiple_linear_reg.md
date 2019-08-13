@@ -2,7 +2,7 @@
 redirect_from:
   - "/normal-models/multiple-linear-reg"
 interact_link: content/normal_models/multiple_linear_reg.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
 title: 'Multiple Linear Regression'
 prev_page:
@@ -22,79 +22,104 @@ It helps to immediately visualize what the combination of multiple explanatory v
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(ggplot2)
-library(dplyr)
-carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
-carn <- carnivora %>%
-    select(BW, SW, SuperFamily) %>%
-    na.omit
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+from scipy.optimize import minimize
+from scipy.stats import norm as normal
+import patsy
+
+bp.LaTeX()
 ```
 </div>
 
 </div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
-```
-</div>
-
-</div>
-
-Much of the code to fit any one of the four models is not particularly new nor challenging.  The only real difference shows up in $\texttt{model.matrix()}$.  Pay some attention to how R code changes the model specification.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-ll <- function(beta, y, mX) {
-    sum((y - apply(mX, 1, function(row) {sum(beta * row)}))^2)
-}
-X <- model.matrix( ~ BW, data=carn)
-X_ints <- model.matrix( ~ SuperFamily + BW, data=carn)
-X_slps <- model.matrix( ~ SuperFamily:BW, data=carn)
-X_ints_slps <- model.matrix( ~ SuperFamily + BW + SuperFamily:BW, data=carn)
-
-beta_hat <- optim(rexp(2), ll, method="L-BFGS-B", mX=X, y=carn$SW)$par
-beta_hat_ints <- optim(rexp(3), ll, method="L-BFGS-B", mX=X_ints, y=carn$SW)$par
-beta_hat_slps <- optim(rexp(3), ll, method="L-BFGS-B", mX=X_slps, y=carn$SW)$par
-beta_hat_ints_slps <- optim(rexp(4), ll, method="L-BFGS-B", mX=X_ints_slps, y=carn$SW)$par
+```python
+carnivora = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
+carn = carnivora[["BW", "SW", "SuperFamily"]].dropna() # order is important
 ```
 </div>
 
 </div>
 
-The code below uses the four vectors of estimated coefficients to make a faceted plot, where each panel corresponds to the respective model matrix.  Each panel is labelled to help you identify what your options are for modeling within the framework of multiple linear regression.
+Below is code for *four different models*.  In order, the models specify simple linear regression across birth weight `BW`, unique intercepts with parallel slopes by level of super family, shared intercepts with unique slopes by level of super family, and independent lines (unique intercepts and slopes) by level of super family.
+
+Much of the code to fit any one of the four models is not particularly new nor challenging.  The only real difference shows up in Patsy's $\texttt{dmatrix()}$.  Pay some attention to how Python code alters the model specification.  
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-y_hat <- apply(X, 1, function(row) {sum(beta_hat * row)})
-y_hat_ints <- apply(X_ints, 1, function(row) {sum(beta_hat_ints * row)})
-y_hat_slps <- apply(X_slps, 1, function(row) {sum(beta_hat_slps * row)})
-y_hat_ints_slps <- apply(X_ints_slps, 1, function(row) {sum(beta_hat_ints_slps * row)})
+```python
+def predict_normal(beta, X):
+    N = X.shape[0]
+    yhat = np.full((N, ), np.nan)
+    for n in range(N):    
+        yhat[n] = np.sum(beta * X[n,:])
+    return yhat
 
-N <- nrow(X)
-df <- data.frame(y_hat = c(y_hat, y_hat_ints, y_hat_slps, y_hat_ints_slps),
-                x = rep(carn$BW, 4), y = rep(carn$SW, 4), sf = rep(carn$SuperFamily, 4),
-                model = rep(c("SLR", "MLR_ints", "MLR_slps", "MLR_ints_slps"), each=N))
-df$model <- factor(df$model, levels=c("SLR", "MLR_ints", "MLR_slps", "MLR_ints_slps"))
+def ll_normal(beta, X, y):
+    yhat = predict_normal(beta, X)
+    d = y - yhat
+    return np.sum(d * d)
 
-ggplot(data=df, aes(x, y)) + 
-    geom_point() + 
-    geom_line(aes(x, y_hat, group=sf, color=sf)) + 
-    facet_wrap(~model) +
-    labs(x="Birth weight (g)", y="Body weight (kg)") +
-    scale_color_discrete(name="SuperFamily")
+X = patsy.dmatrix("~ BW", data=carn)
+X_ints = patsy.dmatrix("~ C(SuperFamily) + BW", data=carn)
+X_slps = patsy.dmatrix("~ C(SuperFamily):BW", data=carn)
+X_ints_slps = patsy.dmatrix("~ C(SuperFamily) + BW + C(SuperFamily):BW", data=carn)
+
+y = carn['SW'].values
+beta_hat = minimize(ll_normal, normal.rvs(size=2), args=(X, y))["x"]
+beta_hat_ints = minimize(ll_normal, normal.rvs(size=3), args=(X_ints, y))["x"]
+beta_hat_slps = minimize(ll_normal, normal.rvs(size=3), args=(X_slps, y))["x"]
+beta_hat_ints_slps = minimize(ll_normal, normal.rvs(size=4), args=(X_ints_slps, y))["x"]
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+fig, axs = bp.subplots(2, 2, sharex=True, sharey=True)
+beta_hats = [beta_hat, beta_hat_ints, beta_hat_slps, beta_hat_ints_slps]
+Xs = [X, X_ints, X_slps, X_ints_slps]
+titles = ['Simple Linear Regression', 'Unique intercepts', 'Unique Slopes', 'Unique slopes and intercepts']
+
+for a, ax in enumerate(fig.axes):
+    bp.current_axis(ax)
+    for i, (name, gdf) in enumerate(carn.groupby("SuperFamily")):
+        x = gdf["BW"]; y = gdf["SW"]; col = bp.color[i]
+        bp.scatter(x, y, color=col, label=name)
+        idx = carn["SuperFamily"] == name
+        yhat = predict_normal(beta_hats[a], Xs[a][idx,:])
+        bp.line(x, yhat, color=col)
+        bp.title(titles[a])
+        if a == 3:
+            bp.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2)
+        
+
+bp.labels(x="", y="Body weight (kg)", size=18, ax=axs[0][0])
+bp.labels(x="Birth weight (g)", y="", size=18, ax=axs[1][0])
+
+#handles, labels = axs[1][1].get_legend_handles_labels()
+#fig.legend(handles, labels, loc='upper center')
+
+bp.tight_layout()
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x118866898>
+```
+
 
 </div>
 </div>
@@ -102,10 +127,12 @@ ggplot(data=df, aes(x, y)) +
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/normal_models/multiple_linear_reg_6_1.png)
+![png](../images/normal_models/multiple_linear_reg_5_1.png)
 
 </div>
 </div>
 </div>
 
-Notice that simple linear regression is as expected, just a single line that represents the estimated relationship between birth weight and body weight for animals of the Order Carnivora.  The panel labeled MLR_ints shows multiple linear regression, where the different Super Families share a common slope but have unique intercepts.  The panel labeled MLR_slps shows multiple linear regression, where the different Super Families share a common intercept but have unique slopes.  The panel labeled MLF_ints_slps shows multiple linear regression, where the different Super Families have unique intercepts and unique slopes.
+The code above uses the four vectors of estimated coefficients to make a faceted plot, where each panel corresponds to a model.  Each panel is labelled to help you identify what your options are for modeling within the framework of multiple linear regression.
+
+Notice that simple linear regression is as expected, just a single line that represents the estimated relationship between birth weight and body weight for animals of the Order Carnivora.  The panel labeled unique intercepts shows multiple linear regression, where the different Super Families share a common slope but have unique intercepts.  The panel labeled unique slopes shows multiple linear regression, where the different Super Families share a common intercept but have unique slopes.  The panel labeled unique slopes and intercepts shows multiple linear regression, where the different Super Families have unique intercepts and unique slopes.

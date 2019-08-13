@@ -1,16 +1,34 @@
 ---
-title: 'Random Variables and Probability'
+title: 'Discrete Uniform Distribution'
 prev_page:
-  url: /duniform/introduction
-  title: 'Discrete Uniform Distribution'
+  url: https://github.com/roualdes/314
+  title: 'GitHub repository'
 next_page:
-  url: /bernoulli/introduction
+  url: /bernoulli/proportions
   title: 'Bernoulli Distribution'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-# Random Variables and Probability
+# Discrete Uniform Distribution
 
-## Dice
+## Introduction
+
+Since much of this class is about notation, this section attempts to
+build on your experience about dice in an effort to minimize the
+mental hurdles that follow the new notation.  Expanding on the
+process of rolling a single die, we introduce a more formal definition
+of a random variable.  Despite it's name, random variables are 1) not
+random and 2) not variables.  They get this name nonetheless because
+we think of them as variables that take on random values.
+
+Using a fair die as an example of a random variable, we introduce a
+particular, but not the only, notion of probability.  While it's easy
+to get lost in the new notation and naturalness of this interpretation
+of probability, don't lose sight of the world's most interesting
+processes.  Random variables are not always repeatable in an
+*operational* manner, and thus it's not always obvious how probability
+is meant to be understood in tese contexts.
+
+## Warm Up
 
 Die are easy to think about, because we've all rolled a die before and
 we all think we know what we mean when we say the probability of
@@ -18,7 +36,7 @@ rolling a $1$ is $1/6$.  Throughout this section, don't let this
 intuition go.  Rather expand upon it to the more detailed
 descriptions below.
 
-In this section we'll use some new words.  As a warm up, let's introduce a few new words based on the easy to think about dice example.
+As a warm up, let's introduce a few new words based on the easy to think about dice example.
 
 - [**Experiment**](https://en.wikipedia.org/wiki/Experiment_(probability_theory)): An occurrence with an uncertain outcome that we can observe. 
 For example, rolling a die.
@@ -35,7 +53,7 @@ The specific definitions aboves come from Peter Norvig's [A Concrete Introductio
 
 ## Random Variable
 
-A **random variable** is a function from abritrary sets of the **sample space** to a numerical value.  Despite the name, the randomness is not, per se, part of the variable.  The randomness is instead found in the underlying
+A random variable is a function from abritrary sets of the sample space to a numerical value.  Despite the name, the randomness is not, per se, part of the variable.  The randomness is instead found in the underlying
 process that the random variable is meant to quantify.
 
 A die is especially easy to think, because it maps so well to a random variable.  But for the sake of clarity, let's imagine a die labeled with the letters $A, B, C,
@@ -48,7 +66,7 @@ variable associated with those events.  In mathematical notation, we might write
 $X(A) = 1$, $X(B) = 2, \ldots, X(F) = 6$.
 
 In mathematical statistics, we read $X \sim Uniform(\\{A, B, C, D, E, F\\})$, the random variable $X$ follows a
-**discrete** Uniform distribution on the set $\\{A, B, C, D, E, F\\}$.
+discrete Uniform distribution on the set $\\{A, B, C, D, E, F\\}$.
 If you're content to keep numbers on your die to enable cleaner
 notation we read $X \sim \text{Uniform}(1, 6)$, the random
 variable $X$ follows a discrete Uniform distribution on the set
@@ -70,7 +88,7 @@ Consider another random variable, also named $X$.  Let $X \sim U(0,
 Note that this could reasonably represent a fair coin, since we are
 willing to drop the events $\{T, H\}$ from our notation.  Next, we
 will consider what the following mathematical statements means, in
-an operational sense, $P(X \in \\{ H \\}) = 1/2$.
+an operational sense, $P(X \in \\{ 1 \\}) = P(X = 1) = 1/2$.
 
 ## Probability
 

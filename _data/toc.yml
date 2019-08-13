@@ -40,37 +40,19 @@
 - divider: true
 
 - title: Discrete Uniform Distribution
-  url: /duniform/introduction
-  sections:
-  - title: Random Variables and Probability
-    url: /duniform/probability
+  url: /duniform/probability
 
 - title: Bernoulli Distribution
-  url: /bernoulli/introduction
-  sections:
-  - title: Estimating Proportions
-    url: /bernoulli/proportions
-  # - title: Association Rules
-  - title: Summary
-    url: /bernoulli/summary
+  url: /bernoulli/proportions
 
 - title: Distributions
-  url: /distributions/introduction
-  sections:
-  - title: Distributions, Mean, and Variance
-    url: /distributions/distributions
+  url: /distributions/distributions
 
 - title: Gamma Distribution
-  url: /gamma/introduction
-  sections:
-  - title: Estimating Parameters
-    url: /gamma/parameters
+  url: /gamma/parameters
 
 - title: Normal Distribution
-  url: /normal/introduction
-  sections:
-  - title: Estimating Means
-    url: /normal/means
+  url: /normal/means
   # - title: "Statistics vs. Machine Learning"
 
 - title: Bootstrap
