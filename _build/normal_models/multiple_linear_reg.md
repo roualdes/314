@@ -104,9 +104,6 @@ for a, ax in enumerate(fig.axes):
 bp.labels(x="", y="Body weight (kg)", size=18, ax=axs[0][0])
 bp.labels(x="Birth weight (g)", y="", size=18, ax=axs[1][0])
 
-#handles, labels = axs[1][1].get_legend_handles_labels()
-#fig.legend(handles, labels, loc='upper center')
-
 bp.tight_layout()
 ```
 </div>

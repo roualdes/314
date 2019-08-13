@@ -30,16 +30,6 @@ Let's plot our data and add the mean as a new layer, now that we're getting good
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-library(ggplot2)
-carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
-```
-</div>
-
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area" markdown="1">
-```python
 import numpy as np
 import pandas as pd
 import bplot as bp
@@ -61,27 +51,6 @@ carn = carnivora[carnivora['Family'].isin(["Canidae", "Felidae", "Mustelidae", "
 ```
 </div>
 
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area" markdown="1">
-```python
-np.asarray([1, 1, 2])
-```
-</div>
-
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-array([1, 1, 2])
-```
-
-
-</div>
-</div>
 </div>
 
 <div markdown="1" class="cell code_cell">
@@ -114,7 +83,7 @@ bp.labels(x='Family', y='Body weight (kg)', size=18)
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/normal_models/k_means_5_1.png)
+![png](../images/normal_models/k_means_3_1.png)
 
 </div>
 </div>
@@ -262,7 +231,7 @@ bp.tight_layout()
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/normal_models/k_means_15_1.png)
+![png](../images/normal_models/k_means_13_1.png)
 
 </div>
 </div>

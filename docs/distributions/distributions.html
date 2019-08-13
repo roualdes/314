@@ -29,9 +29,9 @@
   "headline":
     "Distributions",
   "datePublished":
-    "2019-08-12T17:47:24-07:00",
+    "2019-08-13T11:00:37-07:00",
   "dateModified":
-    "2019-08-12T17:47:24-07:00",
+    "2019-08-13T11:00:37-07:00",
   "description":
     "Distributions",
   "author": {
@@ -964,7 +964,7 @@ center of the probaility density function for a random variable.</p>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x12271b5f8&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11f3db080&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -1026,7 +1026,7 @@ center of the probaility density function for a random variable.</p>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x124dee278&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x12152bba8&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -1066,30 +1066,20 @@ center of the probaility density function for a random variable.</p>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">&lt;-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">&lt;-</span> <span class="mi">6</span>
-<span class="n">x</span> <span class="o">&lt;-</span> <span class="n">a</span><span class="p">:</span><span class="n">b</span>
-<span class="n">fx</span> <span class="o">&lt;-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">m</span> <span class="o">&lt;-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">fx</span><span class="p">)</span>
-<span class="p">(</span><span class="n">v</span> <span class="o">&lt;-</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fx</span><span class="p">))</span> <span class="c"># variance</span>
-<span class="n">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="c"># standard deviation</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">fx</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">m</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fx</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 </code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output output_html">
-2.91666666666667
-</div>
-
-    </div>
-  </div>
-  <div class="output_wrapper">
-    <div class="output_subarea">
-
-      <div class="output output_html">
-1.70782512765993
-</div>
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.707825127659933
+</code></pre></div>      </div>
 
     </div>
   </div>
@@ -1115,7 +1105,7 @@ center of the probaility density function for a random variable.</p>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x125393128&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1216598d0&gt;
 </code></pre></div>      </div>
 
     </div>

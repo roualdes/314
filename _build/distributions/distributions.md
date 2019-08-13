@@ -115,7 +115,7 @@ bp.labels(x='$x$', y='uniform$(x|1,6)$', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x12271b5f8>
+<matplotlib.axes._subplots.AxesSubplot at 0x11f3db080>
 ```
 
 
@@ -188,7 +188,7 @@ bp.labels(x='flip', y='$\hat{E}(X)$', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x124dee278>
+<matplotlib.axes._subplots.AxesSubplot at 0x12152bba8>
 ```
 
 
@@ -231,30 +231,24 @@ In Python, we can apply this formula to $X \sim \text{Uniform}(1,6)$ by first ca
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-a <- 1; b <- 6
-x <- a:b
-fx <- 1 / (b - a + 1)
-m <- sum(x * fx)
-(v <- sum((x - m)^2 * fx)) # variance
-sqrt(v) # standard deviation
+a = 1; b = 6
+x = np.arange(1, 6 + 1)
+fx = 1 / (b - a + 1)
+m = sum(x * fx)
+v = sum(np.power(x - m, 2) * fx)
+np.sqrt(v)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
 
-<div markdown="0" class="output output_html">
-2.91666666666667
-</div>
 
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
+{:.output_data_text}
+```
+1.707825127659933
+```
 
-<div markdown="0" class="output output_html">
-1.70782512765993
-</div>
 
 </div>
 </div>
@@ -284,7 +278,7 @@ bp.labels(x='$p$', y='$f(p)$', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x125393128>
+<matplotlib.axes._subplots.AxesSubplot at 0x1216598d0>
 ```
 
 
