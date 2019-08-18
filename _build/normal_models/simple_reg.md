@@ -14,6 +14,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 # Simple Linear Regression
 
 Let's continue with the cars data, but this time let's formally recognize that a car's weight might have some effect on city MPG.  Assume
@@ -24,6 +25,8 @@ $$ Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
 We again focus on the expected value, not $\sigma$, but we will start dropping the $\mathbb{E}(Y)$ notation because it quickly becomes cumbersome and needlessly repetitive.  Notice that this model implicitly states that the expected city MPG depends linearly on a car's weight.
 
 The following code reads in the dataset, plots the $\texttt{mpgCity}$ variable against the $\texttt{weight}$ data, and calculates an estimate of the population mean dependent on the sampled cars' weights.  Here the estimated expected city MPG is formed by a linear combination of $\hat{\beta}_0, \hat{\beta}_1$ and $\texttt{weight}$.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -36,15 +39,19 @@ from scipy.stats import norm as normal
 import patsy
 
 cars = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/cars.csv")
+
 ```
 </div>
 
 </div>
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 bp.scatter(cars['weight'], cars['mpgCity'])
+
 ```
 </div>
 
@@ -70,6 +77,8 @@ bp.scatter(cars['weight'], cars['mpgCity'])
 </div>
 </div>
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -86,10 +95,13 @@ pX = patsy.dmatrix("~ weight", data=cars)
 yX = np.c_[cars['mpgCity'].values, np.asarray(pX)]
 
 beta_hat = minimize(ll, normal.rvs(size=2), args=(yX))['x']
+
 ```
 </div>
 
 </div>
+
+
 
 We write the estimated linear model as 
 
@@ -101,7 +113,11 @@ The slope, $\hat{\beta}_1$, describes the linear relationship between a car's we
 
 Be careful to not overly interpret these estimates as describing a causal relationship.  Determining causal relationships from non-experimental data is no easy task, and we won't even try to broach this topic in this course.  Peter Norvig, Director of Research at Google, wrote an essay describing many of the difficulties of applied statistics practice surrounding observational data.  His essay [Warning Signs in Experimental Design and Interpretation](http://norvig.com/experiment-design.html) enumerates common warning signs for when a practioner of applied statistics might be misinterpreting their data.  For a more theoretical approach to determining causal relationships from data, see Judea Pearl's book [Causality](http://bayes.cs.ucla.edu/BOOK-2K/).
 
+
+
 Just like before, the estimates $\hat{\beta}_0, \hat{\beta}_1$ are simply one set of estimates based on one random sample.  The values we produced could be due to pure random chance.  To better understand our uncertainty in these estimates, we will calculate confidence intervals.  We will let the function $\texttt{boot::boot}$ do the random sampling for us, and for that we need write a function that accepts our data and a vector of indices.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -113,19 +129,25 @@ betas = np.full((R, 2), np.nan)
 for r in range(R):
     idx = np.random.choice(N, N)
     betas[r, :] = minimize(ll, normal.rvs(size=2), args=(yX[idx, :]))['x']
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 beta_p = np.percentile(betas, [10, 90], axis=0)
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -145,6 +167,7 @@ bp.rug(beta_p[:, 1])
 bp.labels(x='Slope', y='Density')
 
 bp.tight_layout()
+
 ```
 </div>
 
@@ -170,12 +193,17 @@ bp.tight_layout()
 </div>
 </div>
 
+
+
 The $90\%$ confidence intervals for $\beta_0$ and $\beta_1$ are
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 np.round(beta_p, 3)
+
 ```
 </div>
 
@@ -194,8 +222,11 @@ array([[ 4.6007e+01, -1.0000e-02],
 </div>
 </div>
 
+
+
 Some classes will make a big deal about the slope estimate not including $0$.  There's no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, "is the true population slope equal to zero or isn't it?"  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.
 
 Increasingly, statisticians are warning against such binary decision making; e.g. ["It’s time to talk about ditching statistical significance"](https://www.nature.com/articles/d41586-019-00874-8), ["Moving to a World Beyond 'p < 0.05'"](https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913), or ["Scientists rise up against statistical significance"](https://www.nature.com/articles/d41586-019-00857-9).
 
 In this class, we'll focus on predictions, understanding uncertainty in our predictions, and making decisions in the face of this uncertainty.
+

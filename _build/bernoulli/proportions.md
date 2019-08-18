@@ -12,6 +12,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 # Bernoulli Distribution
 
 ## Introduction
@@ -59,9 +60,13 @@ For example, consecutive flips of a coin.
 For example, consecutive flips of the same coin.
 - **likelihood**: A function defined by multiplying together the PDFs associated with the observed random variables.
 
+
+
 ## Estimating Proportions
 
 ### Goal of Statistics
+
+
 
 Statistics seeks to describe characteristics of a broad group (population) using only a subset of information (sample).  For instance, making statements about all of Chico's graduates would be difficult; we'd first have to find them all and then extract data from each person.  Instead, statistics uses a sample of all graduates to infer characterstics about the population of Chico's graduates.
 
@@ -71,9 +76,15 @@ In proper language, a statistician uses a radom sample to calculate sample stati
 
 At the mathematical level, we make an association between the population's individuals and random variables.  For instance, a flip of a coin is analogous to a random variable who's outcome is not observed until after the flip.  Characteristics of the population are analogous to parameters that give structure to the functions that describe the associated random variables.  Data is then theoretically generated from the population's probability density function.  The data, thus carrying information about this function, are used to estimate the population parameters.  As the data side is likely to be more tangible, we'll start there.
 
+
+
 ## Data
 
+
+
 Since this class is both a introduction to Python and a statistics course, we'll waste no time introducing code.  Let's load two common data science packages and use them to load and store a dataset as a dataframe.  We'll then plot the data.  For every analysis, big or small, that we perform in this class these steps should be the very first.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -81,26 +92,33 @@ Since this class is both a introduction to Python and a statistics course, we'll
 import pandas as pd
 import numpy as np
 import bplot as bp
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area hidecode" markdown="1">
 ```python
 import matplotlib as mpl
 mpl.rcParams['figure.dpi'] = 300
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 df = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 df[['SuperFamily', 'Family']].sample(6)
+
 ```
 </div>
 
@@ -173,6 +191,8 @@ df[['SuperFamily', 'Family']].sample(6)
 </div>
 </div>
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -182,6 +202,7 @@ for name, gdf in df.groupby('SuperFamily'):
 
 bp.labels(y='Body Weight (kg)', x='Birth Weight (g)', size=18)
 bp.legend()
+
 ```
 </div>
 
@@ -207,17 +228,25 @@ bp.legend()
 </div>
 </div>
 
+
+
 If these data are truly a random sample (and we're to believe they are), then the proportions of the colors (not the numbers) depict a population parameter.  Here, $p$ might be the population proportion of animals from the order Carnivora that are in the Super Family Caniformia.  As we don't know what value $p$ takes on, we will estimate it with data.
 
 As far as this class is concerned, estimating population parameters from data takes quite a bit of machinery.  The first necessary piece is the (assumed) functional form that represents a proportion.  A common choice for proportions is the Bernoulli distribution.  The Bernoulli distribution will provide us with a function, dependent on some unkown value $p$, from which we collect data and then manipulate to estimate $p$.
 
+
+
 ## Bernoulli Distribution
+
+
 
 The probability density function of the [Bernoulli distribution](https://en.wikipedia.org/wiki/Bernoulli_distribution)
 
 $$ f(x | p) = p^x (1 - p)^{1-x} $$
 
 for $x \in \{0, 1\}$ and $p \in [0, 1]$.  Notice that $x$ only takes on a finite set of values.  When a random variable can take on only a countable number of values, it is called a discrete random variable.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -232,6 +261,7 @@ df = pd.DataFrame({'x': x, 'f': bernoulli(x, p)})
 bp.point(df['x'], df['f'])
 bp.LaTeX()
 bp.labels(x='$x$', y='$f(x)$', size=18)
+
 ```
 </div>
 
@@ -257,11 +287,15 @@ bp.labels(x='$x$', y='$f(x)$', size=18)
 </div>
 </div>
 
+
+
 ### Example
 
 Since $x$ only ever takes on two values $0$ or $1$, this matches perfectly with our binary categorical variable `SuperFamily`.  The trick is, the levels of the variable `SuperFamily` will correspond to the values that the input $x$ of the Bernoulli random variable can take on, namely $0$ and $1$.  How we map from $\\{Canfiromia, Feliformia\\}$ to $\\{0, 1\\}$ is mathematically unimportant, but convention suggests that you are interested in one of the two levels more than the other.
 
 Symbollically, we write $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots, N$.  The random variables $X_n$ correspond to the sequence $0$s and $1$s that tell us which observations belong to the Super Family Caniformia.  The population parameter $p$ is unwknown, but can be estimated with the data $X_n$.  Notice that for Bernoulli data, the sample (because it's applied to data) mean returns a proportion since at most the sum of $N$ $1$s is $N$.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -269,6 +303,7 @@ Symbollically, we write $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots,
 carnivora = pd.read_csv("~/data/carnivora.csv")
 phat = np.round(np.mean(carnivora['SuperFamily'] == 'Caniformia'), 2)
 phat
+
 ```
 </div>
 
@@ -286,6 +321,8 @@ phat
 </div>
 </div>
 
+
+
 Much of this class involves interpretting statistics such as the one above.  We'd say based on our data, approximately $51$% of the animals in the Order Carnivora are in the Super Family Caniformia.
 
 One the one hand, we need to recognize that this proportion is an estimate of the (population) parameter $p$ in the context of our study -- sampled animals, hopefully randomly, from the Super Families Caniformia and Feliformia within a specific geographic region.  On the other hand, since this is a random sample, there's some uncertainty to this estimate.
@@ -302,11 +339,19 @@ The answers (as far as this class is concerned) are the
 
 respectively.
 
+
+
 ## Likelihood
+
+
 
 The likelihood function enables estimation of population parameters given a sample of data.  The likelihood function is not the only means for estimating population parameters, but it is the only method we will cover in this class.
 
+
+
 ### Definition
+
+
 
 Given a random sample of independent and identically distributed data, $X_n \sim_{iid} F(\theta)$ for $n = 1, \ldots, N$, the likelihood function is 
 
@@ -314,13 +359,21 @@ $$ L(\theta | \mathbf{X}) = \prod_{n=1}^N f(x_n | \theta),$$
 
 where $\mathbf{X}$ is just notation for our random sample of data, $\theta \in \mathbb{R}^d$ denotes the parameter(s) to be estimated, and $f(x\vert \theta)$ is the probability density function associated with the distribution $F$.  Given the likelihood function $L$, estimates are produced by finding the value of $\theta$ that maximizes the likelihood function.
 
+
+
 ### Maximum Likelihood Estimators
+
+
 
 Assume we have data $X_n \sim_{iid} F(\theta)$.  The maximum likelihood estimator (MLE) of $\theta$ is
 
 $$ \hat{\theta} = argmax_{\theta} L(\theta | \mathbf{X}).$$
 
+
+
 ### Finding MLEs
+
+
 
 The definitions above are intimidating upon first site.  However, with a breif recap of some algebraic manipulations and a few tips on getting started, finding MLEs can often be reduced down to a rehearsal of maximization/minimization probelems of calculus 1.  Let's start with some quick exercises to refresh our minds of the algebra we'll need to find MLEs.
 
@@ -347,6 +400,11 @@ Next, a hint for getting started on maximizing a function with nasty exponents. 
 $$ \ell (\theta|\mathbf{x}) = \log{L(\theta|\mathbf{x}) = \sum_{n=1}^N \log{f(x_n|\theta)}}. $$
 
 
+
+
 ### Example
 
+
+
 Consider $X_n \sim_{iid} \text{Bernoulli}(p)$ for $n = 1, \ldots, N$.  Find the MLE of $p$ and call it $\hat{p}$.
+

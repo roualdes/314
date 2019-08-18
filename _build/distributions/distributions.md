@@ -12,6 +12,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 # Distributions
 
 ## Introduction
@@ -64,6 +65,8 @@ referring to discrete random variables.
 
 Before providing a long list of some other common named distributions, we will discuss the mean and variance of a random variable.  These quantities describe a measure of center and a measure of spread of random variables.  Recall, statistics uses data to estimate population parameters.  The mean and variance of a random variable are two of the more commonly estimated quantities that describe a population.  With a data set in hand, the sample mean (add up all the data divide by the number of data points) is an approximation of the mean of a random variable.  With a data set in hand, the measure of spread called the variance is an approximation of the variance of a random variable.
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -71,12 +74,17 @@ import numpy as np
 import pandas as pd
 import bplot as bp
 bp.LaTeX()
+
 ```
 </div>
 
 </div>
 
+
+
 ## Mean of a Random Variable
+
+
 
 Think back to our discrete random variable that represented rolling a
 single fair die, $X \sim \text{Uniform}(1, 6)$.  We formalized the
@@ -97,6 +105,8 @@ $$uniform(x|a, b) = \frac{1}{b - a + 1} $$
 
 for $x \in \\{a, a+1, \ldots, b-1, b\\}$.  Notice that the random variable is only defined for integer values between $a$ and $b$ inclusive.  These values make up the **support** of the random variable. Think of the support as the values for which the probability density function is positive.
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -106,6 +116,7 @@ df = pd.DataFrame({'x': x, 'f': fx})
 
 bp.point(df['x'], df['f'])
 bp.labels(x='$x$', y='uniform$(x|1,6)$', size=18)
+
 ```
 </div>
 
@@ -131,7 +142,11 @@ bp.labels(x='$x$', y='uniform$(x|1,6)$', size=18)
 </div>
 </div>
 
+
+
 ### Example
+
+
 
 Since population mean describes a measure of center, and the probability density function takes on the same value $1/6$ at each value in the support $\{1, 2, 3, 4, 5, 6\}$, the expected value must be the value in the middle of the support, namely $3.5$.  Formally, we read $\mathbb{E}(X) = 3.5$ as the **expected value** of the random variable $X$ is $3.5$.  As the sample mean is to data, the expected value is to a random variable.  
 
@@ -141,6 +156,8 @@ $$ \mathbb{E}(X) = \sum_{x = a}^b x * \text{uniform}(x|a,b) = \sum_{x = a}^b x *
 
 In R, we can apply this formula to $X \sim \text{Uniform}(1,6)$,
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -148,6 +165,7 @@ a = 1; b = 6
 x = np.arange(1, 6 + 1)
 fx = 1 / (b - a + 1)
 sum(x * fx) # E(X)
+
 ```
 </div>
 
@@ -165,7 +183,11 @@ sum(x * fx) # E(X)
 </div>
 </div>
 
+
+
 Notice that the we are simply weighting each value in the support of the random variable by the probability density function evaluated at each value in the support.  The expected value is to be thought of as the value you'd get by taking the sample mean of the outcomes produced by infinitely rolling a fair die.  Let's approximate this process in R,
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -179,6 +201,7 @@ df = pd.DataFrame({'flip': flips,
 bp.line(df['flip'], df['m'])
 bp.line_h(y=3.5, color='black')
 bp.labels(x='flip', y='$\hat{E}(X)$', size=18)
+
 ```
 </div>
 
@@ -204,13 +227,19 @@ bp.labels(x='flip', y='$\hat{E}(X)$', size=18)
 </div>
 </div>
 
+
+
 **DEFINITION**.  Let $X \sim F$, where $F$ is the name of a distribution. The expected value of a random variable is
 
 $$ \mathbb{E}(X) = \int_{\mathbb{R}} x\,d\text{F}(x).$$
 
 The fancy integral here is just to remind you that for discrete random variables, the integral becomes a sum, as above, and for continuous random variables the integral stays.  In both cases, the sum/integral ranges over the support of the random variable and the summand/integrand is the product of $x$ and the probability density function.
 
+
+
 ## Variance and Standard Deviation of a Random Variable
+
+
 
 Where the mean is a measure of center of a random variable, the variance is a measure of spread.  Specifically, the variance measures squared distance from the mean, again weighted by the probability density function.  
 
@@ -224,9 +253,13 @@ $$ \mathbb{D}(X) = \sqrt{\mathbb{V}(X)}.$$
 
 The standard deviation is another measure of spread, like the variance, but the standard deviation is in the same units as the mean.
 
+
+
 ### Example
 
 In Python, we can apply this formula to $X \sim \text{Uniform}(1,6)$ by first calculating the expected value $\mathbb{E}(X)$,
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -237,6 +270,7 @@ fx = 1 / (b - a + 1)
 m = sum(x * fx)
 v = sum(np.power(x - m, 2) * fx)
 np.sqrt(v)
+
 ```
 </div>
 
@@ -254,6 +288,8 @@ np.sqrt(v)
 </div>
 </div>
 
+
+
 ### Example
 
 Assume $X \sim \text{Bernoulli}(p)$.  If you work through the math for the variance, then you end up at an equation that we can almost make sense of.
@@ -262,6 +298,8 @@ $$ \mathbb{V}(X) = p(1 - p) $$
 
 Let's plot this.
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -269,6 +307,7 @@ p = np.linspace(0, 1, 101)
 fp = p * (1 - p)
 bp.curve(p, fp)
 bp.labels(x='$p$', y='$f(p)$', size=18)
+
 ```
 </div>
 
@@ -294,7 +333,11 @@ bp.labels(x='$p$', y='$f(p)$', size=18)
 </div>
 </div>
 
+
+
 We can infer that the variance is maximized at p = 0.5; the math isn't too difficult, try.  This says that for a coin has the most variability (e.g. bounces back and forth between heads and tails the most) when it is a fair coin.  This makes sense.  An extremely biased coin, say $p = 0.001$ will very often come up tails, and rarely fall on heads.
+
+
 
 It takes some time to understand the fancy integral notation above.  There are a few ideas that you should keep in mind when working with the definitions of $\mathbb{E}(X)$ and $\mathbb{V}(X)$:
 
@@ -302,7 +345,11 @@ It takes some time to understand the fancy integral notation above.  There are a
 2. the summand/integrand is defined as the product of the function that shows up in front of $dF(x)$ times the probability density function of $X$, and
 3. the summand/integrand is evaluated at each value in the support of the random variable $X$.
 
+
+
 # Common Distributions
+
+
 
 There are a few moving pieces to keep in mind while scanning or
 referencing the list of distributions below.
@@ -465,3 +512,4 @@ $$ \text{studentT}(x | \nu, \mu, \sigma) = \frac{\Gamma((\nu + 1) /
 for $x \in \mathbb{R}$.
 
 $$ \mathbb{E}(X) = \mu \quad \text{ and } \quad \mathbb{V}(X) = \sigma^2 \frac{\nu}{\nu - 2} $$
+

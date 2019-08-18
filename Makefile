@@ -28,6 +28,8 @@ serve:
 
 site:
 	rm -rf docs
+
+build:
 	bundle exec jekyll build
 	touch _site/.nojekyll
 	cp -r _site docs

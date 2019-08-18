@@ -14,6 +14,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 # $k$ Means
 
 This section is the immediate extension from two means to $k$ means. 
@@ -27,6 +28,8 @@ $$ Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
 
 Let's plot our data and add the mean as a new layer, now that we're getting good at plotting.  The code below first carefully removes missing data and filters our dataset down to the levels of interest.
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -38,20 +41,26 @@ from scipy.stats import norm as normal
 import patsy
 
 bp.LaTeX()
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 carnivora = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 carn = carnivora[carnivora['Family'].isin(["Canidae", "Felidae", "Mustelidae", "Viverridae"])]
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -64,6 +73,7 @@ for i, (name, gdf) in enumerate(carn.groupby("Family")):
 families = np.unique(carn['Family'])
 bp.xticks(range(len(families)), labels=families, size=14)
 bp.labels(x='Family', y='Body weight (kg)', size=18)
+
 ```
 </div>
 
@@ -89,12 +99,16 @@ bp.labels(x='Family', y='Body weight (kg)', size=18)
 </div>
 </div>
 
+
+
 From the plot above, it seems like Felidae has the greatest mean weight, but it also seems like there is the most variation in Felidae.
 
 ### Example
 Adapt the code above, along with the violin plot code from the two means section to make a violin plot for the four families above.
 
 Code to fit our model above looks quite similar to our previous efforts in Sections Simple Linear Regression and Two Means.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -112,17 +126,23 @@ pX = patsy.dmatrix("~ C(Family)", data=carn)
 yX = np.c_[carn["SW"], np.asarray(pX)]
 
 beta = minimize(ll, normal.rvs(loc=10, size=4), args=(yX))["x"]
+
 ```
 </div>
 
 </div>
 
+
+
 The same trick is taking place in our model.  The "intercept" is really the first level's mean, Canidae.  Each coefficient after that is a level-specific offset relative to Canidae's mean.  To find, say, Mustelidae's mean, you have to add $\hat{\beta}_0$ to $\hat{\beta}_2$.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 np.round(beta[0] + beta[2], 3)
+
 ```
 </div>
 
@@ -140,7 +160,11 @@ np.round(beta[0] + beta[2], 3)
 </div>
 </div>
 
+
+
 These estimates are still no different than group means.  Don't be discouraged, we are building to more complex models than group means.  Nonetheless, here's the empirical evidence.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -149,6 +173,7 @@ These estimates are still no different than group means.  Don't be discouraged, 
  .groupby("Family")
  ["SW"]
  .agg("mean"))
+
 ```
 </div>
 
@@ -171,7 +196,11 @@ Name: SW, dtype: float64
 </div>
 </div>
 
+
+
 Quantifying uncertainty in our estimates is carried out with the bootstrap method.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -183,19 +212,25 @@ betas = np.full((R, 4), np.nan)
 for r in range(R):
     idx = np.random.choice(N, N)
     betas[r, :] = minimize(ll, normal.rvs(size=4), args=(yX[idx, :]))["x"]
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 beta_p = np.percentile(betas, [10, 90], axis=0)
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -212,6 +247,7 @@ for a in range(len(axs)):
     bp.labels(x=xlab(a), y=ylab(a), size=18)
     
 bp.tight_layout()
+
 ```
 </div>
 
@@ -237,10 +273,13 @@ bp.tight_layout()
 </div>
 </div>
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 beta_p
+
 ```
 </div>
 
@@ -258,3 +297,4 @@ array([[ 6.99005835, 14.09121455, -7.75871771, -9.32626222],
 </div>
 </div>
 </div>
+

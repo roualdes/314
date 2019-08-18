@@ -14,6 +14,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 # Two Means
 
 Simple linear regression attempts to explain a numerical variable based on a linear model.  The line is defined with respect to an x-axis numerical variable.  In this section, we will keep with a numerical variable on the y-axis, but we'll introduce a non-numeric variable on the x-axis.
@@ -26,6 +27,8 @@ Instead of a boxplot, we'll focus on two plots.  When there is a sufficiently sm
 
 The jittered scatterplot highlights a reasonable rule of thumb for visualization: display as much of the original data as possible, without cluttering the plot.
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -35,19 +38,25 @@ import bplot as bp
 from scipy.optimize import minimize
 from scipy.stats import norm as normal
 import patsy
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 carnivora = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -58,6 +67,7 @@ for i, (name, gdf) in enumerate(carnivora.groupby('SuperFamily')):
 
 bp.xticks([0, 1], labels=np.unique(carnivora['SuperFamily']), size=14)
 bp.labels(x='Super family', y='Body weight (kg)', size=18)
+
 ```
 </div>
 
@@ -83,9 +93,13 @@ bp.labels(x='Super family', y='Body weight (kg)', size=18)
 </div>
 </div>
 
+
+
 The other plot we'll use when the y-axis variable is numeric and the x-axis variable is categorical is a violin plot.  A violin plot is a density plot turned vertical and one density plot is made for each level of the x-axis categorical variable.  Below is an example.  The violin plot should be used in addition to the jittered scatter plot, or whever the former plot is too cluttered to be meaningful.
 
 Both of these plots help the scientist visualize the location of the mean and variation for the y-axis variable, within each level of the x-axis categorical variable.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -96,6 +110,7 @@ for i, (name, gdf) in enumerate(carnivora.groupby('SuperFamily')):
 
 bp.xticks([0, 1], labels=np.unique(carnivora['SuperFamily']), size=14)
 bp.labels(x='Super family', y='Body weight (kg)', size=18)
+
 ```
 </div>
 
@@ -121,9 +136,13 @@ bp.labels(x='Super family', y='Body weight (kg)', size=18)
 </div>
 </div>
 
+
+
 The two means model is the common name for estimating a mean of the y-axis variable, here body weight, for each level of the x-axis variable, here super family.  In reality, it's just estimating means by group when there are exactly two levels within the x-axis grouping variable.
 
 Before we move on, it's informative to see that this model is really doing nothing more than estimating means by group.  The code below, first carefully removes $\texttt{NA}$s, estimates group means using $\texttt{dplyr}$, and then estimates group means using our current model.  The current model produces identical numbers, but only through this intermediate number that doesn't quite make sense yet.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -132,6 +151,7 @@ Before we move on, it's informative to see that this model is really doing nothi
  .groupby('SuperFamily')
  ['SW']
  .agg('mean'))
+
 ```
 </div>
 
@@ -152,6 +172,8 @@ Name: SW, dtype: float64
 </div>
 </div>
 
+
+
 Model notation is based around the idea of an intercept, despite the fact that the word intercept is not well defined here.  What we mean by intercept in this context is the mean value of body weight, the y-axis variable, for the first level of the x-axis variable, here Caniformia.  In $\texttt{R}$, the first level will always be the alphabetically or numerically first level contained in the x-axis categorical variable.
 
 For the body weight data, $\texttt{SW}$, we assume
@@ -171,6 +193,8 @@ Now, the "intercept" $\beta_0$ is Caniformia's mean body weight, and the "slope"
 
 The code to fit this model is very similar to the code for simple linear regression.
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -187,17 +211,23 @@ pX = patsy.dmatrix("~ C(SuperFamily)", data=carnivora)
 yX = np.c_[carnivora['SW'], np.asarray(pX)]
 
 beta = minimize(ll, normal.rvs(loc=50, size=2), args=(yX))['x']
+
 ```
 </div>
 
 </div>
 
+
+
 Notice that $X$ again has two columns.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 pX
+
 ```
 </div>
 
@@ -251,13 +281,18 @@ DesignMatrix with shape (112, 2)
 </div>
 </div>
 
+
+
 The first column, as in simple linear regression, is called the intercept and is always $1$.  The second column is $0$ when an observation (row) represents an animal from the super family Caniformia, and is $1$ when an observation represents an animal from the super family Feliformia.  Notice then that the model uses both $\beta_0$ and $\beta_1$ to estimate the mean for members of the super family Feliformia.  This explains why $\beta_1$ is the offset for Feliformia relative to (the ever present) group mean $\beta_0$ for Caniformia.  In the world of data science, they say the variable $\texttt{Feliformia}$ is [one-hot encoded](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html) for the observations which are members of the super family Feliformia.  
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 print(yX[:5, -2:]) # first 5 rows as seen inside ll()
 print(yX[-5:, -2:]) # last 5 rows as seen inside ll()
+
 ```
 </div>
 
@@ -280,13 +315,18 @@ print(yX[-5:, -2:]) # last 5 rows as seen inside ll()
 </div>
 </div>
 
+
+
 With this in mind, we can recover the two means of body weight for Caniformia and Feliformia.  Caniformia's estimated mean body weight is $\hat{\beta}_0$ and Feliformia's estimated mean body weight is $\hat{\beta}_0 + \hat{\beta}_1$.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 print(beta[0])
 print(sum(beta))
+
 ```
 </div>
 
@@ -301,9 +341,13 @@ print(sum(beta))
 </div>
 </div>
 
+
+
 The interpretation of each group's mean is the same as interpretting a single mean.
 
 Quantifying uncertainty in our estimates is carried out with the bootstrap method.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -315,19 +359,25 @@ betas = np.full((R, 2), np.nan)
 for r in range(R):
     idx = np.random.choice(N, N)
     betas[r, :] = minimize(ll, normal.rvs(loc=20, size=2), args=(yX[idx, :]))['x']
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 beta_p = np.percentile(betas, [10, 90], axis=0)
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -344,6 +394,7 @@ for a in range(len(axs)):
     bp.labels(x=xlab(a), y=ylab(a), size=18)
     
 bp.tight_layout()
+
 ```
 </div>
 
@@ -369,6 +420,11 @@ bp.tight_layout()
 </div>
 </div>
 
+
+
 Plotting the bootstrap estimated sampling distributions for Feliformia's offset gives good idea of the similarlity between Caniformia and Feliformia.
 
+
+
 The summary statistics above, including the plots, suggest that there's a reasonable chance that the mean body weight for Feliformia is roughly equal to that of Caniformia.  But be careful with this conclusion, because the violin plot above shows that there's some members of the super family Caniformia that are always heavier than some members of Feliformia.  Do you know which animals these are?
+

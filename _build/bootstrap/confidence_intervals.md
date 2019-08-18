@@ -14,6 +14,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
+
 # Bootstrap
 
 ## Introduction
@@ -28,6 +29,8 @@ The Bootstrap is a method to approximate the sampling distribution of an arbitra
 
 The plot below attempts to visualize this idea, albeit for a finite number of resamples `R`.  Different from last time we saw a visualization of the sampling distribution, this time we have no data.  By sampling from the (assumed) population, instead of from our original sample, our code is truer to the theory of sampling distributions, although further away from applied statistics.  Compare the code below to the example found in the Section [Normal Distribution](/normal/means#assumed-normality) to see what the difference between resampling from data and resampling from an assumed population looks like in terms of code.
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -37,10 +40,13 @@ import bplot as bp
 from scipy.stats import norm as normal
 
 bp.LaTeX()
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -52,10 +58,13 @@ mus = np.full((R,), np.nan)
 for r in range(R):
     mus[r] = np.random.gamma(2, 1/2, N).mean() # sample directly from Gamma(2, 2)
 
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -63,6 +72,7 @@ for r in range(R):
 bp.density(mus)
 bp.rug(mus)
 bp.labels(x='$\mu$', y='Density', size=18)
+
 ```
 </div>
 
@@ -88,20 +98,31 @@ bp.labels(x='$\mu$', y='Density', size=18)
 </div>
 </div>
 
+
+
 The plot above represents a finite approximation to the sampling distribution of the sample mean coming from a $\text{Gamma}(2, 2)$ population. Despite the fact that a $\text{Gamma}(2, 2)$ probability density function is right skewed, we see that the sampling distribution is shaped like the probability density function for a Normal distribution, centered at $1$ with standard deviation $\mathbb{D}(X)/\sqrt{N} = \left(1/\sqrt{2}\right) / \sqrt{99}$.  The normalization of the sample means, each itself from the Gamma distribution, is due to the Central Limit Theorem.
+
+
 
 ## Percentiles
 
+
+
 Another informative attribute of random variables is the **percentile**.  The $p$% percentile $\pi_p$ puts $p$% of the area under random variable's probability density function to the left of $\pi_p$.  A picture will help.  Consider a standrd normal distribution, where $\pi_{.84} \approx 1$.  Further, $\pi_{0.5} = 0$ for the standard normal distribution since the $\text{Normal}(0, 1)$ distribution is centered at, and perfectly symmetric about, $0$.  The more common name for $pi_{0.5}$ is the median.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 import matplotlib.pyplot as plt
+
 ```
 </div>
 
 </div>
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -116,6 +137,7 @@ bp.labels(x='x', y='Density', size=18)
 plt.text(-1, 0.1, '$\sim 0.84$', size=16)
 plt.text(1.05, 0.01, '$\sim 0.16$', size=16)
 plt.text(1, -0.075, '$\pi_{.84}$', size=16)
+
 ```
 </div>
 
@@ -141,13 +163,18 @@ Text(1, -0.075, '$\\pi_{.84}$')
 </div>
 </div>
 
+
+
 R will calculate these values for us with the following code.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 print(normal.ppf(.84))
 print(normal.ppf(0.5))
+
 ```
 </div>
 
@@ -162,9 +189,15 @@ print(normal.ppf(0.5))
 </div>
 </div>
 
+
+
 When working with data, instead of a probability density function, find a sample percentile  by first sorting the data into ascending order.  With sorted data, find the value, not necessarily within the dataset, that puts approximately $p$% of the data to the left of the value of interest.  Since R will more often than not do these calculations for us, we just need remember that R will **interpolate** between any two numbers in a dataset so as to best, in some sense, apply the definition of percentile to data.
 
+
+
 ## Uncertainty in Estimates
+
+
 
 We are slowly changing our thinking about the sample mean.  Before this class, most people would think of the sample mean as a single quantity.  Now, we are to think of the sample mean as one of potentially many possible values we could get by resampling the population and performing the same calculation on each new sample.  Each new sample mean would provide a new estimate of the population, but none would be exactly right.  How can we account for the uncertainty in our estimates?
 
@@ -173,6 +206,8 @@ A **confidence interval** is the interval analalogue to the sample mean; a lower
 We next blend together the sampling distribution, as estimated by the Bootstrap, together with percentiles to build a confidence interval for a parameter.  Assume you are interested in the mean of the $\text{Gamma}(2, 2)$ distribution above.  Since we know the population parameters $\alpha = 2$ and $\beta = 2$, we could certainly do the math and calculate the mean by hand.  Instead, let's use $\alpha = 2$ and $\beta = 2$ to generate new data, but then pretend we don't know these parameters when calculating a confidence interval.  This will allow us to check our method's accuracy.
 
 Above, we approximated the sampling distribution of the sample mean of a $\text{Gamma}(2, 2)$ distribution by repeatedly resampling from the assumed known population.  Let's take a step closer to applying the Bootstrap and pretend that we have only one sample of data from this $\text{Gamma}(2, 2)$ population.  Then we'll estimate the sampling distribution via Bootstrap. The vector of sample means, `mus`, allows us to estimate two percentiles, $\pi_{0.025}$ and $\pi_{0.975}$.  The estimated percentiles will form our $95$\% confidence interval.
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -187,6 +222,7 @@ for r in range(R):
     mus[r] = d[idx].mean()
     
 np.round(np.percentile(mus, [2.5, 97.5]), 2)
+
 ```
 </div>
 
@@ -204,6 +240,8 @@ array([0.94, 1.24])
 </div>
 </div>
 
+
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -217,10 +255,13 @@ for (r in seq_len(R)) {
 }
 
 ci <- round(quantile(mus, c(0.025, 0.975)), 2)
+
 ```
 </div>
 
 </div>
+
+
 
 For me, the interval is $(0.9, 1.1)$. The Bootstrap is inherently a stochastic procedure, so if you rerun the code above you might get slightly different numbers.  Since $\mathbb{E}(X) = \frac{\alpha}{\beta} = 2/2 = 1$, we see that this interval is indeed reasonably accurate.    
 
@@ -232,7 +273,11 @@ If we were to repeat this analysis an infinite number of times, $95$% of the int
 
 Remarkably, this procedure guarantees that $95$% of all confidence intervals made will capture the true population mean.  To apply this procedure to real data, we would repeatedly resample, with replacement and with equal probability, from the original dataset.  Next we continue with the example about birth weights of animals from the Order Carnivora found in Section [Assumed Normality](/normal/means#assumed-normality).
 
+
+
 ### Example
+
+
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -254,9 +299,13 @@ for (r in seq_len(R)) {
 }
 
 ci <- round(quantile(mus, c(0.05, 0.95)), 2) # confidence interval, 90%
+
 ```
 </div>
 
 </div>
 
+
+
 We are $90$% confident that the population mean birth weight of animals from the Order Carnivora is between $181$ and $325$ grams.  Again, you might get slightly different numbers if you rerun the code above; increasing `R` should stabilize this issue, at the cost of increasing the computational cost.
+
