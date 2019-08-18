@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+  <title>Search the site</title>
+  <meta name="description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology">
+
+  <link rel="canonical" href="/search">
+  <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
+
+  <meta property="og:url"         content="/search" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Search the site" />
+<meta property="og:description" content="Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology" />
+<meta property="og:image"       content="" />
+
+
+  <script type="application/ld+json">
+  {
+  "@context": "http://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage":
+    "/search",
+  "headline":
+    "Search the site",
+  "datePublished":
+    "2019-08-18T11:54:55-07:00",
+  "dateModified":
+    "2019-08-18T11:54:55-07:00",
+  "description":
+    "Lecture notes for CSU, Chico MATH 314 -- Probability and Statistics for Science and Technology",
+  "author": {
+    "@type": "Person",
+    "name": "Edward A. Roualdes"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Data 100 at UC Berkeley",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "",
+      "width": 60,
+      "height": 60
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "",
+    "height": 60,
+    "width": 60
+  }
+}
+
+  </script>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css ">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <!-- <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#efae0a"> -->
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#233947">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo/favicon.ico">
+
+  <!-- MathJax Config -->
+  <!-- Allow inline math using $ and automatically break long math lines -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true,
+        processEnvironments: true
+    },
+    CommonHTML: {
+        linebreaks: {
+            automatic: true,
+        },
+    },
+});
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_CHTML' async></script>
+
+  <!-- DOM updating function -->
+  <script>
+const runWhenDOMLoaded = cb => {
+  if (document.readyState != 'loading') {
+    cb()
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', cb)
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState == 'complete') cb()
+    })
+  }
+}
+
+// Helper function to init things quickly
+initFunction = function(myfunc) {
+  runWhenDOMLoaded(myfunc);
+  document.addEventListener('turbolinks:load', myfunc);
+};
+</script>
+
+  <!-- Define some javascript variables that will be useful in other javascript -->
+  <script>
+    const site_basename = '';
+  </script>
+
+  <!-- Add AnchorJS to let headers be linked -->
+  <script src="/assets/js/anchor.min.js"  type="text/javascript"></script>
+  <script>
+
+initFunction(function () {
+    anchors.add("main h1, main h2, main h3, main h4")
+});
+
+</script>
+
+  <!-- Include Turbolinks to make page loads fast -->
+  <!-- https://github.com/turbolinks/turbolinks -->
+  <script src="/assets/js/turbolinks.js" async></script>
+  <meta name="turbolinks-cache-control" content="no-cache">
+
+  <!-- Load nbinteract for widgets -->
+  
+
+  <!-- Load Thebelab for interactive widgets -->
+  <!-- Include Thebelab for interactive code if it's enabled -->
+
+
+
+  <!-- Load the auto-generating TOC -->
+  <script src="/assets/js/tocbot.min.js"  type="text/javascript"></script>
+  <script>
+var initToc = function () {
+  tocbot.init({
+    tocSelector: 'nav.onthispage',
+    contentSelector: '.c-textbook__content',
+    headingSelector: 'h2, h3',
+    orderedList: false,
+    collapseDepth: 6,
+    listClass: 'toc__menu',
+    activeListItemClass: "",  // Not using
+    activeLinkClass: "", // Not using
+  });
+  tocbot.refresh();
+}
+initFunction(initToc);
+</script>
+
+  <!-- Google analytics -->
+  <script src="/assets/js/ga.js" async></script>
+
+  <!-- Clipboard copy button -->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" async></script>
+
+  <!-- Load JS that depends on site variables -->
+  <script>
+/**
+ * Set up copy/paste for code blocks
+ */
+const codeCellId = index => `codecell${index}`
+
+const clipboardButton = id =>
+  `<a id="copy-button-${id}" class="btn copybtn o-tooltip--left" data-tooltip="Copy" data-clipboard-target="#${id}">
+    <img src="/assets/images/copy-button.svg" alt="Copy to clipboard">
+  </a>`
+
+// Clears selected text since ClipboardJS will select the text when copying
+const clearSelection = () => {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges()
+  } else if (document.selection) {
+    document.selection.empty()
+  }
+}
+
+// Changes tooltip text for two seconds, then changes it back
+const temporarilyChangeTooltip = (el, newText) => {
+  const oldText = el.getAttribute('data-tooltip')
+  el.setAttribute('data-tooltip', newText)
+  setTimeout(() => el.setAttribute('data-tooltip', oldText), 2000)
+}
+
+const addCopyButtonToCodeCells = () => {
+  // If ClipboardJS hasn't loaded, wait a bit and try again. This
+  // happens because we load ClipboardJS asynchronously.
+  if (window.ClipboardJS === undefined) {
+    setTimeout(addCopyButtonToCodeCells, 250)
+    return
+  }
+
+  const codeCells = document.querySelectorAll('div.c-textbook__content > div.highlighter-rouge > div.highlight > pre, div.input_area pre')
+  codeCells.forEach((codeCell, index) => {
+    const id = codeCellId(index)
+    codeCell.setAttribute('id', id)
+    if (document.getElementById("copy-button" + id) == null) {
+      codeCell.insertAdjacentHTML('afterend', clipboardButton(id));
+    }
+  })
+
+  const clipboard = new ClipboardJS('.copybtn')
+  clipboard.on('success', event => {
+    clearSelection()
+    temporarilyChangeTooltip(event.trigger, 'Copied!')
+  })
+
+  clipboard.on('error', event => {
+    temporarilyChangeTooltip(event.trigger, 'Failed to copy')
+  })
+
+  // Get rid of clipboard before the next page visit to avoid memory leak
+  document.addEventListener('turbolinks:before-visit', () =>
+    clipboard.destroy()
+  )
+}
+
+initFunction(addCopyButtonToCodeCells);
+</script>
+
+
+  <!-- Hide cell code -->
+  <script>
+    /**
+    Add buttons to hide code cells
+    */
+
+
+    var setCodeCellVisibility = function (inputField, kind) {
+        // Update the image and class for hidden
+        var id = inputField.getAttribute('data-id');
+        var codeCell = document.querySelector(`#${id} div.highlight`);
+
+        if (kind === "visible") {
+            codeCell.classList.remove('hidden');
+            inputField.checked = true;
+        } else {
+            codeCell.classList.add('hidden');
+            inputField.checked = false;
+        }
+    }
+
+    var toggleCodeCellVisibility = function (event) {
+        // The label is clicked, and now we decide what to do based on the input field's clicked status
+        if (event.target.tagName === "LABEL") {
+            var inputField = event.target.previousElementSibling;
+        } else {
+            // It is the span inside the target
+            var inputField = event.target.parentElement.previousElementSibling;
+        }
+
+        if (inputField.checked === true) {
+            setCodeCellVisibility(inputField, "visible");
+        } else {
+            setCodeCellVisibility(inputField, "hidden");
+        }
+    }
+
+
+    // Button constructor
+    const hideCodeButton = id => `<input class="hidebtn" type="checkbox" id="hidebtn${id}" data-id="${id}"><label title="Toggle cell" for="hidebtn${id}" class="plusminus"><span class="pm_h"></span><span class="pm_v"></span></label>`
+
+    var addHideButton = function () {
+        // If a hide button is already added, don't add another
+        if (document.querySelector('div.hidecode input') !== null) {
+            return;
+        }
+
+        // Find the input cells and add a hide button
+        document.querySelectorAll('div.input_area').forEach(function (item, index) {
+            if (!item.classList.contains("hidecode")) {
+                // Skip the cell if it doesn't have a hidecode class
+                return;
+            }
+
+            const id = codeCellId(index)
+            item.setAttribute('id', id);
+            // Insert the button just inside the end of the next div
+            item.querySelector('div').insertAdjacentHTML('beforeend', hideCodeButton(id))
+
+            // Set up the visibility toggle
+            hideLink = document.querySelector(`#${id} div.highlight + input + label`);
+            hideLink.addEventListener('click', toggleCodeCellVisibility)
+        });
+    }
+
+
+    // Initialize the hide buttos
+    var initHiddenCells = function () {
+        // Add hide buttons to the cells
+        addHideButton();
+
+        // Toggle the code cells that should be hidden
+        document.querySelectorAll('div.hidecode input').forEach(function (item) {
+            setCodeCellVisibility(item, 'hidden');
+            item.checked = true;
+        })
+    }
+
+    initFunction(initHiddenCells);
+
+</script>
+
+  <!-- Load custom website scripts -->
+  <script src="/assets/js/scripts.js" async></script>
+
+  <!-- Load custom user CSS and JS  -->
+  <script src="/assets/custom/custom.js" async></script>
+  <link rel="stylesheet" href="/assets/custom/custom.css">
+
+  <!-- Update interact links w/ REST param, is defined in includes so we can use templates -->
+  
+
+  <!-- Lunr search code - will only be executed on the /search page -->
+  <script src="/assets/js/lunr/lunr.min.js" type="text/javascript"></script>
+  <script>var initQuery = function() {
+  // See if we have a search box
+  var searchInput = document.querySelector('input#lunr_search');
+  if (searchInput === null) {
+    return;
+  }
+
+  // Function to parse our lunr cache
+  var idx = lunr(function () {
+    this.field('title')
+    this.field('excerpt')
+    this.field('categories')
+    this.field('tags')
+    this.ref('id')
+
+    this.pipeline.remove(lunr.trimmer)
+
+    for (var item in store) {
+      this.add({
+        title: store[item].title,
+        excerpt: store[item].excerpt,
+        categories: store[item].categories,
+        tags: store[item].tags,
+        id: item
+      })
+    }
+  });
+
+  // Run search upon keyup
+  searchInput.addEventListener('keyup', function () {
+    var resultdiv = document.querySelector('#results');
+    var query = document.querySelector("input#lunr_search").value.toLowerCase();
+    var result =
+      idx.query(function (q) {
+        query.split(lunr.tokenizer.separator).forEach(function (term) {
+          q.term(term, { boost: 100 })
+          if(query.lastIndexOf(" ") != query.length-1){
+            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
+          }
+          if (term != ""){
+            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
+          }
+        })
+      });
+
+      // Empty the results div
+      while (resultdiv.firstChild) {
+        resultdiv.removeChild(resultdiv.firstChild);
+      }
+
+    resultdiv.insertAdjacentHTML('afterbegin', '<p class="results__found">'+result.length+' Result(s) found</p>');
+    for (var item in result) {
+      var ref = result[item].ref;
+      if(store[ref].teaser){
+        var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<div class="archive__item-teaser">'+
+                '<img src="'+store[ref].teaser+'" alt="">'+
+              '</div>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      else{
+    	  var searchitem =
+          '<div class="list__item">'+
+            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="archive__item-title" itemprop="headline">'+
+                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
+              '</h2>'+
+              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
+            '</article>'+
+          '</div>';
+      }
+      resultdiv.insertAdjacentHTML('beforeend', searchitem);
+    }
+  });
+};
+
+initFunction(initQuery);
+</script>
+</head>
+
+  <body>
+    <!-- .js-show-sidebar shows sidebar by default -->
+    <div id="js-textbook" class="c-textbook js-show-sidebar">
+      
+
+
+
+<nav id="js-sidebar" class="c-textbook__sidebar">
+  <a href="https://jupyter.org/jupyter-book/"><img src="/images/logo/logo.png" class="textbook_logo" id="sidebar-logo" data-turbolinks-permanent/></a>
+  <h2 class="c-sidebar__title">MATH 314 Lecture Notes</h2>
+  <ul class="c-sidebar__chapters">
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/intro.html"
+        >
+          
+          Home
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="https://github.com/roualdes/314"
+        >
+          
+          GitHub repository
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+        <li class="c-sidebar__chapter"><a class="c-sidebar__entry" href="/search.html">Search</a></li>
+        
+      
+      
+        <li class="c-sidebar__divider"></li>
+        
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/duniform/probability.html"
+        >
+          
+            1.
+          
+          Discrete Uniform Distribution
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/bernoulli/proportions.html"
+        >
+          
+            2.
+          
+          Bernoulli Distribution
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/distributions/distributions.html"
+        >
+          
+            3.
+          
+          Distributions
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/gamma/parameters.html"
+        >
+          
+            4.
+          
+          Gamma Distribution
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/normal/means.html"
+        >
+          
+            5.
+          
+          Normal Distribution
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/bootstrap/introduction.html"
+        >
+          
+            6.
+          
+          Bootstrap
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/bootstrap/confidence_intervals.html"
+                >
+                  
+                    6.1
+                  
+                  Confidence Intervals
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/normal_models/introduction.html"
+        >
+          
+            7.
+          
+          Normal Linear Models
+        </a>
+
+        
+
+          
+          
+          
+          
+
+          
+
+          <ul class="c-sidebar__sections u-hidden-visually">
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/one_mean.html"
+                >
+                  
+                    7.1
+                  
+                  One Mean
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/simple_reg.html"
+                >
+                  
+                    7.2
+                  
+                  Simple Linear Regression
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/two_means.html"
+                >
+                  
+                    7.3
+                  
+                  Two Means
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/k_means.html"
+                >
+                  
+                    7.4
+                  
+                  k Means
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+              
+              
+
+              <li class="c-sidebar__section">
+                <a class="c-sidebar__entry "
+                  href="/normal_models/multiple_linear_reg.html"
+                >
+                  
+                    7.5
+                  
+                  Multiple Linear Regression
+                </a>
+
+                
+                
+
+              </li>
+              
+            
+          </ul>
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/references.html"
+        >
+          
+            8.
+          
+          References
+        </a>
+
+        
+      </li>
+
+      
+    
+      
+      
+
+      
+      
+
+      
+      
+      <li class="c-sidebar__chapter">
+        <a class="c-sidebar__entry "
+          href="/glossary.html"
+        >
+          
+            9.
+          
+          Glossary
+        </a>
+
+        
+      </li>
+
+      
+    
+  </ul>
+  <p class="sidebar_footer">Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a></p>
+</nav>
+
+      
+      <main class="c-textbook__page" tabindex="-1">
+          <div class="o-wrapper">
+            <div class="c-sidebar-toggle">
+  <!-- We show the sidebar by default so we use .is-active -->
+  <button
+    id="js-sidebar-toggle"
+    class="hamburger hamburger--arrowalt is-active"
+  >
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+    <span class="c-sidebar-toggle__label">Toggle Sidebar</span>
+  </button>
+</div>
+
+            
+
+            <div class="c-textbook__content">
+              <div class="search-content__inner-wrap">
+    <input type="text" id="lunr_search" class="search-input" tabindex="-1" placeholder="'Enter your search term...''" />
+    <div id="results" class="results"></div>
+</div>
+
+<script>
+    // Add the lunr store since we will now search it
+    var store = [{
+        "title": "Bernoulli Distribution",
+        
+        "excerpt":
+            "Bernoulli Distribution Introduction The Bernoulli distribution is our first attempt to connect data to mathematical statistics. We will learn that mathematical statistics has a deep theory about what exactly produces data. As with much of mathematics, statistics theorizes that functions are the culprits behind data. To better understand these functions, we introduce early in this course the fact that probability density functions are the theoretical construct behind data and at the same time lead to the sample mean. Warm Up In this section we begin to see why statistics is broadly applicable. We do this by better explaining the connection...",
+        "categories": [],
+        "tags": [],
+        "url": "/bernoulli/proportions.html",
+        "teaser":null},{
+        "title": "Confidence Intervals",
+        
+        "excerpt":
+            "Bootstrap Introduction In this course, we will rely on a method called the Bootstrap to approximate the sampling distribution of our statistics, insted of relying so directly on the Central Limit Theorem. The name bootstrap shows up a lot these days, and I’m positive you have used this word to describe something different than what we’ll talk about here. Our Bootstrap has nothing to do with compilers nor CSS libraries. After estimating population parameters, a natural next question is, how certain are we in our estimate? By approximating sampling distributions, the (statistical) Bootstrap will be our primary means of quantifying...",
+        "categories": [],
+        "tags": [],
+        "url": "/bootstrap/confidence_intervals.html",
+        "teaser":null},{
+        "title": "Bootstrap",
+        
+        "excerpt":
+            "Bootstrap Introduction In this course, we will rely on a method called the Bootstrap to approximate the sampling distribution of our statistics, insted of relying so directly on the Central Limit Theorem. The name bootstrap shows up a lot these days, and I’m positive you have used this word to describe something different than what we’ll talk about here. Our Bootstrap has nothing to do with compilers nor CSS libraries. After estimating population parameters, a natural next question is, how certain are we in our estimate? By approximating sampling distributions, the (statistical) Bootstrap will be our primary means of quantifying...",
+        "categories": [],
+        "tags": [],
+        "url": "/bootstrap/introduction.html",
+        "teaser":null},{
+        "title": "Distributions",
+        
+        "excerpt":
+            "Distributions Introduction This section will begin to formalize the connection between random variables, probability density functions, and population parameters. We generally use language like the random variable $X$ follows a named distribution, which has a probability density function defined by, possibly many, parameters. Hence, the word distribution in some sense is just the name the binds random variables, probability density functions, and parameters together. Warm Up Before we look at two common named population parameters, let’s introduce a few new words that we’ll use throughout this section. support: The set of values a random variable might assume, and equally the...",
+        "categories": [],
+        "tags": [],
+        "url": "/distributions/distributions.html",
+        "teaser":null},{
+        "title": "Discrete Uniform Distribution",
+        
+        "excerpt":
+            "Discrete Uniform Distribution Introduction Since much of this class is about notation, this section attempts to build on your experience about dice in an effort to minimize the mental hurdles that follow the new notation. Expanding on the process of rolling a single die, we introduce a more formal definition of a random variable. Despite it’s name, random variables are 1) not random and 2) not variables. They get this name nonetheless because we think of them as variables that take on random values. Using a fair die as an example of a random variable, we introduce a particular, but...",
+        "categories": [],
+        "tags": [],
+        "url": "/duniform/probability.html",
+        "teaser":null},{
+        "title": "Gamma Distribution",
+        
+        "excerpt":
+            "Gamma Distribution Introduction In this chapter we’ll introduce the Exponential Distribution a one parameter distribution that is a special case of the Gamma distribution and, of course, the Gamma distribution. The Gamma distribution is used to model random durations of time until a next event. What each event is, really only depends on the context of the process being modeled. A general example might be time until the end of the life of someone or something. The Gamma distribution is also used to model random volumes, e.g. rainfall. Estimating Parameters Pedagogically, the Exponential and Gamma distributions will provide us insight...",
+        "categories": [],
+        "tags": [],
+        "url": "/gamma/parameters.html",
+        "teaser":null},{
+        "title": "Glossary",
+        
+        "excerpt":
+            "Glossary Bernoulli distribution a named random variables used for binary outcomes; $1$ usually denotes the level of interest categorical variable a variable in a dataset that takes on not-mathable values dataframe a two dimensional data structure in the programming language R in which each row represents a new observation and each column represents a new variable discrete random variable a random variable that only takes on a countable set of values independent and identically distributed a description of data that suggests the data were randomly sampled (independent $\\Rightarrow$ no two data points intentionally share anything in common, except) that they...",
+        "categories": [],
+        "tags": [],
+        "url": "/glossary.html",
+        "teaser":null},{
+        "title": "Home",
+        
+        "excerpt":
+            "MATH 314 Lecture Notes These MATH 314 lecture notes supplement the material presented in class and the material found on the course website. I’m trying something new (at least to me) here. Instead of starting with a slew of topics that don’t show up, and thus make sense, until much later in the course, I practicing in the art of just-in-time teaching. To be honest, I don’t know if just-in-time teaching is a thing. These lecture notes are an experiment to find out. Getting started To do well in this course, without becoming too stressed out, one should know some...",
+        "categories": [],
+        "tags": [],
+        "url": "/intro.html",
+        "teaser":null},{
+        "title": "Normal Distribution",
+        
+        "excerpt":
+            "Normal Distribution Introduction The first formal model in these notes happened so fast, you might have missed it. By assuming $X_n \\sim_{iid} \\text{Bernoulli}(p)$, we created a single model. This one statistical model assumed the Bernoulli distribution. Our data consisted of multiple independent observations from the identical distribution (iid), a Bernoulli distribution with unknown population parameter $p$. In this section, we change the assumed distribution to the Normal distribution. Because the support for the Normal distribution is all real numbers, this distribution applies to data that could potentially take on any value in the real line. We complete the section by...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal/means.html",
+        "teaser":null},{
+        "title": "Normal Linear Models",
+        
+        "excerpt":
+            "Normal Linear Models Introduction When specifically only interested in the population mean, the Normal distribution is a common choice. There’s computational, theoretical, and practical arguments for this. The computational argument acknowledges the simplicity of the log-likelihood of the normal distribution for the mean $\\mu$. The theoretical argument acknowledges the Central Limit Theorem, which tells us that the sampling distribution of the sample mean converges to the normal distribution when the population is well behaved. The practicality of the Normality assumptions recognizes the implicit identity function that connects the expected value to a linear form. This practical argument is difficult to...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/introduction.html",
+        "teaser":null},{
+        "title": "k Means",
+        
+        "excerpt":
+            "$k$ Means This section is the immediate extension from two means to $k$ means. The name ANOVA is sometimes used in this setting. ANOVA stands for analysis of analysis of variance, but should be more literally translated to comparing $k$ levels’ means. The reason behind the name ANOVA is that often, but not in this class, the variation amongst the groups compared to variation within the groups gives a reasonable decision rule for determinging when means by level are different. We continue to work with the dataset $\\texttt{carnivora}$. Now we’ll estimate a mean for $k = 4$ of the levels...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/k_means.html",
+        "teaser":null},{
+        "title": "Multiple Linear Regression",
+        
+        "excerpt":
+            "Multiple Linear Regression Multiple linear regression is the extension of simple linear regression to multiple explanatory variables and picks up means by group along the way. Hence, multiple linear regression seeks to explain a single, numerical response variable using multiple explanatory variables of different types. It helps to immediately visualize what the combination of multiple explanatory variables of different types adds to simple linear regression. Consider the dataset $\\texttt{carnivora}$. We’ll fit four different models using body weight $\\texttt{SW}$ as the numerical response variable, birth weight $\\texttt{BW}$ as a numerical explanatory variable, and Super Family as a categorical explanatory variable. The...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/multiple_linear_reg.html",
+        "teaser":null},{
+        "title": "One Mean",
+        
+        "excerpt":
+            "One Mean Consider a dataset about $N = 54$ cars sampled from the year $1993$. Of interest is the (unknown population) mean miles per gallon, $\\mu$. We assume The parameter $\\sigma$ might be of interest to some, but not us now. By choosing this model we are implicitly assuming that $\\mathbb{E}(Y) = \\mu$, where $\\mu$ is a constant function that does not depend on any other characteristics about the population of cars from $1993$. Assuming the mean $\\mu$ is constant is an unrealistic assumption if you think too long about this problem. Nevertheless, this is a common assumption because of...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/one_mean.html",
+        "teaser":null},{
+        "title": "Simple Linear Regression",
+        
+        "excerpt":
+            "Simple Linear Regression Let’s continue with the cars data, but this time let’s formally recognize that a car’s weight might have some effect on city MPG. Assume We again focus on the expected value, not $\\sigma$, but we will start dropping the $\\mathbb{E}(Y)$ notation because it quickly becomes cumbersome and needlessly repetitive. Notice that this model implicitly states that the expected city MPG depends linearly on a car’s weight. The following code reads in the dataset, plots the $\\texttt{mpgCity}$ variable against the $\\texttt{weight}$ data, and calculates an estimate of the population mean dependent on the sampled cars’ weights. Here the...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/simple_reg.html",
+        "teaser":null},{
+        "title": "Two Means",
+        
+        "excerpt":
+            "Two Means Simple linear regression attempts to explain a numerical variable based on a linear model. The line is defined with respect to an x-axis numerical variable. In this section, we will keep with a numerical variable on the y-axis, but we’ll introduce a non-numeric variable on the x-axis. Consider the dataset $\\texttt{carnivora}$, which records a number of variables on the 112 animals from the Order Carnivora. We are interested trying to predict $\\texttt{SW}$, body weight (kg), using the categorical variable $\\texttt{SuperFamily}$. The levels of the categorical variable $\\texttt{SuperFamily}$ are $\\texttt{Caniformia}$ and $\\texttt{Feliformia}$, which is to say that this dataset...",
+        "categories": [],
+        "tags": [],
+        "url": "/normal_models/two_means.html",
+        "teaser":null},{
+        "title": "References",
+        
+        "excerpt":
+            "References Maindonald, J. H., Braun, W. J., &amp; Braun, M. W. J. (2015). Package ‘DAAG.’ Data Analysis and Graphics Data and Functions. Carpenter, B., Gelman, A., Hoffman, M. D., Lee, D., Goodrich, B., Betancourt, M., … Riddell, A. (2017). Stan: A probabilistic programming language. Journal of Statistical Software, 76(1). Ash, R. B., &amp; Doléans-Dade, C. A. (2000). Probability and Measure Theory. Academic Press. Bernardo, J. M., &amp; Smith, A. F. M. (2009). Bayesian theory (Vol. 405). John Wiley &amp; Sons. Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., &amp; Rubin, D. B. (2014). Bayesian Data...",
+        "categories": [],
+        "tags": [],
+        "url": "/references.html",
+        "teaser":null},]
+</script>
+              <nav class="c-page__nav">
+  
+
+  
+</nav>
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>
