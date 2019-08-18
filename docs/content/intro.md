@@ -20,10 +20,10 @@ language R.
 
 ## Author
 
-Edward A. Roualdes
-Asst. Professor of Statistics
-Department of Mathematics and Statistics
-California State University, Chico
+Edward A. Roualdes  
+Asst. Professor of Statistics  
+Department of Mathematics and Statistics  
+California State University, Chico  
 
 I acknowledge and am mindful that Chico State stands on lands that were originally occupied by the first people of this area, the Mechoopda. I would like to thank the Mechoopda and other native peoples for providing us the opportunity to obtain an education on their ancestral lands.
 
