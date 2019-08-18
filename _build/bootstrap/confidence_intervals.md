@@ -2,7 +2,7 @@
 redirect_from:
   - "/bootstrap/confidence-intervals"
 interact_link: content/bootstrap/confidence_intervals.ipynb
-kernel_name: ir
+kernel_name: python3
 has_widgets: false
 title: 'Confidence Intervals'
 prev_page:
@@ -14,7 +14,13 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# Confidence Intervals
+# Bootstrap
+
+## Introduction
+
+In this course, we will rely on a method called the Bootstrap to approximate the sampling distribution of our statistics, insted of relying so directly on the Central Limit Theorem.  The name bootstrap shows up a lot these days, and I'm positive you have used this word to describe something different than what we'll talk about here.  Our Bootstrap has nothing to do with compilers nor CSS libraries.  
+
+After estimating population parameters, a natural next question is, how certain are we in our estimate?  By approximating sampling distributions, the (statistical) Bootstrap will be our primary means of quantifying uncertainty in our estimates.  Such quantifications will primarily come in the form of confidence intervals.
 
 ## Sampling Distributions
 
@@ -24,20 +30,13 @@ The plot below attempts to visualize this idea, albeit for a finite number of re
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-library(ggplot2)
-```
-</div>
+```python
+import numpy as np
+import pandas as pd
+import bplot as bp
+from scipy.stats import norm as normal
 
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area hidecode" markdown="1">
-```R
-update_geom_defaults("point", list(colour = "blue"))
-update_geom_defaults("density", list(colour = "blue"))
-update_geom_defaults("path", list(colour = "blue"))
-old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
+bp.LaTeX()
 ```
 </div>
 
@@ -45,20 +44,37 @@ old <- theme_set(theme_bw() + theme(text = element_text(size=18)))
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-R <- 1001
-N <- 99
-mus <- rep(NA, R)
-for (r in seq_len(R)) {
-    mus[r] <- mean(rgamma(N, 2, 2)) # sampling directly from the population, Gamma(2, 2)
-}
+```python
+R = 1001
+N = 99
+mus = np.full((R,), np.nan)
 
-ggplot(data.frame(mu = mus)) + geom_density(aes(mu)) + geom_rug(aes(mu))
+for r in range(R):
+    mus[r] = np.random.gamma(2, 1/2, N).mean() # sample directly from Gamma(2, 2)
+
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+bp.density(mus)
+bp.rug(mus)
+bp.labels(x='$\mu$', y='Density', size=18)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+<matplotlib.axes._subplots.AxesSubplot at 0x123cb2940>
+```
+
 
 </div>
 </div>
@@ -80,23 +96,38 @@ Another informative attribute of random variables is the **percentile**.  The $p
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-# NO CODE
-library(grid)
-pip <- textGrob(expression(pi[.84]), gp=gpar(fontsize=18))
-ggplot(data.frame(x=c(-4, 4)), aes(x)) + 
-    stat_function(fun=dnorm) +
-    geom_segment(aes(x=1, xend=1, y=0, yend=dnorm(1))) +
-    theme(plot.margin = unit(c(1,1,2,1), "lines")) +
-    annotation_custom(pip, xmin=1, xmax=1, ymin=-0.04, ymax=-0.04) +
-    geom_text(x=-0.5, y=0.1, label="~.84", size=14) +
-    geom_text(x=1.5, y=0.025, label="~.16", alpha=0.5) +
-    coord_cartesian(clip = "off")
+```python
+import matplotlib.pyplot as plt
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+x = np.linspace(-4, 4, 101)
+fx = normal.pdf(x)
+
+bp.curve(x, fx)
+bp.line_v(1, 0, normal.pdf(1))
+bp.labels(x='x', y='Density', size=18)
+
+plt.text(-1, 0.1, '$\sim 0.84$', size=16)
+plt.text(1.05, 0.01, '$\sim 0.16$', size=16)
+plt.text(1, -0.075, '$\pi_{.84}$', size=16)
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+Text(1, -0.075, '$\\pi_{.84}$')
+```
+
 
 </div>
 </div>
@@ -104,7 +135,7 @@ ggplot(data.frame(x=c(-4, 4)), aes(x)) +
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/bootstrap/confidence_intervals_7_1.png)
+![png](../images/bootstrap/confidence_intervals_8_1.png)
 
 </div>
 </div>
@@ -114,28 +145,19 @@ R will calculate these values for us with the following code.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
-qnorm(.84)
-qnorm(0.5)
+```python
+print(normal.ppf(.84))
+print(normal.ppf(0.5))
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
+{:.output_stream}
+```
 0.994457883209753
-</div>
-
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-<div markdown="0" class="output output_html">
-0
-</div>
-
+0.0
+```
 </div>
 </div>
 </div>
@@ -154,7 +176,37 @@ Above, we approximated the sampling distribution of the sample mean of a $\text{
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
+```python
+R = 1001
+N = 99
+d = np.random.gamma(2, 1/2, N)
+mus = np.full((R,), np.nan)
+
+for r in range(R):
+    idx = np.random.choice(N, N)
+    mus[r] = d[idx].mean()
+    
+np.round(np.percentile(mus, [2.5, 97.5]), 2)
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+array([0.94, 1.24])
+```
+
+
+</div>
+</div>
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
 R <- 1001
 N <- 99
 d <- rgamma(N, 2, 2) # one sample from Gamma(2, 2) population
@@ -184,7 +236,7 @@ Remarkably, this procedure guarantees that $95$% of all confidence intervals mad
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
-```R
+```python
 library(dplyr)
 carnivora <- read.csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
 d <- carnivora %>%

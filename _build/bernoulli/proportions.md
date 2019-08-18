@@ -87,6 +87,16 @@ import bplot as bp
 </div>
 
 <div markdown="1" class="cell code_cell">
+<div class="input_area hidecode" markdown="1">
+```python
+import matplotlib as mpl
+mpl.rcParams['figure.dpi'] = 300
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 df = pd.read_csv("https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv")
@@ -124,32 +134,32 @@ df[['SuperFamily', 'Family']].sample(6)
   </thead>
   <tbody>
     <tr>
-      <th>6</th>
-      <td>Caniformia</td>
-      <td>Canidae</td>
-    </tr>
-    <tr>
-      <th>66</th>
+      <th>59</th>
       <td>Feliformia</td>
       <td>Viverridae</td>
     </tr>
     <tr>
-      <th>39</th>
-      <td>Caniformia</td>
-      <td>Mustelidae</td>
-    </tr>
-    <tr>
-      <th>64</th>
+      <th>90</th>
       <td>Feliformia</td>
-      <td>Viverridae</td>
+      <td>Hyaenidae</td>
     </tr>
     <tr>
-      <th>75</th>
+      <th>98</th>
       <td>Feliformia</td>
-      <td>Viverridae</td>
+      <td>Felidae</td>
     </tr>
     <tr>
-      <th>28</th>
+      <th>91</th>
+      <td>Feliformia</td>
+      <td>Hyaenidae</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>Feliformia</td>
+      <td>Felidae</td>
+    </tr>
+    <tr>
+      <th>29</th>
       <td>Caniformia</td>
       <td>Mustelidae</td>
     </tr>
@@ -181,7 +191,7 @@ bp.legend()
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x1260d36a0>
+<matplotlib.axes._subplots.AxesSubplot at 0x10f2ebac8>
 ```
 
 
@@ -191,7 +201,7 @@ bp.legend()
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/bernoulli/proportions_7_1.png)
+![png](../images/bernoulli/proportions_8_1.png)
 
 </div>
 </div>
@@ -231,7 +241,7 @@ bp.labels(x='$x$', y='$f(x)$', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x12638c8d0>
+<matplotlib.axes._subplots.AxesSubplot at 0x124c98c18>
 ```
 
 
@@ -241,7 +251,7 @@ bp.labels(x='$x$', y='$f(x)$', size=18)
 <div class="output_subarea" markdown="1">
 
 {:.output_png}
-![png](../images/bernoulli/proportions_11_1.png)
+![png](../images/bernoulli/proportions_12_1.png)
 
 </div>
 </div>

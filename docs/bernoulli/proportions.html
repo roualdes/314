@@ -29,9 +29,9 @@
   "headline":
     "Bernoulli Distribution",
   "datePublished":
-    "2019-08-13T11:00:37-07:00",
+    "2019-08-18T10:12:51-07:00",
   "dateModified":
-    "2019-08-13T11:00:37-07:00",
+    "2019-08-18T10:12:51-07:00",
   "description":
     "Bernoulli Distribution",
   "author": {
@@ -941,6 +941,15 @@ For example, consecutive flips of the same coin.</li>
 </div>
 
 <div class="cell code_cell">
+  <div class="input_area hidecode">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="n">mpl</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">'figure.dpi'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
   <div class="input_area">
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"https://raw.githubusercontent.com/roualdes/data/master/carnivora.csv"</span><span class="p">)</span>
 <span class="n">df</span><span class="p">[[</span><span class="s">'SuperFamily'</span><span class="p">,</span> <span class="s">'Family'</span><span class="p">]]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
@@ -975,32 +984,32 @@ For example, consecutive flips of the same coin.</li>
   </thead>
   <tbody>
     <tr>
-      <th>6</th>
-      <td>Caniformia</td>
-      <td>Canidae</td>
-    </tr>
-    <tr>
-      <th>66</th>
+      <th>59</th>
       <td>Feliformia</td>
       <td>Viverridae</td>
     </tr>
     <tr>
-      <th>39</th>
-      <td>Caniformia</td>
-      <td>Mustelidae</td>
-    </tr>
-    <tr>
-      <th>64</th>
+      <th>90</th>
       <td>Feliformia</td>
-      <td>Viverridae</td>
+      <td>Hyaenidae</td>
     </tr>
     <tr>
-      <th>75</th>
+      <th>98</th>
       <td>Feliformia</td>
-      <td>Viverridae</td>
+      <td>Felidae</td>
     </tr>
     <tr>
-      <th>28</th>
+      <th>91</th>
+      <td>Feliformia</td>
+      <td>Hyaenidae</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>Feliformia</td>
+      <td>Felidae</td>
+    </tr>
+    <tr>
+      <th>29</th>
       <td>Caniformia</td>
       <td>Mustelidae</td>
     </tr>
@@ -1027,7 +1036,7 @@ For example, consecutive flips of the same coin.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1260d36a0&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x10f2ebac8&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -1035,7 +1044,7 @@ For example, consecutive flips of the same coin.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <p class="output_png"><img src="../images/bernoulli/proportions_7_1.png" alt="png" /></p>
+      <p class="output_png"><img src="../images/bernoulli/proportions_8_1.png" alt="png" /></p>
 
     </div>
   </div>
@@ -1071,7 +1080,7 @@ For example, consecutive flips of the same coin.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x12638c8d0&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x124c98c18&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -1079,7 +1088,7 @@ For example, consecutive flips of the same coin.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <p class="output_png"><img src="../images/bernoulli/proportions_11_1.png" alt="png" /></p>
+      <p class="output_png"><img src="../images/bernoulli/proportions_12_1.png" alt="png" /></p>
 
     </div>
   </div>

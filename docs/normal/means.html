@@ -29,9 +29,9 @@
   "headline":
     "Normal Distribution",
   "datePublished":
-    "2019-08-13T11:00:37-07:00",
+    "2019-08-18T10:12:51-07:00",
   "dateModified":
-    "2019-08-13T11:00:37-07:00",
+    "2019-08-18T10:12:51-07:00",
   "description":
     "Normal Distribution",
   "author": {
@@ -920,7 +920,7 @@ For example, a random varible that measures time.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11f857160&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11cd38ac8&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -948,7 +948,7 @@ For example, a random varible that measures time.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1199fa3c8&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11cde0128&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -991,7 +991,7 @@ For example, a random varible that measures time.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x119a0bc88&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11cde09b0&gt;
 </code></pre></div>      </div>
 
     </div>
@@ -1031,20 +1031,20 @@ For example, a random varible that measures time.</li>
   <div class="input_area">
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="n">bw</span><span class="o">.</span><span class="n">size</span>
 <span class="n">R</span> <span class="o">=</span> <span class="mi">1001</span>
-<span class="err">μ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">1001</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">mus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">1001</span><span class="p">,</span> <span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
 
 <span class="n">seed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">bw</span><span class="o">.</span><span class="n">_index</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-    <span class="err">μ</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">bw</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">mus</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">bw</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     
-<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="err">μ</span><span class="p">)</span>
-<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="err">μ</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">mus</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">mus</span><span class="p">)</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="nb">min</span><span class="p">(</span><span class="err">μ</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="nb">max</span><span class="p">(</span><span class="err">μ</span><span class="p">),</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="nb">min</span><span class="p">(</span><span class="n">mus</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="nb">max</span><span class="p">(</span><span class="n">mus</span><span class="p">),</span> <span class="mi">101</span><span class="p">)</span>
 <span class="n">fx</span> <span class="o">=</span> <span class="n">normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">bw</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="n">bw</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="n">bp</span><span class="o">.</span><span class="n">curve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fx</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:orange'</span><span class="p">)</span>
 
+<span class="n">bp</span><span class="o">.</span><span class="n">curve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fx</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:orange'</span><span class="p">)</span>
 <span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Mean birth weight (g)'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Density'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 </code></pre></div>    </div>
   </div>
@@ -1052,7 +1052,7 @@ For example, a random varible that measures time.</li>
   <div class="output_wrapper">
     <div class="output_subarea">
 
-      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11a4cab38&gt;
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11d8976a0&gt;
 </code></pre></div>      </div>
 
     </div>

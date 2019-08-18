@@ -71,7 +71,7 @@ bp.labels(x='Birth weight (g)', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x11f857160>
+<matplotlib.axes._subplots.AxesSubplot at 0x11cd38ac8>
 ```
 
 
@@ -105,7 +105,7 @@ bp.labels(x='Birth weight (g)', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x1199fa3c8>
+<matplotlib.axes._subplots.AxesSubplot at 0x11cde0128>
 ```
 
 
@@ -154,7 +154,7 @@ bp.labels(x='$x$', y='$f(x)$', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x119a0bc88>
+<matplotlib.axes._subplots.AxesSubplot at 0x11cde09b0>
 ```
 
 
@@ -197,20 +197,20 @@ Just like we can use a computer to approximate the probability a coin flip turni
 ```python
 N = bw.size
 R = 1001
-μ = np.full((1001, 1), np.nan)
+mus = np.full((1001, ), np.nan)
 
 seed = np.random.seed(1234)
 for r in range(R):
     idx = np.random.choice(bw._index, N)
-    μ[r] = bw[idx].mean()
+    mus[r] = bw[idx].mean()
     
-bp.density(μ)
-bp.rug(μ)
+bp.density(mus)
+bp.rug(mus)
 
-x = np.linspace(np.min(μ), np.max(μ), 101)
+x = np.linspace(np.min(mus), np.max(mus), 101)
 fx = normal.pdf(x, loc=bw.mean(), scale=bw.std()/np.sqrt(N))
-bp.curve(x, fx, color='tab:orange')
 
+bp.curve(x, fx, color='tab:orange')
 bp.labels(x='Mean birth weight (g)', y='Density', size=18)
 ```
 </div>
@@ -221,7 +221,7 @@ bp.labels(x='Mean birth weight (g)', y='Density', size=18)
 
 {:.output_data_text}
 ```
-<matplotlib.axes._subplots.AxesSubplot at 0x11a4cab38>
+<matplotlib.axes._subplots.AxesSubplot at 0x11d8976a0>
 ```
 
 
