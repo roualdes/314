@@ -13,9 +13,6 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 These MATH 314 lecture notes supplement the material presented in
 class and the material found on the [course website](https://roualdes.us/teaching).
 
-Pages might have [Binder](https://mybinder.org) links automatically
-added for interactivity.
-
 I'm trying something new (at least to me) here.  Instead of starting
 with a slew of topics that don't show up, and thus make sense, until
 much later in the course, I practicing in the art of just-in-time
@@ -33,10 +30,10 @@ language R.
 
 ## Author
 
-Edward A. Roualdes  
-Asst. Professor of Statistics  
-Department of Mathematics and Statistics  
-California State University, Chico  
+Edward A. Roualdes
+Asst. Professor of Statistics
+Department of Mathematics and Statistics
+California State University, Chico
 
 I acknowledge and am mindful that Chico State stands on lands that were originally occupied by the first people of this area, the Mechoopda. I would like to thank the Mechoopda and other native peoples for providing us the opportunity to obtain an education on their ancestral lands.
 
