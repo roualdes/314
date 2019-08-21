@@ -7,16 +7,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Glossary</title>
-  <meta name="description" content="Glossary">
+  <title>One Mean</title>
+  <meta name="description" content="One Mean">
 
-  <link rel="canonical" href="/glossary.html">
+  <link rel="canonical" href="/normal_linear_models/one_mean.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/glossary.html" />
+  <meta property="og:url"         content="/normal_linear_models/one_mean.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Glossary" />
-<meta property="og:description" content="Glossary" />
+<meta property="og:title"       content="One Mean" />
+<meta property="og:description" content="One Mean" />
 <meta property="og:image"       content="" />
 
 
@@ -25,15 +25,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/glossary.html",
+    "/normal_linear_models/one_mean.html",
   "headline":
-    "Glossary",
+    "One Mean",
   "datePublished":
     "2019-08-21T14:42:51-07:00",
   "dateModified":
     "2019-08-21T14:42:51-07:00",
   "description":
-    "Glossary",
+    "One Mean",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -580,7 +580,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
+        <a class="c-sidebar__entry c-sidebar__entry--active"
           href="/normal.html"
         >
           
@@ -644,13 +644,13 @@ initFunction(initQuery);
 
           
 
-          <ul class="c-sidebar__sections u-hidden-visually">
+          <ul class="c-sidebar__sections ">
             
               
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
+                <a class="c-sidebar__entry c-sidebar__entry--active"
                   href="/normal_linear_models/one_mean.html"
                 >
                   
@@ -779,7 +779,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/glossary.html"
         >
           
@@ -821,96 +821,162 @@ initFunction(initQuery);
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="glossary">Glossary</h1>
+              <h1 id="one-mean">One Mean</h1>
 
-<dl>
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">Bernoulli
-  distribution</a></b></dt>
-  <dd>a named random variables used for binary outcomes; $1$ usually
-    denotes the level of interest</dd>
+<p>Consider a dataset about $N = 54$ cars sampled from the year $1993$.  Of interest is the (unknown population) mean miles per gallon, $\mu$.  We assume</p>
 
-  <dt><b><a href="/bernoulli/proportions#example">categorical
-  variable</a></b></dt>
-  <dd>a variable in a dataset that takes on not-mathable values</dd>
+<script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\ \mathbb{E}(Y) = \mu.</script>
 
-  <dt><b><a href="/bernoulli/proportions#data">dataframe</a></b></dt>
-  <dd>a two dimensional data structure in the programming language R
-      in which each row represents a new observation and each column
-      represents a new variable</dd>
+<p>The parameter $\sigma$ might be of interest to some, but not us now.  By choosing this model we are implicitly assuming that $\mathbb{E}(Y) = \mu$, where $\mu$ is a constant function that does not depend on any other characteristics about the population of cars from $1993$.</p>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">discrete random variable</a></b></dt>
-  <dd>a random variable that only takes on a countable set of
-  values</dd>
+<p>Assuming the mean $\mu$ is constant is an unrealistic assumption if you think too long about this problem.  Nevertheless, this is a common assumption because of its simplicity.  In situations where simplicity is what you want, assuming the mean $\mu$ is constant across all cars from $1993$ is fine.  On the other hand, such simplicity is not always desired.  More complex models that relate mean miles per gallon to, say, weight or the drivetrain type are explored in the following sections of this chapter.</p>
 
-  <dt><b><a href="/bernoulli/proportions#likelihood">independent
-  and identically distributed</a></b></dt>
-  <dd>a description of data that suggests the data were randomly
-      sampled (independent $\Rightarrow$ no two data points
-      intentionally share anything in common, except) that they come
-    from the same population (identically distributed).</dd>
+<p>The following code reads in the dataset, plots the $\texttt{mpgCity}$ data, and calculates an estimate of the population mean, $\hat{\mu}$ based on the observed MPG for each car.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">individual/observation</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-    people</dd>
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">bplot</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">LaTeX</span><span class="p">()</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">dpi</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cars</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"https://raw.githubusercontent.com/roualdes/data/master/cars.csv"</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ll</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">mu</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="n">mu_hat</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">]),</span> <span class="n">method</span><span class="o">=</span><span class="s">"BFGS"</span><span class="p">)[</span><span class="s">'x'</span><span class="p">]</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">mu_hat</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[&lt;matplotlib.lines.Line2D at 0x12260bd68&gt;]
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../images/normal_linear_models/one_mean_4_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>The estimate $\hat{\mu}$ is our best guess of the population mean city MPG for cars from $1993$.  What we don’t yet have is any measure of uncertainty surrounding this best guess.  Though this number seems reasonable, it’s possible this number could have shown up by pure chance.  We’ll next produce a confidence interval for the true population mean city MPG for cars from $1993$.</p>
+
+<p>The following code uses the library $\texttt{boot}$ to perform the random sampling (uniformly and with replacement) from the original data.  The same strategy that’s discussed in Chapter Bootstrap is used here.  Sampling will happen over the indices of our original data.  The function $\texttt{boot::boot}$ requires that we write a function that takes two arguments, the data to calculate our statistic of interest on and a vector of indices.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">R</span> <span class="o">=</span> <span class="mi">999</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+<span class="n">mus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">R</span><span class="p">,),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">mus</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">][</span><span class="n">idx</span><span class="p">]),</span> <span class="n">method</span><span class="o">=</span><span class="s">"BFGS"</span><span class="p">)[</span><span class="s">'x'</span><span class="p">]</span>
     
-    <dt><b><a href="/bootstrap/confidence_intervals#percentile">interpolate</a></b></dt>
-  <dd>estimate a number within a range of data</dd>
+<span class="n">mu_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">mus</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">90</span><span class="p">])</span>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">level</a></b></dt>
-  <dd>values that a categorical variable could take on</dd>
+</code></pre></div>    </div>
+  </div>
 
-  <dt><b><a href="/bernoulli/proportions#maximum-likelihood-estimators">maximum
-  likelihood estimator</a></b></dt>
-  <dd>A best quess</dd>
+</div>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">observation/individual</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-  people</dd>
+<p>The standard conclusion from this goes as follows.  We are $90\%$ confident that the true population mean city MPG for cars from $1993$ is between $21.9$ and $24.8$.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">parameter</a></b></dt>
-  <dd>a characteristic of a population, abstracted to
-    non-dataarguments of probability density functions</dd>
-    
-    <dt><b><a href="/bootstrap/confidence_intervals#percentiles">percentile</a></b></dt>
-  <dd>the value in the support of the random variable that puts $p$% of the area under the probability density function to the left of it</dd>
+<p>Notice though this confidence interval carries with it a number of assumptions.  The same assumption from before is carried forward, that the true population mean does not vary by any other population characteristics.  Further, the bounds of the confidence interval are randomly produced.  If you re-run the code above, you’ll likely get slightly different numbers.  So don’t get too carried away with carrying decimal places, $2$ is a good general policy.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">population</a></b></dt>
-  <dd>the broader group of nouns of interest</dd>
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">mus</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">mu_p</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'black'</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">mus</span><span class="p">,</span> <span class="p">[</span><span class="mi">50</span><span class="p">]))</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Mean MPG city'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Density'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">probability density function</a></b></dt>
-  <dd>a function indexed by parameter(s) of interest, the shape of
-      which theoretically describes the process of interest</dd>
+</code></pre></div>    </div>
+  </div>
 
-  <dt><b><a href="/bernoulli/proportions#example">proportion</a></b></dt>
-  <dd>AKA a mean, when applied to numerically encoded binary
-      categorical data; unfortunately thought of as $successes /
-    trials$.</dd>
+  <div class="output_wrapper">
+    <div class="output_subarea">
 
-  <dt><b><a href="/distributions/distributions#random-variables">random variable</a></b></dt>
-  <dd>a function from an event to a numerical value,
-    e.g. $X(\{Caniformia\}) = 1$</dd>
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1258c62e8&gt;
+</code></pre></div>      </div>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">sample</a></b></dt>
-  <dd>a subset of the population, ideally randomly collected</dd>
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
 
-  <dt><b><a href="/bernoulli/proportions#example">statistic</a></b></dt>
-  <dd>any function of data</dd>
-</dl>
+      <p class="output_png"><img src="../images/normal_linear_models/one_mean_8_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>When interpreting the estimated mean, and the lower and upper bound of the confidence interval, it’s important to remember that these statistics are referring to the population mean, not specific data points.  Specifically, it is <strong>not</strong> the case that $90\%$ of all observed data (within this sample nor any future sample) will fall within this interval.</p>
+
+<p>A strict interpretation of this interval says that $90\%$ of an infinite collection of confidence intervals, calculated by and your infinite number of friends, will contain the true population mean.  That is $90\%$ of these (hypothetical) confidence intervals will capture the true population mean.  This indeed suggests that $10\%$ of the hypothetical confidence intervals will not capture the true population mean.</p>
+
+<p>This subtle difference highlights the difference between estimating a population mean, for which it is reasonable to assume a Normal distribution, and fitting a distribution (via its parameters) to a dataset.</p>
+
 
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/references">
-      〈 <span class="u-margin-right-tiny"></span> References
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_linear_models/introduction">
+      〈 <span class="u-margin-right-tiny"></span> Normal Linear Models
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="">
-       <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal_linear_models/simple_reg">
+      Simple Linear Regression <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

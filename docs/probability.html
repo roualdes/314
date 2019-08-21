@@ -7,16 +7,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Glossary</title>
-  <meta name="description" content="Glossary">
+  <title>Probability</title>
+  <meta name="description" content="Discrete Uniform Distribution">
 
-  <link rel="canonical" href="/glossary.html">
+  <link rel="canonical" href="/probability.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/glossary.html" />
+  <meta property="og:url"         content="/probability.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Glossary" />
-<meta property="og:description" content="Glossary" />
+<meta property="og:title"       content="Probability" />
+<meta property="og:description" content="Discrete Uniform Distribution" />
 <meta property="og:image"       content="" />
 
 
@@ -25,15 +25,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/glossary.html",
+    "/probability.html",
   "headline":
-    "Glossary",
+    "Probability",
   "datePublished":
     "2019-08-21T14:42:51-07:00",
   "dateModified":
     "2019-08-21T14:42:51-07:00",
   "description":
-    "Glossary",
+    "Discrete Uniform Distribution",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -488,7 +488,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
+        <a class="c-sidebar__entry c-sidebar__entry--active"
           href="/probability.html"
         >
           
@@ -779,7 +779,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/glossary.html"
         >
           
@@ -823,94 +823,130 @@ initFunction(initQuery);
             
 
             <div class="c-textbook__content">
-              <h1 id="glossary">Glossary</h1>
+              <h1 id="discrete-uniform-distribution">Discrete Uniform Distribution</h1>
 
-<dl>
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">Bernoulli
-  distribution</a></b></dt>
-  <dd>a named random variables used for binary outcomes; $1$ usually
-    denotes the level of interest</dd>
+<h2 id="introduction">Introduction</h2>
 
-  <dt><b><a href="/bernoulli/proportions#example">categorical
-  variable</a></b></dt>
-  <dd>a variable in a dataset that takes on not-mathable values</dd>
+<p>Since much of this class is about notation, this section attempts to
+build on your experience about dice in an effort to minimize the
+mental hurdles that follow the new notation.  Expanding on the
+process of rolling a single die, we introduce a more formal definition
+of a random variable.  Despite it’s name, random variables are 1) not
+random and 2) not variables.  They get this name nonetheless because
+we think of them as variables that take on random values.</p>
 
-  <dt><b><a href="/bernoulli/proportions#data">dataframe</a></b></dt>
-  <dd>a two dimensional data structure in the programming language R
-      in which each row represents a new observation and each column
-      represents a new variable</dd>
+<p>Using a fair die as an example of a random variable, we introduce a
+particular, but not the only, notion of probability.  While it’s easy
+to get lost in the new notation and naturalness of this interpretation
+of probability, don’t lose sight of the world’s most interesting
+processes.  Random variables are not always repeatable in an
+<em>operational</em> manner, and thus it’s not always obvious how probability
+is meant to be understood in tese contexts.</p>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">discrete random variable</a></b></dt>
-  <dd>a random variable that only takes on a countable set of
-  values</dd>
+<h2 id="warm-up">Warm Up</h2>
 
-  <dt><b><a href="/bernoulli/proportions#likelihood">independent
-  and identically distributed</a></b></dt>
-  <dd>a description of data that suggests the data were randomly
-      sampled (independent $\Rightarrow$ no two data points
-      intentionally share anything in common, except) that they come
-    from the same population (identically distributed).</dd>
+<p>Die are easy to think about, because we’ve all rolled a die before and
+we all think we know what we mean when we say the probability of
+rolling a $1$ is $1/6$.  Throughout this section, don’t let this
+intuition go.  Rather expand upon it to the more detailed
+descriptions below.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">individual/observation</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-    people</dd>
-    
-    <dt><b><a href="/bootstrap/confidence_intervals#percentile">interpolate</a></b></dt>
-  <dd>estimate a number within a range of data</dd>
+<p>As a warm up, let’s introduce a few new words based on the easy to think about dice example.</p>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">level</a></b></dt>
-  <dd>values that a categorical variable could take on</dd>
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Experiment_(probability_theory)"><strong>Experiment</strong></a>: An occurrence with an uncertain outcome that we can observe. 
+For example, rolling a die.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Outcome_(probability)"><strong>Outcome</strong></a>: The result of an experiment; one particular state of the world. Sometimes called a “case.”<br />
+For example: $4$.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Sample_space"><strong>Sample Space</strong></a>: The set of all possible outcomes for the experiment.<br />
+For example, $\{1, 2, 3, 4, 5, 6\}$.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Event_(probability_theory)"><strong>Event</strong></a>: A subset of possible outcomes that together have some property we are interested in.<br />
+For example, the event “even die roll” is the set of outcomes $\{2, 4, 6\}$.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Probability_theory"><strong>Probability</strong></a>: As <a href="https://en.wikipedia.org/wiki/Pierre-Simon_Laplace">Pierre-Simon Laplace</a> said, the probability of an event with respect to a sample space is the number of favorable cases (outcomes from the sample space that are in the event) divided by the total number of cases in the sample space. (This assumes that all outcomes in the sample space are equally likely.) Since it is a ratio, probability will always be a number between 0 (representing an impossible event) and $1$ (representing a certain event).<br />
+For example, the probability of an even die roll is $3/6 = 1/2$.</li>
+</ul>
 
-  <dt><b><a href="/bernoulli/proportions#maximum-likelihood-estimators">maximum
-  likelihood estimator</a></b></dt>
-  <dd>A best quess</dd>
+<p>The specific definitions aboves come from Peter Norvig’s <a href="https://nbviewer.jupyter.org/url/norvig.com/ipython/Probability.ipynb">A Concrete Introduction to Probability (using Python)</a>, which is a great resource if you want more information about the basics of probability.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">observation/individual</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-  people</dd>
+<h2 id="random-variable">Random Variable</h2>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">parameter</a></b></dt>
-  <dd>a characteristic of a population, abstracted to
-    non-dataarguments of probability density functions</dd>
-    
-    <dt><b><a href="/bootstrap/confidence_intervals#percentiles">percentile</a></b></dt>
-  <dd>the value in the support of the random variable that puts $p$% of the area under the probability density function to the left of it</dd>
+<p>A random variable is a function from abritrary sets of the sample space to a numerical value.  Despite the name, the randomness is not, per se, part of the variable.  The randomness is instead found in the underlying
+process that the random variable is meant to quantify.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">population</a></b></dt>
-  <dd>the broader group of nouns of interest</dd>
+<p>A die is especially easy to think, because it maps so well to a random variable.  But for the sake of clarity, let’s imagine a die labeled with the letters $A, B, C,
+D, E, F$ instead of the numbers $1, 2, 3, 4, 5, 6$.  As far the
+events go, rolling an $A$ will still happen with probability $1/6$; there’s only one $A$ and $6$ possible outcomes, hence $1/6$.
+This special die helps us separate the distinct pieces
+of random variables.  With this special die, we have events – any value of
+interest that a die might turn up – and values produced by the random
+variable associated with those events.  In mathematical notation, we might write
+$X(A) = 1$, $X(B) = 2, \ldots, X(F) = 6$.</p>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">probability density function</a></b></dt>
-  <dd>a function indexed by parameter(s) of interest, the shape of
-      which theoretically describes the process of interest</dd>
+<p>In mathematical statistics, we read $X \sim Uniform(\{A, B, C, D, E, F\})$, the random variable $X$ follows a
+discrete Uniform distribution on the set $\{A, B, C, D, E, F\}$.
+If you’re content to keep numbers on your die to enable cleaner
+notation we read $X \sim \text{Uniform}(1, 6)$, the random
+variable $X$ follows a discrete Uniform distribution on the set
+$\{1, 2, 3, 4, 5, 6\}$.  Notice that the notation $\text{Uniform}(1,
+6)$ implies the integer values from $1$ to $6$, inclusive.  The notation $X \sim \text{Uniform}(1, 6)$ is more common.</p>
 
-  <dt><b><a href="/bernoulli/proportions#example">proportion</a></b></dt>
-  <dd>AKA a mean, when applied to numerically encoded binary
-      categorical data; unfortunately thought of as $successes /
-    trials$.</dd>
+<p>In fact, it’s common to drop the argument to the random variable,
+which is really a function, entirely.  More often interest lies in the
+probability of events.  For example, we might be interested in the
+probability that either $A, B,$ or $C$ turn up.  Let $E = \{1, 2, 3\}$
+be the event that an $A, B$, or $C$ turns up in one roll.  We read
+$P(X \in E)$ what is the probability that we roll one of $A, B,$ or
+$C$.  At a certain point, the argument to $X$ just gets in the way
+since the notation $P(X \in E)$ equally applies to a die labeled with
+letter or numbers.</p>
 
-  <dt><b><a href="/distributions/distributions#random-variables">random variable</a></b></dt>
-  <dd>a function from an event to a numerical value,
-    e.g. $X(\{Caniformia\}) = 1$</dd>
+<p>Consider another random variable, also named $X$.  Let $X \sim U(0,
+1)$ be a discrete Uniform random variable on the numbers $0$ and $1$.
+Note that this could reasonably represent a fair coin, since we are
+willing to drop the events ${T, H}$ from our notation.  Next, we
+will consider what the following mathematical statements means, in
+an operational sense, $P(X \in \{ 1 \}) = P(X = 1) = 1/2$.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">sample</a></b></dt>
-  <dd>a subset of the population, ideally randomly collected</dd>
+<h2 id="probability">Probability</h2>
 
-  <dt><b><a href="/bernoulli/proportions#example">statistic</a></b></dt>
-  <dd>any function of data</dd>
-</dl>
+<p>Retired professor <a href="https://web.ma.utexas.edu/users/mks/statmistakes/probability.html">M. K. Smith</a>
+provides a nice survey of the various notions of the probability of an
+event.  This book will focus on an empirical version of probability
+that goes as follows.</p>
+
+<p>The probability of an event $E$ is the limiting relative frequency of
+the occurrences of $E$ over the number of experiments $N$,</p>
+
+<script type="math/tex; mode=display">P(X \in E) = \lim_{N \rightarrow \infty} \sum_{n=1}^N \frac{1(X_n \in E)}{N},</script>
+
+<p>where $1(X \in E)$ takes on the value $1$ any time the random variable
+$X$ is in the event $E$ and $0$ otherwise.  We interpret probability
+as if the process that produces $X$ were repeated (thus assuming
+repeatability) an infinite number of times.  In terms of a fair coin,
+$P(X \in \{H\}) = 1/2$ implies that we believe that flipping a fair
+coin an infinite number of times would witness one half of the flips
+to produce head.</p>
+
+<h2 id="probability-in-practice">Probability in practice</h2>
+
+<p>Statistic attempts to approximate probabilities defined with respect to random variables.  The most common approximation strategy, relative to the theoretical definition of probability above, is to simply drop the limit.  Let’s define an approximation $\hat{P}(X \in E)$ to $P(X \in E)$ above.</p>
+
+<script type="math/tex; mode=display">\hat{P}(X \in E) = \sum_{n=1}^N \frac{1(X_n \in E)}{N}</script>
+
+<p>In practice, we might let $X$ represent a coin.  If we are interested in the event of flipping a heads, then we might flip this coin $N$ times and add up the total number of heads and divide by the total number of experiments.  Take the time to notice that this is exactly what the $\hat{P}$ notation is saying mathematically.</p>
 
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/references">
-      〈 <span class="u-margin-right-tiny"></span> References
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="https://github.com/roualdes/314">
+      〈 <span class="u-margin-right-tiny"></span> GitHub repository
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="">
-       <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/bernoulli">
+      Bernoulli Distribution <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

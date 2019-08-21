@@ -7,16 +7,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Glossary</title>
-  <meta name="description" content="Glossary">
+  <title>Gamma Distribution</title>
+  <meta name="description" content="Gamma Distribution">
 
-  <link rel="canonical" href="/glossary.html">
+  <link rel="canonical" href="/gamma.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/glossary.html" />
+  <meta property="og:url"         content="/gamma.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Glossary" />
-<meta property="og:description" content="Glossary" />
+<meta property="og:title"       content="Gamma Distribution" />
+<meta property="og:description" content="Gamma Distribution" />
 <meta property="og:image"       content="" />
 
 
@@ -25,15 +25,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/glossary.html",
+    "/gamma.html",
   "headline":
-    "Glossary",
+    "Gamma Distribution",
   "datePublished":
     "2019-08-21T14:42:51-07:00",
   "dateModified":
     "2019-08-21T14:42:51-07:00",
   "description":
-    "Glossary",
+    "Gamma Distribution",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -557,7 +557,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
+        <a class="c-sidebar__entry c-sidebar__entry--active"
           href="/gamma.html"
         >
           
@@ -779,7 +779,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/glossary.html"
         >
           
@@ -821,96 +821,154 @@ initFunction(initQuery);
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="glossary">Glossary</h1>
+              <h1 id="gamma-distribution">Gamma Distribution</h1>
 
-<dl>
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">Bernoulli
-  distribution</a></b></dt>
-  <dd>a named random variables used for binary outcomes; $1$ usually
-    denotes the level of interest</dd>
+<h2 id="introduction">Introduction</h2>
 
-  <dt><b><a href="/bernoulli/proportions#example">categorical
-  variable</a></b></dt>
-  <dd>a variable in a dataset that takes on not-mathable values</dd>
+<p>In this chapter we’ll introduce the Exponential Distribution a one parameter distribution that is a special case of the Gamma distribution and, of course, the Gamma distribution.  The Gamma distribution is used to model random durations of time until a next event.  What each event is, really only depends on the context of the process being modeled.  A general example might be time until the end of the life of someone or something.  The Gamma distribution is also used to model random volumes, e.g. rainfall.</p>
 
-  <dt><b><a href="/bernoulli/proportions#data">dataframe</a></b></dt>
-  <dd>a two dimensional data structure in the programming language R
-      in which each row represents a new observation and each column
-      represents a new variable</dd>
+<h2 id="estimating-parameters">Estimating Parameters</h2>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">discrete random variable</a></b></dt>
-  <dd>a random variable that only takes on a countable set of
-  values</dd>
+<p>Pedagogically, the Exponential and Gamma distributions will provide us insight on the difference between the likelihood estimate of population parameters and estimates of the mean of a random variable.</p>
 
-  <dt><b><a href="/bernoulli/proportions#likelihood">independent
-  and identically distributed</a></b></dt>
-  <dd>a description of data that suggests the data were randomly
-      sampled (independent $\Rightarrow$ no two data points
-      intentionally share anything in common, except) that they come
-    from the same population (identically distributed).</dd>
+<h2 id="exponential-distribution">Exponential Distribution</h2>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">individual/observation</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-    people</dd>
-    
-    <dt><b><a href="/bootstrap/confidence_intervals#percentile">interpolate</a></b></dt>
-  <dd>estimate a number within a range of data</dd>
+<p>Let $X \sim \text{Exponential}(\beta)$.  Then $X$ has probability density function</p>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">level</a></b></dt>
-  <dd>values that a categorical variable could take on</dd>
+<script type="math/tex; mode=display">\text{exponential}(x | \beta) = \beta\exp{(-\beta x)}</script>
 
-  <dt><b><a href="/bernoulli/proportions#maximum-likelihood-estimators">maximum
-  likelihood estimator</a></b></dt>
-  <dd>A best quess</dd>
+<p>for $x \geq 0$ and $\beta &gt; 0$.  The parameter $\beta$ measures the rate at which events occur.  From this, it’s easy enough to verify the mean of an exponential random variable is $\mathbb{E}(X) = 1 / \beta$ as derived from</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">observation/individual</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-  people</dd>
+<script type="math/tex; mode=display">\mathbb{E}(X) = \int_0^{\infty} x \, d\text{ Exponential}(x).</script>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">parameter</a></b></dt>
-  <dd>a characteristic of a population, abstracted to
-    non-dataarguments of probability density functions</dd>
-    
-    <dt><b><a href="/bootstrap/confidence_intervals#percentiles">percentile</a></b></dt>
-  <dd>the value in the support of the random variable that puts $p$% of the area under the probability density function to the left of it</dd>
+<p>Consider a random sample that measures days between rain events at the Winnipeg International Airport (Canada), from the R library DAAG <a href="#Maindonald:2015">(Maindonald, Braun, &amp; Braun, 2015)</a>.  These data measure the time between rain events, and are thus necessarily positive as the density plot below shows.  The maximum likelihood estimate of the rate parameter is $\hat{\beta} = N / \sum_{n=1}^N X_N$.  The exponential density function with an estimated rate parameter $\hat{\beta}$ is drawn over the density plot.</p>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">population</a></b></dt>
-  <dd>the broader group of nouns of interest</dd>
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">bplot</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">expon</span> <span class="k">as</span> <span class="n">exponential</span><span class="p">,</span> <span class="n">gamma</span>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">probability density function</a></b></dt>
-  <dd>a function indexed by parameter(s) of interest, the shape of
-      which theoretically describes the process of interest</dd>
+<span class="n">bp</span><span class="o">.</span><span class="n">LaTeX</span><span class="p">()</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">dpi</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
 
-  <dt><b><a href="/bernoulli/proportions#example">proportion</a></b></dt>
-  <dd>AKA a mean, when applied to numerically encoded binary
-      categorical data; unfortunately thought of as $successes /
-    trials$.</dd>
+</code></pre></div>    </div>
+  </div>
 
-  <dt><b><a href="/distributions/distributions#random-variables">random variable</a></b></dt>
-  <dd>a function from an event to a numerical value,
-    e.g. $X(\{Caniformia\}) = 1$</dd>
+</div>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">sample</a></b></dt>
-  <dd>a subset of the population, ideally randomly collected</dd>
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/droughts.csv"</span><span class="p">)</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-  <dt><b><a href="/bernoulli/proportions#example">statistic</a></b></dt>
-  <dd>any function of data</dd>
-</dl>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># true PDF evaluated at estimate of β</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span><span class="o">.</span><span class="nb">min</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s">'length'</span><span class="p">]</span><span class="o">.</span><span class="nb">max</span><span class="p">(),</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">fx</span> <span class="o">=</span> <span class="n">exponential</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">curve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fx</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:orange'</span><span class="p">)</span>
+
+<span class="c"># estimation of the density itself</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'length'</span><span class="p">])</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'length'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'density'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x121d9c8d0&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="images/gamma_3_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<h1 id="gamma-distribution-1">Gamma Distribution</h1>
+
+<p>Let $X \sim \text{Gamma}(\alpha, \beta)$.  Then $X$ has probability density function</p>
+
+<script type="math/tex; mode=display">\text{gamma}(x | \alpha, \beta) =
+\frac{\beta^{\alpha}}{\Gamma(\alpha)} x^{\alpha - 1} \exp{ (-\beta x) }</script>
+
+<p>for $x \geq 0, \alpha &gt; 0$, and $\beta &gt; 0$.  Notice that when $\alpha = 1$, the exponential density function is recovered since the <a href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a> evaluated at $1$ is equal to $1$, $\Gamma(1) = 1$.</p>
+
+<p>The Gamma distribution has one parameter more than the exponential distribution.  In general, more parameters in a model will enable better adaption to the data.  Don’t read too closely into this though, better adaption to a dataset does not guarantee better predictions.  We’ll consider this point more closely later on in the course.</p>
+
+<p>The second parameter $\alpha$ is called the shape parameter.  Because the shape parameter appears inside the gamma function, there is no closed form for the maximum likelihood estimator of $\alpha$.  Instead of maximizing the likelihood function by hand, we’ll use a computer to approximate the parameters that maximize the likelihood function of the Gamma density function.</p>
+
+<p>The computer maximized likelihood for the gamma density function applied to the same dataset above gives estimates $\hat{\alpha} = 0.472$ and $\hat{\beta} = 0.24$.  Below, the gamma density function with $(\hat{\alpha}, \hat{\beta})$ overlays the density plot for these data.  We see that the Gamma distribution fits these data better than the Exponential distribution.  This happens because the Gamma distribution has one more parameter than the Exponential distribution.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gx</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.472</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">curve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:orange'</span><span class="p">)</span>
+
+<span class="c"># estimate of density itself</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'length'</span><span class="p">])</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'length'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'density'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x121e17c88&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="images/gamma_6_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
 
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/references">
-      〈 <span class="u-margin-right-tiny"></span> References
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/distributions">
+      〈 <span class="u-margin-right-tiny"></span> Distributions
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="">
-       <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal">
+      Normal Distribution <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

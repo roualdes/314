@@ -7,16 +7,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
-  <title>Glossary</title>
-  <meta name="description" content="Glossary">
+  <title>Simple Linear Regression</title>
+  <meta name="description" content="Simple Linear Regression">
 
-  <link rel="canonical" href="/glossary.html">
+  <link rel="canonical" href="/normal_linear_models/simple_reg.html">
   <link rel="alternate" type="application/rss+xml" title="MATH 314 Lecture Notes" href="/feed.xml">
 
-  <meta property="og:url"         content="/glossary.html" />
+  <meta property="og:url"         content="/normal_linear_models/simple_reg.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Glossary" />
-<meta property="og:description" content="Glossary" />
+<meta property="og:title"       content="Simple Linear Regression" />
+<meta property="og:description" content="Simple Linear Regression" />
 <meta property="og:image"       content="" />
 
 
@@ -25,15 +25,15 @@
   "@context": "http://schema.org",
   "@type": "NewsArticle",
   "mainEntityOfPage":
-    "/glossary.html",
+    "/normal_linear_models/simple_reg.html",
   "headline":
-    "Glossary",
+    "Simple Linear Regression",
   "datePublished":
     "2019-08-21T14:42:51-07:00",
   "dateModified":
     "2019-08-21T14:42:51-07:00",
   "description":
-    "Glossary",
+    "Simple Linear Regression",
   "author": {
     "@type": "Person",
     "name": "Edward A. Roualdes"
@@ -580,7 +580,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry "
+        <a class="c-sidebar__entry c-sidebar__entry--active"
           href="/normal.html"
         >
           
@@ -644,7 +644,7 @@ initFunction(initQuery);
 
           
 
-          <ul class="c-sidebar__sections u-hidden-visually">
+          <ul class="c-sidebar__sections ">
             
               
               
@@ -669,7 +669,7 @@ initFunction(initQuery);
               
 
               <li class="c-sidebar__section">
-                <a class="c-sidebar__entry "
+                <a class="c-sidebar__entry c-sidebar__entry--active"
                   href="/normal_linear_models/simple_reg.html"
                 >
                   
@@ -779,7 +779,7 @@ initFunction(initQuery);
       
       
       <li class="c-sidebar__chapter">
-        <a class="c-sidebar__entry c-sidebar__entry--active"
+        <a class="c-sidebar__entry "
           href="/glossary.html"
         >
           
@@ -821,96 +821,205 @@ initFunction(initQuery);
 </div>
 
             
+<div class="buttons">
+
+
+
+
+
+
+</div>
+
 
             <div class="c-textbook__content">
-              <h1 id="glossary">Glossary</h1>
+              <h1 id="simple-linear-regression">Simple Linear Regression</h1>
 
-<dl>
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">Bernoulli
-  distribution</a></b></dt>
-  <dd>a named random variables used for binary outcomes; $1$ usually
-    denotes the level of interest</dd>
+<p>Let’s continue with the cars data, but this time let’s formally recognize that a car’s weight might have some effect on city MPG.  Assume</p>
 
-  <dt><b><a href="/bernoulli/proportions#example">categorical
-  variable</a></b></dt>
-  <dd>a variable in a dataset that takes on not-mathable values</dd>
+<script type="math/tex; mode=display">Y_1, \ldots, Y_N \sim_{iid} \text{Normal}(\mu, \sigma^2) \\
+\mu = \beta_0 + \beta_1 * weight.</script>
 
-  <dt><b><a href="/bernoulli/proportions#data">dataframe</a></b></dt>
-  <dd>a two dimensional data structure in the programming language R
-      in which each row represents a new observation and each column
-      represents a new variable</dd>
+<p>We again focus on the expected value, not $\sigma$, but we will start dropping the $\mathbb{E}(Y)$ notation because it quickly becomes cumbersome and needlessly repetitive.  Notice that this model implicitly states that the expected city MPG depends linearly on a car’s weight.</p>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">discrete random variable</a></b></dt>
-  <dd>a random variable that only takes on a countable set of
-  values</dd>
+<p>The following code reads in the dataset, plots the $\texttt{mpgCity}$ variable against the $\texttt{weight}$ data, and calculates an estimate of the population mean dependent on the sampled cars’ weights.  Here the estimated expected city MPG is formed by a linear combination of $\hat{\beta}_0, \hat{\beta}_1$ and $\texttt{weight}$.</p>
 
-  <dt><b><a href="/bernoulli/proportions#likelihood">independent
-  and identically distributed</a></b></dt>
-  <dd>a description of data that suggests the data were randomly
-      sampled (independent $\Rightarrow$ no two data points
-      intentionally share anything in common, except) that they come
-    from the same population (identically distributed).</dd>
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">bplot</span> <span class="k">as</span> <span class="n">bp</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span> <span class="k">as</span> <span class="n">normal</span>
+<span class="kn">import</span> <span class="nn">patsy</span>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">individual/observation</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-    people</dd>
-    
-    <dt><b><a href="/bootstrap/confidence_intervals#percentile">interpolate</a></b></dt>
-  <dd>estimate a number within a range of data</dd>
+<span class="n">bp</span><span class="o">.</span><span class="n">LaTeX</span><span class="p">()</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">dpi</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">level</a></b></dt>
-  <dd>values that a categorical variable could take on</dd>
+<span class="n">cars</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"https://raw.githubusercontent.com/roualdes/data/master/cars.csv"</span><span class="p">)</span>
 
-  <dt><b><a href="/bernoulli/proportions#maximum-likelihood-estimators">maximum
-  likelihood estimator</a></b></dt>
-  <dd>A best quess</dd>
+</code></pre></div>    </div>
+  </div>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">observation/individual</a></b></dt>
-  <dd>a noun in the population of interest, not necessarily
-  people</dd>
+</div>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">parameter</a></b></dt>
-  <dd>a characteristic of a population, abstracted to
-    non-dataarguments of probability density functions</dd>
-    
-    <dt><b><a href="/bootstrap/confidence_intervals#percentiles">percentile</a></b></dt>
-  <dd>the value in the support of the random variable that puts $p$% of the area under the probability density function to the left of it</dd>
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bp</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s">'weight'</span><span class="p">],</span> <span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">])</span>
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">population</a></b></dt>
-  <dd>the broader group of nouns of interest</dd>
+</code></pre></div>    </div>
+  </div>
 
-  <dt><b><a href="/bernoulli/proportions#bernoulli-distribution">probability density function</a></b></dt>
-  <dd>a function indexed by parameter(s) of interest, the shape of
-      which theoretically describes the process of interest</dd>
+  <div class="output_wrapper">
+    <div class="output_subarea">
 
-  <dt><b><a href="/bernoulli/proportions#example">proportion</a></b></dt>
-  <dd>AKA a mean, when applied to numerically encoded binary
-      categorical data; unfortunately thought of as $successes /
-    trials$.</dd>
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.collections.PathCollection at 0x124a35b70&gt;
+</code></pre></div>      </div>
 
-  <dt><b><a href="/distributions/distributions#random-variables">random variable</a></b></dt>
-  <dd>a function from an event to a numerical value,
-    e.g. $X(\{Caniformia\}) = 1$</dd>
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
 
-  <dt><b><a href="/bernoulli/proportions#goal-of-statistics">sample</a></b></dt>
-  <dd>a subset of the population, ideally randomly collected</dd>
+      <p class="output_png"><img src="../images/normal_linear_models/simple_reg_2_1.png" alt="png" /></p>
 
-  <dt><b><a href="/bernoulli/proportions#example">statistic</a></b></dt>
-  <dd>any function of data</dd>
-</dl>
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ll</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">yX</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">yX</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">yX</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">yhat</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">r</span><span class="p">,:])</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">yhat</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="n">pX</span> <span class="o">=</span> <span class="n">patsy</span><span class="o">.</span><span class="n">dmatrix</span><span class="p">(</span><span class="s">"~ weight"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">cars</span><span class="p">)</span>
+<span class="n">yX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pX</span><span class="p">)]</span>
+
+<span class="n">beta_hat</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">yX</span><span class="p">))[</span><span class="s">'x'</span><span class="p">]</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<p>We write the estimated linear model as</p>
+
+<script type="math/tex; mode=display">\hat{\mu} = \hat{\beta}_0 + \hat{\beta}_1*weight = 50.14 + -0.01*weight.</script>
+
+<p>What’s nice about this model is that we can easily interpret the parameters $\hat{\beta}_0 = 50.14$ and $\hat{\beta}_1 = -0.01$.  For instance, $\hat{\beta}_0$, better known as an intercept, is an estimate of (the population) city MPG for a car that weighs $0$ pounds.  While this doesn’t make sense conceptually, this is the literal interpretation of the estimated intercept in the context of these data.  Notice that there’s not data near $\text{weight} = 0$.  When this is the case, you can generally expect the intercept to not make much sense.</p>
+
+<p>The slope, $\hat{\beta}_1$, describes the linear relationship between a car’s weight and city MPG.  This estimate too is relatively easy to interpret in the context of these data.  For every 1 unit increase in a car’s weight (a 1 pound increase), we estimate a $0.01$ decrease in the expected city MPG.</p>
+
+<p>Be careful to not overly interpret these estimates as describing a causal relationship.  Determining causal relationships from non-experimental data is no easy task, and we won’t even try to broach this topic in this course.  Peter Norvig, Director of Research at Google, wrote an essay describing many of the difficulties of applied statistics practice surrounding observational data.  His essay <a href="http://norvig.com/experiment-design.html">Warning Signs in Experimental Design and Interpretation</a> enumerates common warning signs for when a practioner of applied statistics might be misinterpreting their data.  For a more theoretical approach to determining causal relationships from data, see Judea Pearl’s book <a href="http://bayes.cs.ucla.edu/BOOK-2K/">Causality</a>.</p>
+
+<p>Just like before, the estimates $\hat{\beta}_0, \hat{\beta}_1$ are simply one set of estimates based on one random sample.  The values we produced could be due to pure random chance.  To better understand our uncertainty in these estimates, we will calculate confidence intervals.  We will let the function $\texttt{boot::boot}$ do the random sampling for us, and for that we need write a function that accepts our data and a vector of indices.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="n">cars</span><span class="p">[</span><span class="s">'mpgCity'</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mi">999</span>
+<span class="n">betas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">R</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">betas</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">ll</span><span class="p">,</span> <span class="n">normal</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">yX</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]))[</span><span class="s">'x'</span><span class="p">]</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">beta_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">betas</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">axs</span> <span class="o">=</span> <span class="n">bp</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">current_axis</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">percentile_h</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">beta_p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Intercept'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Density'</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">current_axis</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">percentile_h</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">beta_p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">bp</span><span class="o">.</span><span class="n">labels</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'Slope'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'Density'</span><span class="p">)</span>
+
+<span class="n">bp</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x124fb9710&gt;
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <p class="output_png"><img src="../images/normal_linear_models/simple_reg_8_1.png" alt="png" /></p>
+
+    </div>
+  </div>
+</div>
+
+<p>The $90\%$ confidence intervals for $\beta_0$ and $\beta_1$ are</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="o">.</span><span class="nb">round</span><span class="p">(</span><span class="n">beta_p</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+
+      <div class="output_data_text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([[ 4.6007e+01, -1.0000e-02],
+       [ 5.3851e+01, -8.0000e-03]])
+</code></pre></div>      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Some classes will make a big deal about the slope estimate not including $0$.  There’s no doubt such conclusions have some appeal.  However, this too often encourages binary thinking such as, “is the true population slope equal to zero or isn’t it?”  When a statistic, known as p-value, is smaller than $0.05$ or a confidence interval excludes zero, the common phrase is, statistically significantly different from zero, as if zero or not are the only options.</p>
+
+<p>Increasingly, statisticians are warning against such binary decision making; e.g. <a href="https://www.nature.com/articles/d41586-019-00874-8">“It’s time to talk about ditching statistical significance”</a>, <a href="https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913">“Moving to a World Beyond ‘p &lt; 0.05’”</a>, or <a href="https://www.nature.com/articles/d41586-019-00857-9">“Scientists rise up against statistical significance”</a>.</p>
+
+<p>In this class, we’ll focus on predictions, understanding uncertainty in our predictions, and making decisions in the face of this uncertainty.</p>
+
 
               <nav class="c-page__nav">
   
     
-    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/references">
-      〈 <span class="u-margin-right-tiny"></span> References
+    <a id="js-page__nav__prev" class="c-page__nav__prev" href="/normal_linear_models/one_mean">
+      〈 <span class="u-margin-right-tiny"></span> One Mean
     </a>
   
 
   
     
-    <a id="js-page__nav__next" class="c-page__nav__next" href="">
-       <span class="u-margin-right-tiny"></span> 〉
+    <a id="js-page__nav__next" class="c-page__nav__next" href="/normal_linear_models/two_means">
+      Two Means <span class="u-margin-right-tiny"></span> 〉
     </a>
   
 </nav>

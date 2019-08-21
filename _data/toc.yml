@@ -39,41 +39,38 @@
 # Divider for meta-pages and content page
 - divider: true
 
-- title: Discrete Uniform Distribution
-  url: /duniform/probability
+- title: Probability
+  url: /probability
 
 - title: Bernoulli Distribution
-  url: /bernoulli/proportions
+  url: /bernoulli
 
 - title: Distributions
-  url: /distributions/distributions
+  url: /distributions
 
 - title: Gamma Distribution
-  url: /gamma/parameters
+  url: /gamma
 
 - title: Normal Distribution
-  url: /normal/means
+  url: /normal
   # - title: "Statistics vs. Machine Learning"
 
 - title: Bootstrap
-  url: /bootstrap/introduction
-  sections:
-  - title: Confidence Intervals
-    url: /bootstrap/confidence_intervals
+  url: /bootstrap
 
 - title: Normal Linear Models
-  url: /normal_models/introduction
+  url: /normal_linear_models/introduction
   sections:
   - title: One Mean
-    url: /normal_models/one_mean
+    url: /normal_linear_models/one_mean
   - title: Simple Linear Regression
-    url: /normal_models/simple_reg
+    url: /normal_linear_models/simple_reg
   - title: Two Means
-    url: /normal_models/two_means
+    url: /normal_linear_models/two_means
   - title: k Means
-    url: /normal_models/k_means
+    url: /normal_linear_models/k_means
   - title: Multiple Linear Regression
-    url: /normal_models/multiple_linear_reg
+    url: /normal_linear_models/multiple_linear_reg
 
 - title: References
   url: /references
