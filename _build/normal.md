@@ -301,7 +301,7 @@ Even after you accept that every statistic should be thought of as a random vari
 
 A more formal definition of the Central Limit Theorem goes like this.  Assume $X_n \sim_{iid} F(\theta)$ for $n = 1, \ldots, N$ where $\mathbb{E}(X) = \mu$ and $\mathbb{V}(X) = \sigma^2 < \infty$.  Let $\hat{\mu}$ denote the sample mean.  Then
 
-$$ \hat{\mu}\stackrel{\cdot}{\sim} \text{Normal}\left(\mu, \frac{\sigma}{\sqrt{N}} \right). $$
+$$ \frac{\hat{\mu} - \mu}{\sigma / \sqrt{N}} \stackrel{\cdot}{\sim} \text{Normal}(0, 1). $$
 
 In English, we'd read the sampling distribution of the sample mean approaches a normal distribution with mean $\mu$ and standard deviation $\mathbb{D}(X)/\sqrt{N}$ as the sample size increases, so long as the population from which the independent data were sampled has finite variance.
 

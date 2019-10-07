@@ -344,7 +344,7 @@ The likelihood function enables estimation of population parameters given a samp
 
 Given a random sample of independent and identically distributed data, $X_n \sim_{iid} F(\theta)$ for $n = 1, \ldots, N$, the likelihood function is 
 
-$$ L(\theta | \mathbf{X}) = \prod_{n=1}^N f(x_n | \theta),$$
+$$ L(\theta | \mathbf{X}) = \prod_{n=1}^N f(X_n | \theta),$$
 
 where $\mathbf{X}$ is just notation for our random sample of data, $\theta \in \mathbb{R}^d$ denotes the parameter(s) to be estimated, and $f(x\vert \theta)$ is the probability density function associated with the distribution $F$.  Given the likelihood function $L$, estimates are produced by finding the value of $\theta$ that maximizes the likelihood function.
 
