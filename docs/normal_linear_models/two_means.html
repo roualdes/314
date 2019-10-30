@@ -29,9 +29,9 @@
   "headline":
     "Two Means",
   "datePublished":
-    "2019-10-07T13:30:58-07:00",
+    "2019-10-30T08:56:09-07:00",
   "dateModified":
-    "2019-10-07T13:30:58-07:00",
+    "2019-10-30T08:56:09-07:00",
   "description":
     "Two Means",
   "author": {
@@ -838,7 +838,7 @@ initFunction(initQuery);
 
 <p>Consider the dataset $\texttt{carnivora}$, which records a number of variables on the 112 animals from the Order Carnivora.  We are interested trying to predict $\texttt{SW}$, body weight (kg), using the <strong>categorical variable</strong> $\texttt{SuperFamily}$.  The <strong>levels</strong> of the categorical variable $\texttt{SuperFamily}$ are $\texttt{Caniformia}$ and $\texttt{Feliformia}$, which is to say that this dataset contains observations from animals from these two super families of the Order Carnivora.</p>
 
-<p>The most common plot used to visualize the relationship between a numeric y-axis variable with a categorical variable (for now with two levels) is a boxplot.  A boxplot provides a visual representation of the $25$\%, $50$\%, and $75$\% quantiles.  There’s a bit more to it, but we’ll focus on a few more advanced plotting ideas than what is most common in practice.</p>
+<p>The most common plot used to visualize the relationship between a numeric y-axis variable with a categorical variable (for now with two levels) is a boxplot.  A boxplot provides a visual representation of the $25\%$, $50\%$, and $75\%$ quantiles.  There’s a bit more to it, but we’ll focus on a few more advanced plotting ideas than what is most common in practice.</p>
 
 <p>Instead of a boxplot, we’ll focus on two plots.  When there is a sufficiently small amount of data, we should make a scatter plot with the points jittered to better visualize the number of observations being plot.  Below is an example where the amount of jitter, random variation introduced along the x-axis (named width), is set to a relatively small number to prevent overlapping from the mutually exclusive groups Caniformia and Feliformia.  This plot ignores the non-numerical nature of the x-axis variable in favor of displaying all the data.</p>
 
@@ -899,7 +899,7 @@ initFunction(initQuery);
   </div>
 </div>
 
-<p>The other plot we’ll use when the y-axis variable is numeric and the x-axis variable is categorical is a violin plot.  A violin plot is a density plot turned vertical and one density plot is made for each level of the x-axis categorical variable.  Below is an example.  The violin plot should be used in addition to the jittered scatter plot, or whever the former plot is too cluttered to be meaningful.</p>
+<p>The other plot we’ll use when the y-axis variable is numeric and the x-axis variable is categorical is a violin plot.  A violin plot is a density plot turned vertical and one density plot is made for each level of the x-axis categorical variable.  Below is an example.  The violin plot should be used in addition to the jittered scatter plot, or wherever the former plot is too cluttered to be meaningful.</p>
 
 <p>Both of these plots help the scientist visualize the location of the mean and variation for the y-axis variable, within each level of the x-axis categorical variable.</p>
 
