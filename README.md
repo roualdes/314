@@ -1,5 +1,7 @@
 # MATH 314 Lecture Notes
 
+¡DEPRECATED!
+
 These MATH 314 course notes supplement the material presented in
 class and the material found on the [course website](https://roualdes.us/teaching).
 
